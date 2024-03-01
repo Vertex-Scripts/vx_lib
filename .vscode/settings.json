@@ -1,0 +1,11 @@
+{
+  "Lua.diagnostics.disable": [
+    "undefined-global",
+    "action-after-return",
+    "err-nonstandard-symbol",
+    "lowercase-global"
+  ],
+  "editor.insertSpaces": true,
+  "editor.tabSize": 3,
+  "editor.detectIndentation": false
+}
