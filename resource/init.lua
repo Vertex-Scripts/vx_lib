@@ -2,14 +2,14 @@ local debug_getinfo = debug.getinfo
 
 function noop() end
 
-cfx = setmetatable({
-   name = 'cfx_lib',
+vx = setmetatable({
+   name = 'vx_lib',
    context = IsDuplicityVersion() and 'server' or 'client',
 }, {
    __newindex = function(self, key, fn)
       rawset(self, key, fn)
 
-      if debug_getinfo(2, 'S').short_src:find('@cfx_lib/resource') then
+      if debug_getinfo(2, 'S').short_src:find('@vx_lib/resource') then
          exports(key, fn)
       end
    end,
@@ -24,7 +24,7 @@ cfx = setmetatable({
       end
 
       if chunk then
-         local fn, err = load(chunk, ('@@cfx_lib/%s/%s.lua'):format(key, self.context))
+         local fn, err = load(chunk, ('@@vx_lib/%s/%s.lua'):format(key, self.context))
 
          if not fn or err then
             return error(('\n^1Error importing module (%s): %s^0'):format(dir, err), 3)

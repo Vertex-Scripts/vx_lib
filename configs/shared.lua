@@ -1,4 +1,4 @@
--- You can't use the config like this in modules, use `cfx.config` for that
+-- You can't use the config like this in modules, use `vx.config` for that
 
 ---@type SharedConfig
 SharedConfig = {

@@ -1,4 +1,4 @@
-cfx.target = {}
+vx.target = {}
 
 -------------
 -- Options --
@@ -60,7 +60,7 @@ end
 local function convertOptions(options)
    options.distance = options.distance or 2.0
 
-   local caller = cfx.caller.createTargetCaller({
+   local caller = vx.caller.createTargetCaller({
       ["ox_target"] = createOptions_ox,
       ["qb-target"] = createOptions_qb,
       -- ["qtarget"] = function() end,
@@ -84,9 +84,9 @@ local function addGlobalVehicle_qb(options)
 end
 
 ---@param options EntityTargetOptions
-function cfx.target.addGlobalVehicle(options)
+function vx.target.addGlobalVehicle(options)
    local targetOptions = convertOptions(options)
-   local caller = cfx.caller.createTargetCaller({
+   local caller = vx.caller.createTargetCaller({
       ["ox_target"] = addGlobalVehicle_ox,
       ["qb-target"] = addGlobalVehicle_qb,
       -- ["qtarget"] = function() end,
@@ -107,8 +107,8 @@ local function removeGlobalVehicle_qb(options)
 end
 
 ---@param options OxTargetEntity | QbTargetOption
-function cfx.target.removeGlobalVehicle(options)
-   local caller = cfx.caller.createTargetCaller({
+function vx.target.removeGlobalVehicle(options)
+   local caller = vx.caller.createTargetCaller({
       ["ox_target"] = removeGlobalVehicle_ox,
       ["qb-target"] = removeGlobalVehicle_qb,
       -- ["qtarget"] = function() end,
@@ -128,9 +128,9 @@ local function addGlobalPlayer_qb(options)
 end
 
 ---@param options EntityTargetOptions
-function cfx.target.addGlobalPlayer(options)
+function vx.target.addGlobalPlayer(options)
    local targetOptions = convertOptions(options)
-   local caller = cfx.caller.createTargetCaller({
+   local caller = vx.caller.createTargetCaller({
       ["ox_target"] = addGlobalPlayer_ox,
       ["qb-target"] = addGlobalPlayer_qb,
       -- ["qtarget"] = function() end,
@@ -149,9 +149,9 @@ local function removeGlobalPlayer_qb(options)
 end
 
 ---@param options EntityTargetOptions
-function cfx.target.removeGlobalPlayer(options)
+function vx.target.removeGlobalPlayer(options)
    local targetOptions = convertOptions(options)
-   local caller = cfx.caller.createTargetCaller({
+   local caller = vx.caller.createTargetCaller({
       ["ox_target"] = removeGlobalPlayer_ox,
       ["qb-target"] = removeGlobalPlayer_qb,
       -- ["qtarget"] = function() end,
@@ -172,9 +172,9 @@ local function addGlobalPed_qb(options)
 end
 
 ---@param options EntityTargetOptions
-function cfx.target.addGlobalPed(options)
+function vx.target.addGlobalPed(options)
    local targetOptions = convertOptions(options)
-   local caller = cfx.caller.createTargetCaller({
+   local caller = vx.caller.createTargetCaller({
       ["ox_target"] = addGlobalPed_ox,
       ["qb-target"] = addGlobalPed_qb,
       -- ["qtarget"] = function() end,
@@ -193,9 +193,9 @@ local function removeGlobalPed_qb(options)
 end
 
 ---@param options EntityTargetOptions
-function cfx.target.removeGlobalPed(options)
+function vx.target.removeGlobalPed(options)
    local targetOptions = convertOptions(options)
-   local caller = cfx.caller.createTargetCaller({
+   local caller = vx.caller.createTargetCaller({
       ["ox_target"] = removeGlobalPed_ox,
       ["qb-target"] = removeGlobalPed_qb,
       -- ["qtarget"] = function() end,
@@ -215,9 +215,9 @@ end
 
 ---@param entities number|number[]
 ---@param options EntityTargetOptions
-function cfx.target.addLocalEntity(entities, options)
+function vx.target.addLocalEntity(entities, options)
    local targetOptions = convertOptions(options)
-   local caller = cfx.caller.createTargetCaller({
+   local caller = vx.caller.createTargetCaller({
       ["ox_target"] = addLocalEntity_ox,
       -- ["qb-target"] = addLocalEntity_qb,
       -- ["qtarget"] = function() end,
@@ -240,9 +240,9 @@ end
 
 ---@param models string|string[]
 ---@param options TargetOptions
-function cfx.target.addModel(models, options)
+function vx.target.addModel(models, options)
    local targetOptions = convertOptions(options)
-   local caller, target = cfx.caller.createTargetCaller({
+   local caller, target = vx.caller.createTargetCaller({
       ["ox_target"] = addModel_ox,
       ["qb-target"] = addModel_qb,
       -- ["qtarget"] = function() end,
@@ -261,13 +261,13 @@ local function removeModel_ox(options)
 end
 
 local function removeModel_qb(options)
-   cfx.logger.info(options)
+   vx.logger.info(options)
    exports["qb-target"]:RemoveTargetModel(options.models, options.label)
 end
 
 ---@param options EntityTargetOptions
-function cfx.target.removeModel(options)
-   local caller = cfx.caller.createTargetCaller({
+function vx.target.removeModel(options)
+   local caller = vx.caller.createTargetCaller({
       ["ox_target"] = removeModel_ox,
       ["qb-target"] = removeModel_qb,
       -- ["qtarget"] = function() end,
@@ -276,4 +276,4 @@ function cfx.target.removeModel(options)
    caller(options)
 end
 
-return cfx.target
+return vx.target

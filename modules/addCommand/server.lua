@@ -59,7 +59,7 @@ end
 ---@param properties CommandProperties | false
 ---@param cb fun(source: number, args: table, raw: string)
 ---@param ... any
-function cfx.addCommand(commandName, properties, cb, ...)
+function vx.addCommand(commandName, properties, cb, ...)
    local restricted, params
 
    if properties then
@@ -73,7 +73,7 @@ function cfx.addCommand(commandName, properties, cb, ...)
 
          if param.type then
             param.help = param.help and ('%s (type: %s)'):format(param.help, param.type) or
-            ('(type: %s)'):format(param.type)
+                ('(type: %s)'):format(param.type)
          end
       end
    end
@@ -129,4 +129,4 @@ function cfx.addCommand(commandName, properties, cb, ...)
    end
 end
 
-return cfx.addCommand
+return vx.addCommand

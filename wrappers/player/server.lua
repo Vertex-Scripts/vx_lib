@@ -1,9 +1,9 @@
-cfx.player = {}
+vx.player = {}
 
 ---@param source number|string
 ---@param keepPrefix? boolean
-function cfx.player.getIdentifierFromSource(source, keepPrefix)
-   local identifierType = cfx.config.primaryIdentifier or "license"
+function vx.player.getIdentifierFromSource(source, keepPrefix)
+   local identifierType = vx.config.primaryIdentifier or "license"
    local identifier = GetPlayerIdentifierByType(tostring(source), identifierType)
    if not keepPrefix then
       identifier = identifier:gsub("license:", "")
@@ -21,7 +21,7 @@ Player.__index = Player
 
 function Player:new(source)
    local player = setmetatable({}, self)
-   local getFrameworkPlayer = cfx.caller.createFrameworkCaller({
+   local getFrameworkPlayer = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          return ESX.GetPlayerFromId(source)
       end,
@@ -38,7 +38,7 @@ end
 ---@param amount number
 ---@param reason? string
 function Player:addAccountMoney(account, amount, reason)
-   local caller = cfx.caller.createFrameworkCaller({
+   local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          ---@type ExtendedPlayer
          local xPlayer = self.frameworkPlayer
@@ -57,7 +57,7 @@ end
 ---@param name string
 ---@param grade? number
 function Player:setJob(name, grade)
-   local caller = cfx.caller.createFrameworkCaller({
+   local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          ---@type ExtendedPlayer
          local xPlayer = self.frameworkPlayer
@@ -72,9 +72,9 @@ function Player:setJob(name, grade)
    caller()
 end
 
-function cfx.player.getFromId(source)
+function vx.player.getFromId(source)
    local player = Player:new(source)
    return player
 end
 
-return cfx.player
+return vx.player

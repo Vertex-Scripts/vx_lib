@@ -1,5 +1,5 @@
 ---@diagnostic disable: param-type-mismatch
-cfx.marker = {}
+vx.marker = {}
 
 local defaultRotation = vector3(0, 0, 0)
 local defaultDirection = vector3(0, 0, 0)
@@ -121,7 +121,7 @@ local function drawMarker(self)
 end
 
 ---@param options MarkerProperties
-function cfx.marker.new(options)
+function vx.marker.new(options)
    local markerType
    if type(options.type) == "string" then
       markerType = markerTypesMap[options.type]
@@ -150,4 +150,4 @@ function cfx.marker.new(options)
    return self
 end
 
-return cfx.marker
+return vx.marker

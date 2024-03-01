@@ -1,4 +1,4 @@
-cfx.caller = {}
+vx.caller = {}
 
 ESX = nil
 QBCore = nil
@@ -31,10 +31,10 @@ local targetResourceMap = {
 ---@generic TSystem
 ---@param system TSystem
 ---@return TSystem
-function cfx.caller.getSystem(system, map)
+function vx.caller.getSystem(system, map)
    if system ~= "auto" then
       local resourceName = map[system]
-      if not cfx.caller.isResourceStarted(resourceName) then
+      if not vx.caller.isResourceStarted(resourceName) then
          error(("Resource '%s' is not started"):format(system))
       end
 
@@ -42,9 +42,9 @@ function cfx.caller.getSystem(system, map)
    end
 
    for system, resourceName in pairs(map) do
-      if cfx.caller.isResourceStarted(resourceName) then
+      if vx.caller.isResourceStarted(resourceName) then
          -- Because ox_target has an alias for qtarget and qb-target
-         if cfx.caller.isResourceStarted("ox_target") then
+         if vx.caller.isResourceStarted("ox_target") then
             return "ox_target"
          end
 
@@ -55,55 +55,55 @@ function cfx.caller.getSystem(system, map)
    return nil
 end
 
-function cfx.caller.initialize()
-   if not cachedFramework then cfx.caller.getFramework() end
-   if not cachedInventory then cfx.caller.getInventory() end
-   if not cachedTarget then cfx.caller.getTarget() end
+function vx.caller.initialize()
+   if not cachedFramework then vx.caller.getFramework() end
+   if not cachedInventory then vx.caller.getInventory() end
+   if not cachedTarget then vx.caller.getTarget() end
 end
 
-function cfx.caller.getFramework()
+function vx.caller.getFramework()
    if cachedFramework then
       return cachedFramework
    end
 
    ---@type Framework
-   local framework = cfx.caller.getSystem(cfx.config.framework, frameworkResourceMap)
-   cfx.caller.initializeFramework(framework)
-   cfx.logger.debug("Detected framework", framework)
+   local framework = vx.caller.getSystem(vx.config.framework, frameworkResourceMap)
+   vx.caller.initializeFramework(framework)
+   vx.logger.debug("Detected framework", framework)
 
    return framework
 end
 
-function cfx.caller.getInventory()
+function vx.caller.getInventory()
    if cachedInventory then
       return cachedInventory
    end
 
-   local inventory = cfx.caller.getSystem(cfx.config.inventory, inventoryResourceMap)
-   cfx.logger.debug("Detected inventory", inventory)
+   local inventory = vx.caller.getSystem(vx.config.inventory, inventoryResourceMap)
+   vx.logger.debug("Detected inventory", inventory)
    cachedInventory = inventory
 
    return inventory
 end
 
-function cfx.caller.getTarget()
+function vx.caller.getTarget()
    if cachedTarget then
       return cachedTarget
    end
 
-   local target = cfx.caller.getSystem(cfx.config.target, targetResourceMap)
-   cfx.logger.debug("Detected target", target)
+   local target = vx.caller.getSystem(vx.config.target, targetResourceMap)
+   vx.logger.debug("Detected target", target)
    cachedTarget = target
 
    return target
 end
 
 ---@param framework Framework
-function cfx.caller.initializeFramework(framework)
+function vx.caller.initializeFramework(framework)
    cachedFramework = framework
 
    local resourceName = frameworkResourceMap[framework]
-   -- cfx.logger.info(("Detected framework: %s (%s)"):format(framework, resourceName))
+   -- vx.logger.info(("Detected framework: %s (%s)"):format(framework, resourceName))
 
    if framework == "ESX" then
       ESX = exports[resourceName]:getSharedObject()
@@ -117,7 +117,7 @@ function cfx.caller.initializeFramework(framework)
    end
 end
 
-function cfx.caller.isResourceStarted(resourceName)
+function vx.caller.isResourceStarted(resourceName)
    local state = GetResourceState(resourceName)
    return state == "started"
 end
@@ -127,10 +127,10 @@ end
 ---@generic TFunc : function
 ---@param functions { [Framework]: TFunc }
 ---@return TFunc
-function cfx.caller.createFrameworkCaller(functions)
-   cfx.caller.initialize()
+function vx.caller.createFrameworkCaller(functions)
+   vx.caller.initialize()
 
-   local framework = cfx.caller.getFramework()
+   local framework = vx.caller.getFramework()
    for targetFramework, targetFunc in pairs(functions) do
       if targetFramework == framework then
          return targetFunc
@@ -143,10 +143,10 @@ end
 ---@generic TFunc : function
 ---@param functions { [InventorySystem]: TFunc }
 ---@return TFunc
-function cfx.caller.createInventoryCaller(functions)
-   cfx.caller.initialize()
+function vx.caller.createInventoryCaller(functions)
+   vx.caller.initialize()
 
-   local inventory = cfx.caller.getInventory()
+   local inventory = vx.caller.getInventory()
    local func = nil
 
    for targetInventory, targetFunc in pairs(functions) do
@@ -166,10 +166,10 @@ end
 ---@generic TFunc : function
 ---@param functions { [TargetSystem]: TFunc }
 ---@return TFunc, TargetSystem
-function cfx.caller.createTargetCaller(functions)
-   cfx.caller.initialize()
+function vx.caller.createTargetCaller(functions)
+   vx.caller.initialize()
 
-   local target = cfx.caller.getTarget()
+   local target = vx.caller.getTarget()
    local func = nil
    local system
 
@@ -188,4 +188,4 @@ function cfx.caller.createTargetCaller(functions)
    return func, system
 end
 
-return cfx.caller
+return vx.caller

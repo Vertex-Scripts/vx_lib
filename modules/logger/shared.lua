@@ -11,7 +11,7 @@ local function replaceFunctions(table)
       local type = type(v)
       if type == "table" then
          result[k] = replaceFunctions(v)
-         cfx.logger.info(result[k])
+         vx.logger.info(result[k])
       elseif type == "function" then
          result[k] = "function"
       else
@@ -40,11 +40,11 @@ local function log(level, ...)
    print(("^8%s ^7%s^7"):format(levels[level], table.concat(args, " ")))
 end
 
-cfx.logger = {
+vx.logger = {
    error = function(...) log(1, ...) end,
    warn = function(...) log(2, ...) end,
    info = function(...) log(3, ...) end,
    debug = function(...) log(4, ...) end,
 }
 
-return cfx.logger
+return vx.logger

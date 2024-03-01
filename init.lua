@@ -1,11 +1,11 @@
 local resourceName = GetCurrentResourceName()
 local context = IsDuplicityVersion() and "server" or "client"
-local export = exports["cfx_lib"]
+local export = exports["vx_lib"]
 
 local function loadResourceFile(root, module)
    local dir = ("%s/%s"):format(root, module)
-   local chunk = LoadResourceFile("cfx_lib", ("%s/%s.lua"):format(dir, context))
-   local shared = LoadResourceFile("cfx_lib", ("%s/shared.lua"):format(dir))
+   local chunk = LoadResourceFile("vx_lib", ("%s/%s.lua"):format(dir, context))
+   local shared = LoadResourceFile("vx_lib", ("%s/shared.lua"):format(dir))
 
    return root, chunk, shared
 end
@@ -22,7 +22,7 @@ local function loadModule(self, module)
    end
 
    if chunk then
-      local fn, err = load(chunk, ("@@cfx_lib/%s/%s/%s.lua"):format(dir, module, context))
+      local fn, err = load(chunk, ("@@vx_lib/%s/%s/%s.lua"):format(dir, module, context))
       if not fn or err then
          return error(("Failed to load module %s: %s"):format(module, err))
       end
@@ -57,8 +57,8 @@ local function call(self, index, ...)
 end
 
 -- TODO: Cache and fix the config :)
-local cfx = setmetatable({
-   name = "cfx_lib",
+local vx = setmetatable({
+   name = "vx_lib",
    ---@type SharedConfig
    config = export:getConfig(),
    cache = {
@@ -69,6 +69,6 @@ local cfx = setmetatable({
    __call = call
 })
 
-print(json.encode(cfx))
-_ENV.cfx = cfx
-require = cfx.require
+print(json.encode(vx))
+_ENV.vx = vx
+require = vx.require

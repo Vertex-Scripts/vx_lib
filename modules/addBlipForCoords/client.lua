@@ -7,7 +7,7 @@
 ---@field shortRange? boolean
 
 ---@param options BlipOptions
-function cfx.addBlipForCoords(options)
+function vx.addBlipForCoords(options)
    local coords = options.coords
    local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
 
@@ -25,4 +25,4 @@ function cfx.addBlipForCoords(options)
    return blip
 end
 
-return cfx.addBlipForCoords
+return vx.addBlipForCoords
