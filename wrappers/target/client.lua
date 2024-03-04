@@ -11,6 +11,8 @@ local function createOptions_ox(options)
       label = options.label,
       icon = options.icon,
       name = options.name,
+      distance = options.distance,
+      items = options.items,
       canInteract = function(entity)
          if options.canInteract == nil then
             return true
@@ -34,12 +36,21 @@ end
 
 ---@param options TargetOptions
 local function createOptions_qb(options)
+   local item = nil
+   if type(options.items) == "table" then
+      vx.logger.warn("QBCore does not support multiple items in a target option, only the first item will be used.")
+      item = options.items[1]
+   else
+      item = options.items
+   end
+
    ---@type QbTargetOptions
    return {
       options = {
          {
             label = options.label,
             icon = options.icon,
+            item = item,
             canInteract = function(entity)
                return options.canInteract({
                   entity = entity,

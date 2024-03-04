@@ -72,6 +72,7 @@
 ---@field name string
 ---@field icon? string
 ---@field distance? number
+---@field items? string|string[]
 ---@field onSelect fun(data: table)
 ---@field canInteract fun(data: table): boolean
 

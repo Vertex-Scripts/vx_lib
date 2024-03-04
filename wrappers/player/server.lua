@@ -72,6 +72,23 @@ function Player:setJob(name, grade)
    caller()
 end
 
+-- TODO: Add support for QB
+function Player:getJob()
+   local caller = vx.caller.createFrameworkCaller({
+      ["ESX"] = function()
+         ---@type ExtendedPlayer
+         local xPlayer = self.frameworkPlayer
+         return xPlayer.getJob()
+      end,
+      -- ["QB"] = function()
+      --    local player = self.frameworkPlayer
+      --    player.Functions.SetJob(name
+      -- end
+   })
+
+   caller()
+end
+
 function vx.player.getFromId(source)
    local player = Player:new(source)
    return player
