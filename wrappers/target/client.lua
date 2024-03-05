@@ -27,6 +27,13 @@ local function createOptions_ox(options)
             return
          end
 
+         local actualEntity
+         if type(actualEntity) == "table" then
+            actualEntity = entity.entitentity
+         else
+            actualEntity = entity
+         end
+
          options.onSelect({
             entity = entity
          })
