@@ -90,7 +90,7 @@ function VxPlayer:getJob()
 end
 
 function vx.player.getFromId(source)
-   local player = Player:new(source)
+   local player = VxPlayer:new(source)
    return player
 end
 
