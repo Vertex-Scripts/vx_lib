@@ -80,10 +80,10 @@ function VxPlayer:getJob()
          local xPlayer = self.frameworkPlayer
          return xPlayer.getJob()
       end,
-      -- ["QB"] = function()
-      --    local player = self.frameworkPlayer
-      --    player.Functions.SetJob(name
-      -- end
+      ["QB"] = function()
+         local player = self.frameworkPlayer
+         return player.PlayerData.job.name
+      end
    })
 
    caller()
