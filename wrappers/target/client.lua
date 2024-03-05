@@ -29,7 +29,7 @@ local function createOptions_ox(options)
 
          local actualEntity
          if type(actualEntity) == "table" then
-            actualEntity = entity.entitentity
+            actualEntity = entity.entity
          else
             actualEntity = entity
          end
