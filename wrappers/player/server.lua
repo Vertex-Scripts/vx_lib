@@ -60,11 +60,11 @@ function VxPlayer:setJob(name, grade)
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          ---@type ExtendedPlayer
-         local xPlayer = self.frameworkPlayer
+         local xPlayer = ESX.GetPlayerFromId(source)
          xPlayer.setJob(name, grade or 0)
       end,
       ["QB"] = function()
-         local player = self.frameworkPlayer
+         local player = QBCore.Functions.GetPlayer(source)
          player.Functions.SetJob(name, grade or 0)
       end
    })
@@ -77,11 +77,11 @@ function VxPlayer:getJob()
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          ---@type ExtendedPlayer
-         local xPlayer = self.frameworkPlayer
+         local xPlayer = ESX.GetPlayerFromId(source)
          return xPlayer.getJob()
       end,
       ["QB"] = function()
-         local player = self.frameworkPlayer
+         local player = QBCore.Functions.GetPlayer(source)
          return player.PlayerData.job.name
       end
    })
