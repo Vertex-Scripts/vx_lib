@@ -78,7 +78,7 @@ function VxPlayer:getJob()
       ["ESX"] = function()
          ---@type ExtendedPlayer
          local xPlayer = ESX.GetPlayerFromId(source)
-         return xPlayer.getJob()
+         return xPlayer.job.name
       end,
       ["QB"] = function()
          local player = QBCore.Functions.GetPlayer(source)
