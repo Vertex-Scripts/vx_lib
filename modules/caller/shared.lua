@@ -44,10 +44,6 @@ function vx.caller.getSystem(system, map)
    for system, resourceName in pairs(map) do
       if vx.caller.isResourceStarted(resourceName) then
          -- Because ox_target has an alias for qtarget and qb-target
-         if vx.caller.isResourceStarted("ox_target") then
-            return "ox_target"
-         end
-
          return system
       end
    end
@@ -92,6 +88,10 @@ function vx.caller.getTarget()
    end
 
    local target = vx.caller.getSystem(vx.config.target, targetResourceMap)
+   if vx.caller.isResourceStarted("ox_target") then
+      target = "ox_target"
+   end
+
    vx.logger.debug("Detected target", target)
    cachedTarget = target
 
