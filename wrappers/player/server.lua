@@ -16,10 +16,10 @@ end
 -- getFromId --
 ---------------
 
-Player = {}
-Player.__index = Player
+VxPlayer = {}
+VxPlayerPlayer.__index = VxPlayerPlayer
 
-function Player:new(source)
+function VxPlayerPlayer:new(source)
    local player = setmetatable({}, self)
    local getFrameworkPlayer = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
@@ -37,7 +37,7 @@ end
 ---@param account AccountType
 ---@param amount number
 ---@param reason? string
-function Player:addAccountMoney(account, amount, reason)
+function VxPlayerPlayer:addAccountMoney(account, amount, reason)
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          ---@type ExtendedPlayer
@@ -56,7 +56,7 @@ end
 
 ---@param name string
 ---@param grade? number
-function Player:setJob(name, grade)
+function VxPlayerPlayer:setJob(name, grade)
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          ---@type ExtendedPlayer
@@ -73,7 +73,7 @@ function Player:setJob(name, grade)
 end
 
 -- TODO: Add support for QB
-function Player:getJob()
+function VxPlayerPlayer:getJob()
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          ---@type ExtendedPlayer
