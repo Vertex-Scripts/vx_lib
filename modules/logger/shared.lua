@@ -23,6 +23,10 @@ local function replaceFunctions(table)
 end
 
 local function log(level, ...)
+   if level > 3 then
+      return
+   end
+
    local args = { ... }
    for i = 1, #args do
       local arg = args[i]
