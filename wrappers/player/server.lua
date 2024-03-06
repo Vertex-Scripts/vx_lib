@@ -16,10 +16,10 @@ end
 -- getFromId --
 ---------------
 
-Player = {}
-Player.__index = Player
+VxPlayer = {}
+VxPlayer.__index = VxPlayer
 
-function Player:new(source)
+function VxPlayer:new(source)
    local player = setmetatable({}, self)
    local getFrameworkPlayer = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
@@ -37,7 +37,7 @@ end
 ---@param account AccountType
 ---@param amount number
 ---@param reason? string
-function Player:addAccountMoney(account, amount, reason)
+function VxPlayer:addAccountMoney(account, amount, reason)
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          ---@type ExtendedPlayer
@@ -56,15 +56,15 @@ end
 
 ---@param name string
 ---@param grade? number
-function Player:setJob(name, grade)
+function VxPlayer:setJob(name, grade)
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          ---@type ExtendedPlayer
-         local xPlayer = self.frameworkPlayer
+         local xPlayer = ESX.GetPlayerFromId(source)
          xPlayer.setJob(name, grade or 0)
       end,
       ["QB"] = function()
-         local player = self.frameworkPlayer
+         local player = QBCore.Functions.GetPlayer(source)
          player.Functions.SetJob(name, grade or 0)
       end
    })
@@ -73,24 +73,24 @@ function Player:setJob(name, grade)
 end
 
 -- TODO: Add support for QB
-function Player:getJob()
+function VxPlayer:getJob()
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          ---@type ExtendedPlayer
-         local xPlayer = self.frameworkPlayer
-         return xPlayer.getJob()
+         local xPlayer = ESX.GetPlayerFromId(source)
+         return xPlayer.job.name
       end,
-      -- ["QB"] = function()
-      --    local player = self.frameworkPlayer
-      --    player.Functions.SetJob(name
-      -- end
+      ["QB"] = function()
+         local player = QBCore.Functions.GetPlayer(source)
+         return player.PlayerData.job.name
+      end
    })
 
    caller()
 end
 
 function vx.player.getFromId(source)
-   local player = Player:new(source)
+   local player = VxPlayer:new(source)
    return player
 end
 
