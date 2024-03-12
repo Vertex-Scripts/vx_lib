@@ -1,3 +1,17 @@
+---@class WebhookParams
+---@field content? string
+---@field username? string
+---@field avatar_url? string
+---@field embeds WebhookEmbed[]
+
+---@class WebhookEmbed
+---@field title? string
+---@field description? string
+---@field timestamp? number|osdate
+---@field color? number
+---@field fields? { name: string, value: string, inline: boolean }[]
+
+
 ---@param url string
 ---@param params WebhookParams
 function vx.sendWebhook(url, params)

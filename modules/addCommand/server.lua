@@ -1,3 +1,16 @@
+---@class CommandParams
+---@field name string
+---@field help? string
+---@field type? 'number' | 'playerId' | 'string'
+---@field optional? boolean
+---@field full? boolean
+
+---@class CommandProperties
+---@field help string?
+---@field params CommandParams[]?
+---@field restricted boolean | string | string[]?
+
+
 ---@type CommandProperties[]
 local registeredCommands = {}
 local shouldSendCommands = false
