@@ -22,11 +22,19 @@
 ---| '"money"'
 
 
+---@alias NotificationSystem
+---| '"ox"'
+---| '"esx"'
+---| '"qb"'
+---| '"custom"'
+
+
 ---@class SharedConfig
 ---@field primaryIdentifier "license" | "steam" | "discord" | "fivem"
 ---@field framework Framework
 ---@field target TargetSystem
 ---@field inventory InventorySystem
+---@field notification NotificationSystem
 ---@field debug boolean
 
 

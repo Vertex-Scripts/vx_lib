@@ -69,6 +69,5 @@ local vx = setmetatable({
    __call = call
 })
 
-print(json.encode(vx))
 _ENV.vx = vx
 require = vx.require
