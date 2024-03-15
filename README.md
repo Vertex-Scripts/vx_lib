@@ -1,4 +1,4 @@
-# CFX Lib
+# VX Lib
 
 Modules, utilities, and wrappers around ESX and QBCore.
 
@@ -13,10 +13,10 @@ Modules, utilities, and wrappers around ESX and QBCore.
 
 #### Functions
 
-- `cfx.inventory.addItem(source: number, item: string, count?: number)`
-- `cfx.inventory.removeItem(source: number, item: string, count?: number)`
-- `cfx.inventory.getItemCount(source: number, item: string)`
-- `cfx.inventory.hasItem(source: number, item: string, count?: number)`
+- `vx.inventory.addItem(source: number, item: string, count?: number)`
+- `vx.inventory.removeItem(source: number, item: string, count?: number)`
+- `vx.inventory.getItemCount(source: number, item: string)`
+- `vx.inventory.hasItem(source: number, item: string, count?: number)`
 
 ### Player
 
@@ -26,7 +26,7 @@ Modules, utilities, and wrappers around ESX and QBCore.
 
 #### Functions
 
-- `cfx.player.getFromId(source: number)`
+- `vx.player.getFromId(source: number)`
 - `player:addAccountMoney(account: "bank" | "cash", amount: number, reason?: string)`
 - `player:setJob(name: string, grade: number)`
 
@@ -61,11 +61,11 @@ canInteract? fun(data: { entity: number }): boolean
 
 #### Functions
 
-- `cfx.target.addGlobalVehicle(options)`
-- `cfx.target.addGlobalPlayer(options)`
-- `cfx.target.addGlobalPed(options)`
-- `cfx.target.removeGlobalVehicle(options)`
-- `cfx.target.removeGlobalPlayer(options)`
-- `cfx.target.removeGlobalPed(options)`
-- `cfx.target.addModel(models, options)`
-- `cfx.target.removeModel(options)`
+- `vx.target.addGlobalVehicle(options)`
+- `vx.target.addGlobalPlayer(options)`
+- `vx.target.addGlobalPed(options)`
+- `vx.target.removeGlobalVehicle(options)`
+- `vx.target.removeGlobalPlayer(options)`
+- `vx.target.removeGlobalPed(options)`
+- `vx.target.addModel(models, options)`
+- `vx.target.removeModel(options)`
