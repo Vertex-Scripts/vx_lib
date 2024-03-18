@@ -5,6 +5,10 @@ lua54 "yes"
 author "Vertex Scripts"
 version "1.0.0"
 
+client_scripts {
+   "resource/**/client/*.lua"
+}
+
 shared_scripts {
    "configs/*.lua",
    "resource/init.lua",

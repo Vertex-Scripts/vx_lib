@@ -26,6 +26,11 @@
 ---| '"qb"'
 ---| '"custom"'
 
+---@alias TextUISystem
+---| '"ox"'
+---| '"custom"'
+
+
 ---@class SharedConfig
 ---@field primaryIdentifier "license" | "steam" | "discord" | "fivem"
 ---@field framework Framework
@@ -33,3 +38,4 @@
 ---@field inventory InventorySystem
 ---@field notification NotificationSystem
 ---@field debug boolean
+---@field textui TextUISystem

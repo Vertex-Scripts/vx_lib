@@ -10,5 +10,6 @@ SharedConfig = {
    framework = "auto",            -- 'ESX' | 'QB' | 'auto'
    target = "auto",               -- 'ox_target' | 'qb_target' | 'qtarget' | 'auto'
    inventory = "auto",            -- 'ox_inventory' | 'qb-inventory' | 'es_extended' | 'qs-inventory' | 'auto',
-   notification = "esx",          -- 'ox' | 'esx' | 'qb' | 'custom'
+   notification = "esx",          -- 'ox' | 'esx' | 'qb' | 'custom',
+   textui = "ox"                  -- 'ox' | 'custom'
 }
