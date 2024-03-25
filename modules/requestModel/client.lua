@@ -1,2 +1,4 @@
+vx.requestModel = vx.streaming.requestModel
+
 ---@deprecated This module is deprecated, use vx.streaming.requestModel instead.
-return vx.streaming.requestModel
+return vx.requestModel
