@@ -102,10 +102,10 @@ local markerTypesMap = {
 
 ---@class MarkerProperties
 ---@field type MarkerTypeName | number
----@field coords { x: number, y: number, z: number }
+---@field coords { x: number, y: number, z: number } | vector3
 ---@field color? { r: number, g: number, b: number, a: number }
----@field rotation? { x: number, y: number, z: number }
----@field direction? { x: number, y: number, z: number }
+---@field rotation? { x: number, y: number, z: number } | vector3
+---@field direction? { x: number, y: number, z: number } | vector3
 ---@field rotate? boolean
 ---@field width? number
 ---@field height? number
