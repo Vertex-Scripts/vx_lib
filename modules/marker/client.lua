@@ -5,6 +5,7 @@ local defaultRotation = vector3(0, 0, 0)
 local defaultDirection = vector3(0, 0, 0)
 local defaultColor = { r = 255, g = 255, b = 255, a = 100 }
 local defaultSize = { width = 2, height = 1 }
+local defaultRotate = false
 
 local markerTypesMap = {
    UpsideDownCone = 0,
@@ -102,11 +103,12 @@ local markerTypesMap = {
 ---@class MarkerProperties
 ---@field type MarkerTypeName | number
 ---@field coords { x: number, y: number, z: number }
----@field width? number
----@field height? number
 ---@field color? { r: number, g: number, b: number, a: number }
 ---@field rotation? { x: number, y: number, z: number }
 ---@field direction? { x: number, y: number, z: number }
+---@field rotate? boolean
+---@field width? number
+---@field height? number
 
 ---@param self MarkerProperties
 local function drawMarker(self)
@@ -117,7 +119,7 @@ local function drawMarker(self)
       self.rotation.x, self.rotation.y, self.rotation.z,
       self.width, self.width, self.height,
       self.color.r, self.color.g, self.color.b, self.color.a,
-      false, true, 2, false, nil, nil, false)
+      false, true, 2, self.rotate, nil, nil, false)
 end
 
 ---@param options MarkerProperties
@@ -138,10 +140,12 @@ function vx.marker.new(options)
    self.type = markerType
    self.coords = options.coords
    self.color = options.color or defaultColor
-   self.width = options.width or defaultSize.width
-   self.height = options.height or defaultSize.height
    self.rotation = options.rotation or defaultRotation
    self.direction = options.direction or defaultDirection
+   self.height = options.height or defaultSize.height
+   self.width = options.width or defaultSize.width
+   self.rotate = options.rotate or defaultRotate
+
    self.draw = drawMarker
 
    self.width += 0.0
