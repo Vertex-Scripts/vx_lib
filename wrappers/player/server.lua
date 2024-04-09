@@ -81,7 +81,7 @@ function VxPlayer:getAccountMoney(account)
 	local caller = vx.caller.createFrameworkCaller({
 		["ESX"] = function()
 			---@type ExtendedPlayer
-			local xPlayer = ESX.GetPlayerFromId(source)
+			local xPlayer = self.frameworkPlayer
 			return xPlayer.getAccount(account)?.money or 0
 		end,
 		-- ["QB"] = function()
@@ -99,7 +99,7 @@ function VxPlayer:setJob(name, grade)
 	local caller = vx.caller.createFrameworkCaller({
 		["ESX"] = function()
 			---@type ExtendedPlayer
-			local xPlayer = ESX.GetPlayerFromId(source)
+			local xPlayer = self.frameworkPlayer
 			xPlayer.setJob(name, grade or 0)
 		end,
 		["QB"] = function()
@@ -116,7 +116,7 @@ function VxPlayer:getJob()
 	local caller = vx.caller.createFrameworkCaller({
 		["ESX"] = function()
 			---@type ExtendedPlayer
-			local xPlayer = ESX.GetPlayerFromId(source)
+			local xPlayer = self.frameworkPlayer
 			return xPlayer.job.name
 		end,
 		["QB"] = function()
@@ -125,7 +125,7 @@ function VxPlayer:getJob()
 		end
 	})
 
-	caller()
+	return caller()
 end
 
 function vx.player.getFromId(source)
