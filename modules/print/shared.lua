@@ -11,7 +11,6 @@ local function replaceFunctions(table)
       local type = type(v)
       if type == "table" then
          result[k] = replaceFunctions(v)
-         vx.print.info(result[k])
       elseif type == "function" then
          result[k] = "function"
       else
