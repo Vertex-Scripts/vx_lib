@@ -6,6 +6,7 @@ vx.blip = {}
 ---@field color? number
 ---@field text? string
 ---@field scale? number
+---@field isFlashing? boolean
 ---@field shortRange? boolean
 
 ---@class EntityBlipOptions : BlipOptions
@@ -30,6 +31,7 @@ function vx.blip.applyOptions(blip, options)
 
    if options.scale then SetBlipScale(blip, options.scale) end
    if options.shortRange then SetBlipAsShortRange(blip, true) end
+   if options.isFlashing then SetBlipFlashes(blip, true) end
 end
 
 ---@param options BlipOptions
