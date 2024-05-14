@@ -97,15 +97,21 @@ local function createOptions_qb(options)
    }
 end
 
----@param options TargetOptions
+---@param options TargetOptions | TargetOptions[]
 local function convertOptions(options)
-   options.distance = options.distance or 2.0
-
    local caller = vx.caller.createTargetCaller({
       ["ox_target"] = createOptions_ox,
       ["qb-target"] = createOptions_qb,
-      -- ["qtarget"] = function() end,
    })
+
+   if #options > 0 then
+      local result = {}
+      for _, option in pairs(options) do
+         table.insert(result, caller(option))
+      end
+
+      return result
+   end
 
    return caller(options)
 end
@@ -130,7 +136,6 @@ function vx.target.addGlobalVehicle(options)
    local caller = vx.caller.createTargetCaller({
       ["ox_target"] = addGlobalVehicle_ox,
       ["qb-target"] = addGlobalVehicle_qb,
-      -- ["qtarget"] = function() end,
    })
 
    caller(targetOptions)
@@ -152,7 +157,6 @@ function vx.target.removeGlobalVehicle(options)
    local caller = vx.caller.createTargetCaller({
       ["ox_target"] = removeGlobalVehicle_ox,
       ["qb-target"] = removeGlobalVehicle_qb,
-      -- ["qtarget"] = function() end,
    })
 
    caller(options)
@@ -174,7 +178,6 @@ function vx.target.addGlobalPlayer(options)
    local caller = vx.caller.createTargetCaller({
       ["ox_target"] = addGlobalPlayer_ox,
       ["qb-target"] = addGlobalPlayer_qb,
-      -- ["qtarget"] = function() end,
    })
 
    caller(targetOptions)
@@ -195,7 +198,6 @@ function vx.target.removeGlobalPlayer(options)
    local caller = vx.caller.createTargetCaller({
       ["ox_target"] = removeGlobalPlayer_ox,
       ["qb-target"] = removeGlobalPlayer_qb,
-      -- ["qtarget"] = function() end,
    })
 
    caller(targetOptions)
@@ -218,7 +220,6 @@ function vx.target.addGlobalPed(options)
    local caller = vx.caller.createTargetCaller({
       ["ox_target"] = addGlobalPed_ox,
       ["qb-target"] = addGlobalPed_qb,
-      -- ["qtarget"] = function() end,
    })
 
    caller(targetOptions)
@@ -239,7 +240,6 @@ function vx.target.removeGlobalPed(options)
    local caller = vx.caller.createTargetCaller({
       ["ox_target"] = removeGlobalPed_ox,
       ["qb-target"] = removeGlobalPed_qb,
-      -- ["qtarget"] = function() end,
    })
 
    caller(targetOptions)
@@ -250,6 +250,7 @@ function addLocalEntity_ox(entities, options)
    exports.ox_target:addLocalEntity(entities, options)
 end
 
+-- TODO
 -- function addLocalEntity_qb(entities, options)
 --    exports["qb-target"]:AddLocalEntity(entities, options)
 -- end
@@ -261,7 +262,6 @@ function vx.target.addLocalEntity(entities, options)
    local caller = vx.caller.createTargetCaller({
       ["ox_target"] = addLocalEntity_ox,
       -- ["qb-target"] = addLocalEntity_qb,
-      -- ["qtarget"] = function() end,
    })
 
    caller(entities, targetOptions)
@@ -286,7 +286,6 @@ function vx.target.addModel(models, options)
    local caller, target = vx.caller.createTargetCaller({
       ["ox_target"] = addModel_ox,
       ["qb-target"] = addModel_qb,
-      -- ["qtarget"] = function() end,
    })
 
    if target == "qb-target" then
@@ -311,7 +310,6 @@ function vx.target.removeModel(options)
    local caller = vx.caller.createTargetCaller({
       ["ox_target"] = removeModel_ox,
       ["qb-target"] = removeModel_qb,
-      -- ["qtarget"] = function() end,
    })
 
    caller(options)
