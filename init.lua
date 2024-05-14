@@ -3,6 +3,11 @@ local context = IsDuplicityVersion() and "server" or "client"
 local export = exports["vx_lib"]
 local intervals = {}
 
+local frameworkResourceMap = {
+   ["ESX"] = "es_extended",
+   ["QB"] = "qb-core"
+}
+
 local function loadResourceFile(root, module)
    local dir = ("%s/%s"):format(root, module)
    local chunk = LoadResourceFile("vx_lib", ("%s/%s.lua"):format(dir, context))
@@ -56,18 +61,42 @@ local function call(self, index, ...)
    return module
 end
 
+local function initializeFramework(framework)
+   local frameworkResourceName = frameworkResourceMap[framework]
+
+   if framework == "ESX" then
+      _ENV.ESX = exports[frameworkResourceName]:getSharedObject()
+
+      print("[INFO] Successfully loaded ESX framework")
+   elseif framework == "QB" then
+      _ENV.QBCore = exports[frameworkResourceName]:GetCoreObject()
+
+      RegisterNetEvent(("QBCore:%s:UpdateObject"):format(context), function()
+         _ENV.QBCore = exports[frameworkResourceName]:GetCoreObject()
+      end)
+
+      print("[INFO] Successfully loaded QB framework")
+   end
+end
+
 -- TODO: Cache and fix the config :)
+---@type SharedConfig
+local config = export:getConfig()
+local framework = export:getFramework()
 local vx = setmetatable({
    name = "vx_lib",
    ---@type SharedConfig
-   config = export:getConfig(),
+   config = config,
    cache = {
       resource = resourceName
    },
+   framework = framework,
 }, {
    __index = call,
    __call = call
 })
+
+initializeFramework(framework)
 
 ---@param callback function | number
 ---@param interval? number
