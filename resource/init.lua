@@ -5,6 +5,7 @@ function noop() end
 vx = setmetatable({
    name = 'vx_lib',
    context = IsDuplicityVersion() and 'server' or 'client',
+   config = SharedConfig
 }, {
    __newindex = function(self, key, fn)
       rawset(self, key, fn)
