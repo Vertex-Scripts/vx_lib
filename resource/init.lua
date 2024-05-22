@@ -1,22 +1,26 @@
 local context = IsDuplicityVersion() and "server" or "client"
 
+local frameworkSystem = GetConvar("vx:framework", "auto")
+local inventorySystem = GetConvar("vx:inventory", "auto")
+local targetSystem = GetConvar("vx:target", "auto")
+
 local frameworkResourceMap = {
    ESX = "es_extended",
    QB = "qb-core"
 }
 
--- local inventoryResourceMap = {
---    ox_inventory = "ox_inventory",
---    qb_inventory = "qb_inventory",
---    es_extended = "es_extended",
---    qs_inventory = "qs_inventory"
--- }
+local inventoryResourceMap = {
+   ox_inventory = "ox_inventory",
+   qb_inventory = "qb_inventory",
+   es_extended = "es_extended",
+   qs_inventory = "qs_inventory"
+}
 
--- local targetResourceMap = {
---    ox_target = "ox_target",
---    qb_target = "qb_target",
---    qtarget = "qtarget"
--- }
+local targetResourceMap = {
+   ox_target = "ox_target",
+   qb_target = "qb_target",
+   qtarget = "qtarget"
+}
 
 local debug_getinfo = debug.getinfo
 
@@ -24,8 +28,7 @@ function noop() end
 
 vx = setmetatable({
    name = 'vx_lib',
-   context = context,
-   config = SharedConfig
+   context = context
 }, {
    __newindex = function(self, key, fn)
       rawset(self, key, fn)
@@ -82,15 +85,6 @@ function getLibrary(value, map)
    return nil
 end
 
-local function getFramework()
-   local framework = getLibrary(vx.config.framework, frameworkResourceMap)
-   if not framework then
-      error(("Failed to auto detect framework"))
-   end
-
-   return framework
-end
-
 local function initializeFramework(framework)
    local frameworkResourceName = frameworkResourceMap[framework]
 
@@ -105,11 +99,15 @@ local function initializeFramework(framework)
    end
 end
 
-exports("getConfig", function()
-   return SharedConfig
-end)
-
-exports("getFramework", getFramework)
-
-local framework = getFramework()
+local framework = getLibrary(frameworkSystem, frameworkResourceMap) or error("Failed to auto detect framework")
+local inventory = getLibrary(inventorySystem, inventoryResourceMap) or error("Failed to auto detect inventory")
+local target = getLibrary(targetSystem, targetResourceMap) or error("Failed to auto detect target")
 initializeFramework(framework)
+
+exports("getFramework", function() return framework end)
+exports("getInventory", function() return inventory end)
+exports("getTarget", function() return target end)
+
+vx.print.info("Using framework", framework)
+vx.print.info("Using inventory", inventory)
+vx.print.info("Using target", target)

@@ -10,7 +10,6 @@ client_scripts {
 }
 
 shared_scripts {
-   "configs/shared.lua",
    "resource/init.lua",
 }
 
@@ -19,7 +18,6 @@ files {
    "modules/**/shared.lua",
 
    "wrappers/**/client.lua",
-   "wrappers/**/shared.lua",
 
    "init.lua",
 }

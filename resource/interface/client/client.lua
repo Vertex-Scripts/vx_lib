@@ -1,3 +1,5 @@
+local notifySystem = GetConvar("vx:notification", "auto")
+
 ---@class NotificationOptions
 ---@field message string
 ---@field title? string
@@ -9,7 +11,6 @@ function vx.notify(options)
    local duration = options.duration or 5000
    local type = options.type or "info"
 
-   local notifySystem = vx.config.notification
    if notifySystem == "ox" then
       ---@type NotifyProps
       local oxOptions = {
@@ -27,8 +28,10 @@ function vx.notify(options)
       error("TODO")
    elseif notifySystem == "custom" then
       error("TODO")
+   elseif notifySyste == "auto" then
+      error("TODO")
    else
-      error(("invalid notification system in configuration expected 'ox', 'esx', 'qb', or 'custom' (received %s)")
+      error(("invalid notification system in vx:notifySystem expected 'ox', 'esx', 'qb', or 'custom' (received %s)")
          :format(
             notifySystem))
    end

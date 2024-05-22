@@ -79,18 +79,20 @@ local function initializeFramework(framework)
    end
 end
 
--- TODO: Cache and fix the config :)
----@type SharedConfig
-local config = export:getConfig()
 local framework = export:getFramework()
+local inventory = export:getInventory()
+local target = export:getTarget()
+
 local vx = setmetatable({
    name = "vx_lib",
-   ---@type SharedConfig
-   config = config,
    cache = {
       resource = resourceName
    },
-   framework = framework,
+   systems = {
+      framework = framework,
+      inventory = inventory,
+      target = target,
+   },
 }, {
    __index = call,
    __call = call

@@ -1,16 +1,18 @@
+local textUiSystem = GetConvar("vx:textui", "auto")
 local isOpen = false
 
 function vx.showTextUI(text)
-   if SharedConfig.textui == "ox" then
+   if textUiSystem == "ox" then
       if isOpen then
          TriggerEvent("ox_inventory:closeTextUI")
       end
       TriggerEvent("ox_inventory:showTextUI", text)
       isOpen = true
-   elseif SharedConfig.textui == "custom" then
-      print(text)
+   elseif textUiSystem == "custom" then
+      error("TODO")
+   elseif textUiSystem == "auto" then
+      error("TODO")
    else
-      error(("invalid textui system in configuration expected 'ox' or 'custom' (received %s)"):format(SharedConfig
-      .textui))
+      error(("invalid textui system in vx:textui expected 'ox' or 'custom' (received %s)"):format(textUiSystem))
    end
 end
