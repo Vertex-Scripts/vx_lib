@@ -66,16 +66,12 @@ local function initializeFramework(framework)
 
    if framework == "ESX" then
       _ENV.ESX = exports[frameworkResourceName]:getSharedObject()
-
-      print("[INFO] Successfully loaded ESX framework")
    elseif framework == "QB" then
       _ENV.QBCore = exports[frameworkResourceName]:GetCoreObject()
 
       RegisterNetEvent(("QBCore:%s:UpdateObject"):format(context), function()
          _ENV.QBCore = exports[frameworkResourceName]:GetCoreObject()
       end)
-
-      print("[INFO] Successfully loaded QB framework")
    end
 end
 
