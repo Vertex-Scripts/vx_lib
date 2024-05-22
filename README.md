@@ -2,6 +2,15 @@
 
 Modules, utilities, and wrappers around ESX and QBCore.
 
+## Configuration
+You can configure the following settings in your `server.cfg`:
+
+- `vx:framework` - The framework to use. `esx`, `qb`, or `auto`.
+- `vx:inventory` - The inventory to use. `ox_inventory`, `qb_inventory`, `es_extended`, `qs_inventory` or `auto`.
+- `vx:target` - The target to use. `ox_target`, `qb_target`, `qtarget` or `auto`.
+- `vx:primaryIdentifier` - The primary identifier to use. `license`, `steam` or `auto`
+- `vx:notification` - The notification system to use. `ox`, `esx`, `qb`, or `custom`.
+
 ## Server Wrappers
 
 ### Inventory
