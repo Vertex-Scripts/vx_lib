@@ -1,1 +1,0 @@
-return vx.blip.addForCoord
