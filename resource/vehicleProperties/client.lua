@@ -2,7 +2,7 @@
 vx.vehicle = {}
 
 ---@param vehicle number
-function vx.vehicle.getProperties(vehicle)
+function vx.getVehicleProperties(vehicle)
    if not DoesEntityExist(vehicle) then
       return
    end
@@ -160,7 +160,7 @@ function vx.vehicle.getProperties(vehicle)
    }
 end
 
-function vx.vehicle.setVehicleProperties(vehicle, props)
+function vx.setVehicleProperties(vehicle, props)
    if not DoesEntityExist(vehicle) then
       return
    end
@@ -423,5 +423,3 @@ function vx.vehicle.setVehicleProperties(vehicle, props)
       end
    end
 end
-
-return vx.vehicle

@@ -76,7 +76,6 @@ function vx.streaming.requestPtfxAsset(asset)
       return asset
    end
 
-
    RequestNamedPtfxAsset(assetName)
    while not HasNamedPtfxAssetLoaded(assetName) do
       Citizen.Wait(0)
