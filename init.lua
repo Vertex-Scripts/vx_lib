@@ -94,6 +94,24 @@ local vx = setmetatable({
    __call = call
 })
 
+---@type VxCache
+vx.cache = setmetatable({
+   resource = resourceName
+}, {
+   __index = context == "client" and function(self, key)
+      AddEventHandler(("vx:cache:set:%s"):format(key), function(value)
+         self[key] = value
+      end)
+
+      local value = export.getFromCache(nil, key)
+      if value ~= nil then
+         rawset(self, key, value)
+      end
+
+      return rawget(self, key)
+   end or nil,
+})
+
 initializeFramework(framework)
 
 ---@param callback function | number

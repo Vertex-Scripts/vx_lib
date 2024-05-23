@@ -6,7 +6,7 @@ author "Vertex Scripts"
 version "1.0.0"
 
 client_scripts {
-   "resource/**/client/*.lua"
+   "resource/**/client.lua"
 }
 
 shared_scripts {

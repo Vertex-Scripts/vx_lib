@@ -29,3 +29,11 @@
 ---@alias TextUISystem
 ---| '"ox"'
 ---| '"custom"'
+
+---@class VxCache
+---@field resource string
+---@field playerId number
+---@field serverId number
+---@field vehicle number
+---@field ped number
+---@field set fun(self, key: string, value: any)

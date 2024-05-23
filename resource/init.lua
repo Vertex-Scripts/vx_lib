@@ -1,4 +1,5 @@
 local context = IsDuplicityVersion() and "server" or "client"
+local currentResourceName = GetCurrentResourceName()
 
 local frameworkSystem = GetConvar("vx:framework", "auto")
 local inventorySystem = GetConvar("vx:inventory", "auto")
@@ -22,10 +23,6 @@ local targetResourceMap = {
    qtarget = "qtarget"
 }
 
-local debug_getinfo = debug.getinfo
-
-function noop() end
-
 vx = setmetatable({
    name = 'vx_lib',
    context = context
@@ -33,7 +30,7 @@ vx = setmetatable({
    __newindex = function(self, key, fn)
       rawset(self, key, fn)
 
-      if debug_getinfo(2, 'S').short_src:find('@vx_lib/resource') then
+      if debug.getinfo(2, 'S').short_src:find('@vx_lib/resource') then
          exports(key, fn)
       end
    end,
@@ -54,12 +51,18 @@ vx = setmetatable({
             return error(('\n^1Error importing module (%s): %s^0'):format(dir, err), 3)
          end
 
-         rawset(self, key, fn() or noop)
+         rawset(self, key, fn() or function() end)
 
          return self[key]
       end
    end
 })
+
+---@type VxCache
+---@diagnostic disable-next-line: missing-fields
+vx.cache = {
+   resource = currentResourceName
+}
 
 function isResourceStarted(resourceName)
    local state = GetResourceState(resourceName)
