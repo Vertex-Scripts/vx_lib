@@ -23,9 +23,16 @@ local targetResourceMap = {
    qtarget = "qtarget"
 }
 
+---@type VxCache
+---@diagnostic disable-next-line: missing-fields
+local cache = {
+   resource = currentResourceName
+}
+
 vx = setmetatable({
    name = 'vx_lib',
-   context = context
+   context = context,
+   cache = cache
 }, {
    __newindex = function(self, key, fn)
       rawset(self, key, fn)
@@ -57,12 +64,6 @@ vx = setmetatable({
       end
    end
 })
-
----@type VxCache
----@diagnostic disable-next-line: missing-fields
-vx.cache = {
-   resource = currentResourceName
-}
 
 function isResourceStarted(resourceName)
    local state = GetResourceState(resourceName)
