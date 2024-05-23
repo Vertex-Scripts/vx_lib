@@ -11,9 +11,9 @@ local frameworkResourceMap = {
 }
 
 local inventoryResourceMap = {
+   es_extended = "es_extended",
    ox_inventory = "ox_inventory",
    qb_inventory = "qb_inventory",
-   es_extended = "es_extended",
    qs_inventory = "qs_inventory"
 }
 

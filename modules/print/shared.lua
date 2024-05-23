@@ -1,3 +1,4 @@
+local logLevel = GetConvarInt("vx:logLevel", 3)
 local levels = {
    "^1[ERROR]",
    "^3[WARN]",
@@ -22,7 +23,7 @@ local function replaceFunctions(table)
 end
 
 local function log(level, ...)
-   if level > 3 then
+   if level > logLevel then
       return
    end
 
