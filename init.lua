@@ -81,9 +81,6 @@ local target = export:getTarget()
 
 local vx = setmetatable({
    name = "vx_lib",
-   cache = {
-      resource = resourceName
-   },
    systems = {
       framework = framework,
       inventory = inventory,
