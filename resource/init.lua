@@ -79,6 +79,10 @@ function getLibrary(value, map)
       return value
    end
 
+   if map == targetResourceMap and isResourceStarted("ox_target") then
+      return "ox_target"
+   end
+
    for system, resourceName in pairs(map) do
       if isResourceStarted(resourceName) then
          return system
