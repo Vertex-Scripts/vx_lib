@@ -7,7 +7,7 @@
 function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
    vx.requestModel(model)
 
-   local ped = CreatePed(type, model, coords.x, coords.y, coords.z, header, isNetwork or false, bScriptHostPed or false)
+   local ped = CreatePed(type, model, coords.x, coords.y, coords.z, heading, isNetwork or false, bScriptHostPed or false)
    return ped
 end
 
