@@ -4,13 +4,13 @@ local isOpen, oldText = false, ""
 function vx.showTextUI(text, options)
    if textUiSystem == "ox" then
       if not isOpen then
-         TriggerEvent("ox_lib:showTextUi", text, options)
-         isOpen = true
+         exports.ox_lib:showTextUI(text, options)
+         isOpen = true 
          oldText = text
       end
    elseif textUiSystem == "esx" then
       local type = options and options.type or "info"
-      
+
       if not isOpen then
          TriggerEvent("ESX:TextUI", text, type)
          isOpen = true
@@ -32,7 +32,7 @@ end
 function vx.hideTextUI()
    if textUiSystem == "ox" then
       if isOpen then
-         TriggerEvent("ox_lib:hideTextUI")
+         exports.ox_lib:hideTextUI()
          isOpen = false
       end
    elseif textUiSystem == "esx" then
