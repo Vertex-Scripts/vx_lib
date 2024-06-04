@@ -10,6 +10,7 @@ function vx.showTextUI(text, options)
       end
    elseif textUiSystem == "esx" then
       local type = options and options.type or "info"
+      
       if not isOpen then
          TriggerEvent("ESX:TextUI", text, type)
          isOpen = true
