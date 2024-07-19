@@ -11,6 +11,7 @@ client_scripts {
 
 shared_scripts {
    "resource/init.lua",
+   "resource/**/shared.lua"
 }
 
 files {

@@ -28,7 +28,7 @@ function vx.notify(options)
       error("TODO")
    elseif notifySystem == "custom" then
       error("TODO")
-   elseif notifySyste == "auto" then
+   elseif notifySystem == "auto" then
       error("TODO")
    else
       error(("invalid notification system in vx:notifySystem expected 'ox', 'esx', 'qb', or 'custom' (received %s)")
