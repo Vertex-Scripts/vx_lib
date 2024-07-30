@@ -131,7 +131,7 @@ function VxPlayer:getJob()
 end
 
 -- TODO: Implement for QB
-function vx.player.getGroup()
+function VxPlayer:getGroup()
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
          ---@type ExtendedPlayer
