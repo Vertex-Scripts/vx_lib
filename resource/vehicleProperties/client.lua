@@ -1,6 +1,3 @@
----@diagnostic disable: param-type-mismatch
-vx.vehicle = {}
-
 ---@param vehicle number
 function vx.getVehicleProperties(vehicle)
    if not DoesEntityExist(vehicle) then
