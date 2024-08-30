@@ -16,10 +16,6 @@ function vx.player.getIdentifierFromSource(source, keepPrefix, forcedType)
    return identifier
 end
 
----------------
--- getFromId --
----------------
-
 VxPlayer = {}
 VxPlayer.__index = VxPlayer
 
@@ -41,7 +37,7 @@ function VxPlayer:new(source)
 end
 
 ---@param keepPrefix? boolean
----@param type? string
+---@param type? IdentifierType
 function VxPlayer:getIdentifier(keepPrefix, type)
    local identifierType = type or primaryIdentifier or "license"
    local identifier = GetPlayerIdentifierByType(tostring(this.source), identifierType)
@@ -72,6 +68,7 @@ function VxPlayer:addAccountMoney(account, amount, reason)
    caller()
 end
 
+-- TODO: Implement for QB
 ---@param account AccountType
 ---@param amount number
 ---@param reason? string

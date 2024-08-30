@@ -1,3 +1,11 @@
+---@alias IdentifierType
+---| '"steam"'
+---| '"license"'
+---| '"xbl"'
+---| '"live"'
+---| '"discord"'
+---| '"ip"'
+
 ---@alias Framework
 ---| '"ESX"'
 ---| '"QB"'
