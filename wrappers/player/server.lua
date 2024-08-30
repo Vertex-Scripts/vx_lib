@@ -91,6 +91,7 @@ end
 
 -- TODO: Implement for QB
 ---@param account AccountType
+---@return number
 function VxPlayer:getAccountMoney(account)
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
@@ -126,6 +127,7 @@ function VxPlayer:setJob(name, grade)
 end
 
 -- TODO: Test if it works for QB
+---@return string
 function VxPlayer:getJob()
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
@@ -143,6 +145,7 @@ function VxPlayer:getJob()
 end
 
 -- TODO: Implement for QB
+---@return string
 function VxPlayer:getGroup()
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
