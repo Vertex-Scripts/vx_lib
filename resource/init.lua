@@ -13,13 +13,13 @@ local frameworkResourceMap = {
 local inventoryResourceMap = {
    es_extended = "es_extended",
    ox_inventory = "ox_inventory",
-   qb_inventory = "qb_inventory",
+   qb_inventory = "qb-inventory",
    qs_inventory = "qs_inventory"
 }
 
 local targetResourceMap = {
    ox_target = "ox_target",
-   qb_target = "qb_target",
+   qb_target = "qb-target",
    qtarget = "qtarget"
 }
 
@@ -67,12 +67,14 @@ vx = setmetatable({
 
 function isResourceStarted(resourceName)
    local state = GetResourceState(resourceName)
+
    return state == "started"
 end
 
 function getLibrary(value, map)
    if value ~= "auto" then
       local resourceName = map[value]
+      print(resourceName, value, json.encode(map))
       if not isResourceStarted(resourceName) then
          error(("Resource '%s' is not started"):format(value))
       end
