@@ -40,7 +40,7 @@ end
 ---@param type? IdentifierType
 function VxPlayer:getIdentifier(keepPrefix, type)
    local identifierType = type or primaryIdentifier or "license"
-   local identifier = GetPlayerIdentifierByType(tostring(this.source), identifierType)
+   local identifier = GetPlayerIdentifierByType(tostring(self.source), identifierType)
    if not keepPrefix then
       identifier = identifier:gsub(identifierType .. ":", "")
    end
