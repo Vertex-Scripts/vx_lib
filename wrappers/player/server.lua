@@ -5,6 +5,7 @@ vx.player = {}
 ---@param source number|string
 ---@param keepPrefix? boolean
 ---@param forcedType? string
+---@deprecated
 function vx.player.getIdentifierFromSource(source, keepPrefix, forcedType)
    local identifierType = forcedType or primaryIdentifier or "license"
    local identifier = GetPlayerIdentifierByType(tostring(source), identifierType)
@@ -34,7 +35,21 @@ function VxPlayer:new(source)
    })
 
    player.frameworkPlayer = getFrameworkPlayer()
+   player.source = source
+
    return player
+end
+
+---@param keepPrefix? boolean
+---@param type? string
+function VxPlayer:getIdentifier(keepPrefix, type)
+   local identifierType = type or primaryIdentifier or "license"
+   local identifier = GetPlayerIdentifierByType(tostring(this.source), identifierType)
+   if not keepPrefix then
+      identifier = identifier:gsub(identifierType .. ":", "")
+   end
+
+   return identifier
 end
 
 ---@param account AccountType
