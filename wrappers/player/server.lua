@@ -102,7 +102,7 @@ function VxPlayer:setJob(name, grade)
       ["ESX"] = function()
          ---@type ExtendedPlayer
          local xPlayer = self.frameworkPlayer
-         xPlayer.setJob(name, grade or 0)
+         xPlayer.setJob(name, tostring(grade) or "0")
       end,
       ["QB"] = function()
          local player = QBCore.Functions.GetPlayer(source)
