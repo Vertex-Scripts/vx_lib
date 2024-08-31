@@ -2,7 +2,7 @@
 ---@field content? string
 ---@field username? string
 ---@field avatar_url? string
----@field embeds WebhookEmbed[]
+---@field embeds? WebhookEmbed[]
 
 ---@class WebhookEmbed
 ---@field title? string
@@ -11,7 +11,6 @@
 ---@field color? number
 ---@field fields? { name: string, value: string, inline: boolean }[]
 
-
 ---@param url string
 ---@param params WebhookParams
 function vx.sendWebhook(url, params)
@@ -19,15 +18,15 @@ function vx.sendWebhook(url, params)
       return
    end
 
-   local body = json.encode(params)
-   local headers = { ['Content-Type'] = 'application/json' }
+   local response = vx.sendHttpRequest(url, {
+      method = "POST",
+      body = json.encode(params),
+      headers = { ['Content-Type'] = 'application/json' }
+   })
 
-   PerformHttpRequest(url, function(statusCode, t, _)
-      if statusCode ~= 204 then
-         -- TODO
-         print(statusCode, t)
-      end
-   end, 'POST', body, headers)
+   if not response.ok then
+      vx.print.warn("Failed to send webhook", response.errorText)
+   end
 end
 
 return vx.sendWebhook
