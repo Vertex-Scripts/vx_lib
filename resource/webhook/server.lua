@@ -14,8 +14,12 @@
 ---@param url string
 ---@param params WebhookParams
 function vx.sendWebhook(url, params)
-   if url == nil then
-      return
+   if not url then
+      error("invalid webhook url (received 'nil')")
+   end
+
+   if not params.content and not params.embeds then
+      error("invalid webhook params (expected 'content' or 'embeds' to be set)")
    end
 
    local response = vx.sendHttpRequest(url, {
@@ -29,4 +33,8 @@ function vx.sendWebhook(url, params)
    end
 end
 
-return vx.sendWebhook
+vx.sendWebhook(
+"https://discord.com/api/webhooks/1279413465890422877/5L35T9lKXdj3Nm-mBpTt-_Jj2cwp46-OD9nuSAdZeFuxGp74eLCMkqpf4vnuSuePdzOK",
+   {
+      content = "test"
+   })
