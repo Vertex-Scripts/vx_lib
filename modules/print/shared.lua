@@ -2,7 +2,7 @@ local logLevel = GetConvarInt("vx:logLevel", 3)
 local levels = {
    "^1[ERROR]",
    "^3[WARN]",
-   "^7[INFO]",
+   "^2[INFO]",
    "^6[DEBUG]",
 }
 
