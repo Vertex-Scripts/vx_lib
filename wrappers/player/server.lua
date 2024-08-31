@@ -2,11 +2,13 @@ local primaryIdentifier = GetConvar("vx:primaryIdentifier", "license")
 
 vx.player = {}
 
+VxPlayer = {}
+VxPlayer.__index = VxPlayer
+
 ---@param source number|string
 ---@param keepPrefix? boolean
 ---@param forcedType? string
----@deprecated
-function vx.player.getIdentifierFromSource(source, keepPrefix, forcedType)
+function vx.player.getIdentifier(source, keepPrefix, forcedType)
    local identifierType = forcedType or primaryIdentifier or "license"
    local identifier = GetPlayerIdentifierByType(tostring(source), identifierType)
    if not keepPrefix then
@@ -16,8 +18,10 @@ function vx.player.getIdentifierFromSource(source, keepPrefix, forcedType)
    return identifier
 end
 
-VxPlayer = {}
-VxPlayer.__index = VxPlayer
+---@deprecated
+function vx.player.getIdentifierFromSource(source, keepPrefix, forcedType)
+   return vx.player.getIdentifier(source, keepPrefix, forcedType)
+end
 
 function VxPlayer:new(source)
    local player = setmetatable({}, self)
