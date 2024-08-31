@@ -34,9 +34,3 @@ function vx.sendWebhook(url, params)
 
    return response
 end
-
-vx.sendWebhook(
-   "https://discord.com/api/webhooks/1279413465890422877/5L35T9lKXdj3Nm-mBpTt-_Jj2cwp46-OD9nuSAdZeFuxGp74eLCMkqpf4vnuSuePdzOK",
-   {
-      content = "test"
-   })
