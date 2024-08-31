@@ -80,7 +80,7 @@ function getLibrary(type, value, map)
       if value ~= "auto" then
          local resourceName = map[value]
          if not doesResourceExist(resourceName) then
-            error(("Resource '%s' is not started"):format(value))
+            error(("Resource '%s' does not exist"):format(value))
          end
 
          return value
@@ -95,6 +95,8 @@ function getLibrary(type, value, map)
             return system
          end
       end
+
+      error(("Failed to auto detect system for %s"):format(type))
    end
 
    local result = findLibrary()
