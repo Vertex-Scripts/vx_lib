@@ -1,4 +1,7 @@
-function vx.requireMinimumVersion(resource, requiredVersion)
+---@param resource string
+---@param requiredVersion string
+---@param printMessage? boolean
+function vx.requireMinimumVersion(resource, requiredVersion, printMessage)
    local currentVersion = GetResourceMetadata(resource, "version", 0)
    currentVersion = currentVersion and currentVersion:match("%d+%.%d+%.%d+") or "unknown"
 
@@ -26,9 +29,13 @@ function vx.requireMinimumVersion(resource, requiredVersion)
       local current = cv[i] or 0
       local required = rv[i] or 0
       if current < required then
-         vx.print.error(("^1%s requires version '%s' of '%s' (current version: %s)^0"):format(
-            GetInvokingResource() or GetCurrentResourceName(), requiredVersion, resource, currentVersion))
-         return false
+         local message = ("^1%s requires version '%s' of '%s' (current version: %s)^0"):format(
+            GetInvokingResource() or GetCurrentResourceName(), requiredVersion, resource, currentVersion)
+         if printMessage then
+            vx.print.error(message)
+         end
+
+         return false, message
       elseif current > required then
          break
       end
