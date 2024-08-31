@@ -1,7 +1,7 @@
 ---@param resource string
 ---@param requiredVersion string
 ---@param printMessage? boolean
-function vx.requireMinimumVersion(resource, requiredVersion, printMessage)
+function vx.checkDependency(resource, requiredVersion, printMessage)
    local currentVersion = GetResourceMetadata(resource, "version", 0)
    currentVersion = currentVersion and currentVersion:match("%d+%.%d+%.%d+") or "unknown"
 
@@ -42,4 +42,12 @@ function vx.requireMinimumVersion(resource, requiredVersion, printMessage)
    end
 
    return false
+end
+
+---@param resource string
+---@param requiredVersion string
+---@param printMessage? boolean
+---@deprecated
+function vx.requireMinimumVersion(resource, requiredVersion, printMessage)
+   return vx.checkDependency(resource, requiredVersion, printMessage)
 end
