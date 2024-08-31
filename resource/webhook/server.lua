@@ -29,12 +29,14 @@ function vx.sendWebhook(url, params)
    })
 
    if not response.ok then
-      vx.print.warn("Failed to send webhook", response.errorText)
+      vx.print.warn(("Failed to send webhook (status %s)"):format(response.status))
    end
+
+   return response
 end
 
 vx.sendWebhook(
-"https://discord.com/api/webhooks/1279413465890422877/5L35T9lKXdj3Nm-mBpTt-_Jj2cwp46-OD9nuSAdZeFuxGp74eLCMkqpf4vnuSuePdzOK",
+   "https://discord.com/api/webhooks/1279413465890422877/5L35T9lKXdj3Nm-mBpTt-_Jj2cwp46-OD9nuSAdZeFuxGp74eLCMkqpf4vnuSuePdzOK",
    {
       content = "test"
    })
