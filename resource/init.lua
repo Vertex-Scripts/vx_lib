@@ -74,7 +74,6 @@ end
 function getLibrary(value, map)
    if value ~= "auto" then
       local resourceName = map[value]
-      print(resourceName, value, json.encode(map))
       if not isResourceStarted(resourceName) then
          error(("Resource '%s' is not started"):format(value))
       end
@@ -109,9 +108,9 @@ local function initializeFramework(framework)
    end
 end
 
-local framework = getLibrary(frameworkSystem, frameworkResourceMap) or error("Failed to auto detect framework")
-local inventory = getLibrary(inventorySystem, inventoryResourceMap) or error("Failed to auto detect inventory")
-local target = getLibrary(targetSystem, targetResourceMap) or error("Failed to auto detect target")
+local framework = getLibrary(frameworkSystem, frameworkResourceMap) or error("Failed to get framework.")
+local inventory = getLibrary(inventorySystem, inventoryResourceMap) or error("Failed to get inventory")
+local target = getLibrary(targetSystem, targetResourceMap) or error("Failed to get target")
 initializeFramework(framework)
 
 exports("getFramework", function() return framework end)

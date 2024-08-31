@@ -1,3 +1,11 @@
+---@alias IdentifierType
+---| '"steam"'
+---| '"license"'
+---| '"xbl"'
+---| '"live"'
+---| '"discord"'
+---| '"ip"'
+
 ---@alias Framework
 ---| '"ESX"'
 ---| '"QB"'
@@ -5,13 +13,13 @@
 
 ---@alias TargetSystem
 ---| '"ox_target"'
----| '"qb-target"'
+---| '"qb_target"'
 ---| '"qtarget"'
 ---| '"auto"'
 
 ---@alias InventorySystem
 ---| '"ox_inventory"'
----| '"qb-inventory"'
+---| '"qb_inventory"'
 ---| '"es_extended"'
 ---| '"qs-inventory"'
 ---| '"auto"'

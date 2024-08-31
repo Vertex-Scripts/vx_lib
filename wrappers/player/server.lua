@@ -2,10 +2,13 @@ local primaryIdentifier = GetConvar("vx:primaryIdentifier", "license")
 
 vx.player = {}
 
+VxPlayer = {}
+VxPlayer.__index = VxPlayer
+
 ---@param source number|string
 ---@param keepPrefix? boolean
 ---@param forcedType? string
-function vx.player.getIdentifierFromSource(source, keepPrefix, forcedType)
+function vx.player.getIdentifier(source, keepPrefix, forcedType)
    local identifierType = forcedType or primaryIdentifier or "license"
    local identifier = GetPlayerIdentifierByType(tostring(source), identifierType)
    if not keepPrefix then
@@ -15,12 +18,10 @@ function vx.player.getIdentifierFromSource(source, keepPrefix, forcedType)
    return identifier
 end
 
----------------
--- getFromId --
----------------
-
-VxPlayer = {}
-VxPlayer.__index = VxPlayer
+---@deprecated
+function vx.player.getIdentifierFromSource(source, keepPrefix, forcedType)
+   return vx.player.getIdentifier(source, keepPrefix, forcedType)
+end
 
 function VxPlayer:new(source)
    local player = setmetatable({}, self)
@@ -34,7 +35,21 @@ function VxPlayer:new(source)
    })
 
    player.frameworkPlayer = getFrameworkPlayer()
+   player.source = source
+
    return player
+end
+
+---@param keepPrefix? boolean
+---@param type? IdentifierType
+function VxPlayer:getIdentifier(keepPrefix, type)
+   local identifierType = type or primaryIdentifier or "license"
+   local identifier = GetPlayerIdentifierByType(tostring(self.source), identifierType)
+   if not keepPrefix then
+      identifier = identifier:gsub(identifierType .. ":", "")
+   end
+
+   return identifier
 end
 
 ---@param account AccountType
@@ -57,6 +72,7 @@ function VxPlayer:addAccountMoney(account, amount, reason)
    caller()
 end
 
+-- TODO: Implement for QB
 ---@param account AccountType
 ---@param amount number
 ---@param reason? string
@@ -79,6 +95,7 @@ end
 
 -- TODO: Implement for QB
 ---@param account AccountType
+---@return number
 function VxPlayer:getAccountMoney(account)
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
@@ -102,7 +119,7 @@ function VxPlayer:setJob(name, grade)
       ["ESX"] = function()
          ---@type ExtendedPlayer
          local xPlayer = self.frameworkPlayer
-         xPlayer.setJob(name, grade or 0)
+         xPlayer.setJob(name, tostring(grade) or "0")
       end,
       ["QB"] = function()
          local player = QBCore.Functions.GetPlayer(source)
@@ -114,6 +131,7 @@ function VxPlayer:setJob(name, grade)
 end
 
 -- TODO: Test if it works for QB
+---@return string
 function VxPlayer:getJob()
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
@@ -131,6 +149,7 @@ function VxPlayer:getJob()
 end
 
 -- TODO: Implement for QB
+---@return string
 function VxPlayer:getGroup()
    local caller = vx.caller.createFrameworkCaller({
       ["ESX"] = function()
