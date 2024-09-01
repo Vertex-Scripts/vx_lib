@@ -81,7 +81,7 @@ end
 local function logLibrary(type, value, map)
    local isStarted = map and isResourceStarted(map[value]) or true
    if context == "server" then
-      print(("Using %s: ^2%s ^1%s^0"):format(type, value, not isStarted and "(Not started)" or ""))
+      vx.print.info(("Using %s: ^2%s ^1%s^0"):format(type, value, not isStarted and "(Not started)" or ""))
    end
 end
 
