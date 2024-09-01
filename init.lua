@@ -11,7 +11,6 @@ local frameworkResourceMap = {
 local framework = export:getFramework()
 local inventory = export:getInventory()
 local target = export:getTarget()
-local notify = export:getNotify()
 
 local function loadResourceFile(root, module)
    local dir = ("%s/%s"):format(root, module)

@@ -24,7 +24,7 @@ local targetResourceMap = {
    ["qtarget"] = "qtarget"
 }
 
-local notifyMap = { "esx", "qb", "ox", "vx", "custom" }
+local notifyMap = { "esx", "qb", "ox", "custom" }
 
 ---@type VxCache
 ---@diagnostic disable-next-line: missing-fields
