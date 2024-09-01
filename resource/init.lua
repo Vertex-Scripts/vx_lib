@@ -59,23 +59,22 @@ vx = setmetatable({
          end
 
          rawset(self, key, fn() or function() end)
-
          return self[key]
       end
    end
 })
 
-function doesResourceExist(resourceName)
+local function doesResourceExist(resourceName)
    local state = GetResourceState(resourceName)
    return state ~= "missing"
 end
 
-function isResourceStarted(resourceName)
+local function isResourceStarted(resourceName)
    local state = GetResourceState(resourceName)
    return state == "started"
 end
 
-function getLibrary(type, value, map)
+local function getLibrary(type, value, map)
    function findLibrary()
       if value ~= "auto" then
          local resourceName = map[value]
@@ -123,6 +122,8 @@ local inventory = getLibrary("inventory", inventorySystem, inventoryResourceMap)
 local target = getLibrary("target", targetSystem, targetResourceMap)
 initializeFramework(framework)
 
-exports("getFramework", function() return framework end)
-exports("getInventory", function() return inventory end)
-exports("getTarget", function() return target end)
+function vx.getFramework() return framework end
+
+function vx.getInventory() return inventory end
+
+function vx.getTarget() return target end
