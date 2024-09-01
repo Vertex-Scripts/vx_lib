@@ -105,13 +105,15 @@ local function getLibrary(type, value, map)
             return system
          end
       end
-
-      error(("Failed to auto detect system for %s"):format(type))
    end
 
    local result = findLibrary()
-   logLibrary(type, result, map)
+   if not result then
+      logLibrary(type, "None")
+      return
+   end
 
+   logLibrary(type, result, map)
    return result
 end
 
