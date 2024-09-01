@@ -20,8 +20,8 @@ end
 
 local function addItem_qs(source, item, count)
    local caller = vx.caller.createFrameworkCaller({
-      ["ESX"] = addItem_esx,
-      ["QB"] = addItem_qb
+      ["esx"] = addItem_esx,
+      ["qb"] = addItem_qb
    })
 
    return caller(source, item, count)
@@ -62,8 +62,8 @@ end
 -- QS Inventory also works with the framework istelf
 local function removeItem_qs(source, item, count)
    local caller = vx.caller.createFrameworkCaller({
-      ["ESX"] = removeItem_esx,
-      ["QB"] = removeItem_qb
+      ["esx"] = removeItem_esx,
+      ["qb"] = removeItem_qb
    })
 
    return caller(source, item, count)
@@ -109,8 +109,8 @@ end
 -- QS Inventory also works with the framework istelf
 local function getItemCount_qs(source, item)
    local caller = vx.caller.createFrameworkCaller({
-      ["ESX"] = getItemCount_esx,
-      ["QB"] = getItemCount_qb
+      ["esx"] = getItemCount_esx,
+      ["qb"] = getItemCount_qb
    })
 
    return caller(source, item)

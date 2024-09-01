@@ -4,13 +4,14 @@ local export = exports["vx_lib"]
 local intervals = {}
 
 local frameworkResourceMap = {
-   ["ESX"] = "es_extended",
-   ["QB"] = "qb-core"
+   ["esx"] = "es_extended",
+   ["qb"] = "qb-core"
 }
 
 local framework = export:getFramework()
 local inventory = export:getInventory()
 local target = export:getTarget()
+local notify = export:getNotify()
 
 local function loadResourceFile(root, module)
    local dir = ("%s/%s"):format(root, module)
@@ -67,10 +68,9 @@ end
 
 local function initializeFramework(framework)
    local frameworkResourceName = frameworkResourceMap[framework]
-
-   if framework == "ESX" then
+   if framework == "esx" then
       _ENV.ESX = exports[frameworkResourceName]:getSharedObject()
-   elseif framework == "QB" then
+   elseif framework == "qb" then
       _ENV.QBCore = exports[frameworkResourceName]:GetCoreObject()
 
       RegisterNetEvent(("QBCore:%s:UpdateObject"):format(context), function()
