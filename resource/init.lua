@@ -101,6 +101,8 @@ local function getLibrary(type, value, map)
    local result = findLibrary()
    local isStarted = isResourceStarted(map[result])
    print(("Using %s: ^2%s ^1%s^0"):format(type, result, not isStarted and "(Not started)" or ""))
+
+   return result
 end
 
 local function initializeFramework(framework)
