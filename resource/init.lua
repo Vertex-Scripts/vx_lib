@@ -80,7 +80,9 @@ end
 ---@param map? table<any, any>
 local function logLibrary(type, value, map)
    local isStarted = map and isResourceStarted(map[value]) or true
-   print(("Using %s: ^2%s ^1%s^0"):format(type, value, not isStarted and "(Not started)" or ""))
+   if context == "server" then
+      print(("Using %s: ^2%s ^1%s^0"):format(type, value, not isStarted and "(Not started)" or ""))
+   end
 end
 
 local function getLibrary(type, value, map)
