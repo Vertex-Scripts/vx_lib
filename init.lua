@@ -8,6 +8,10 @@ local frameworkResourceMap = {
    ["QB"] = "qb-core"
 }
 
+local framework = export:getFramework()
+local inventory = export:getInventory()
+local target = export:getTarget()
+
 local function loadResourceFile(root, module)
    local dir = ("%s/%s"):format(root, module)
    local chunk = LoadResourceFile("vx_lib", ("%s/%s.lua"):format(dir, context))
@@ -19,7 +23,7 @@ end
 local function loadModule(self, module)
    local dir, chunk, shared = loadResourceFile("modules", module)
    if not chunk and not shared then
-      dir, chunk, shared = loadResourceFile("wrappers", module)
+      dir, chunk, shared = loadResourceFile("bridge", module)
    end
 
    if shared then
@@ -75,10 +79,6 @@ local function initializeFramework(framework)
    end
 end
 
-local framework = export:getFramework()
-local inventory = export:getInventory()
-local target = export:getTarget()
-
 local vx = setmetatable({
    name = "vx_lib",
    systems = {
@@ -108,8 +108,6 @@ vx.cache = setmetatable({
       return rawget(self, key)
    end or nil,
 })
-
-initializeFramework(framework)
 
 ---@param callback function | number
 ---@param interval? number
@@ -161,3 +159,4 @@ end
 
 _ENV.vx = vx
 require = vx.require
+initializeFramework(framework)

@@ -10,7 +10,7 @@ function vx.checkDependency(resource, requiredVersion, printMessage)
       return false
    end
 
-   if currentVersion == requiredVersion then
+   if currentVersion >= requiredVersion then
       return true
    end
 

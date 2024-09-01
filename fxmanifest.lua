@@ -22,7 +22,7 @@ files {
    "modules/**/client.lua",
    "modules/**/shared.lua",
 
-   "wrappers/**/client.lua",
+   "bridge/**/client.lua",
 
    "init.lua",
 }
