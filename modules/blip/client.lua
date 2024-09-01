@@ -15,7 +15,7 @@ vx.blip = {}
 ---@class AreaBlipOptions : BlipOptions
 ---@field area vector2
 
----@class AreaBlipOptions : BlipOptions
+---@class RadiusBlipOptions : BlipOptions
 ---@field radius number
 
 ---@param blip integer
@@ -61,7 +61,7 @@ function vx.blip.addBlipForArea(options)
    return blip
 end
 
----@param options AreaBlipOptions
+---@param options RadiusBlipOptions
 ---@return integer
 function vx.blip.addBlipForRadius(options)
    local blip = AddBlipForRadius(options.coords.x, options.coords.y, options.coords.z, options.radius)
