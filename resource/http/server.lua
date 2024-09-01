@@ -12,7 +12,6 @@
 ---@field body? any
 ---@field headers? table<string, any>
 
----@generic T
 ---@param url string
 ---@param options? VxHttpOptions
 ---@return VxHttpResponse
