@@ -1,10 +1,20 @@
-local logLevel = GetConvarInt("vx:logLevel", 3)
+local logLevels = {
+   error = 1,
+   warn = 2,
+   info = 3,
+   verbose = 4,
+   debug = 5,
+}
+
 local levels = {
    "^1[ERROR]",
    "^3[WARN]",
-   "^7[INFO]",
+   "^2[INFO]",
+   '^4[VERBOSE]',
    "^6[DEBUG]",
 }
+
+local logLevel = logLevels[GetConvar("vx:logLevel", "info")] or logLevels.info
 
 local function replaceFunctions(table)
    local result = {}

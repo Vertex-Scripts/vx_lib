@@ -26,10 +26,10 @@ end
 function VxPlayer:new(source)
    local player = setmetatable({}, self)
    local getFrameworkPlayer = vx.caller.createFrameworkCaller({
-      ["ESX"] = function()
+      ["esx"] = function()
          return ESX.GetPlayerFromId(source)
       end,
-      ["QB"] = function()
+      ["qb"] = function()
          return QBCore.Functions.GetPlayer(source)
       end
    })
@@ -57,12 +57,12 @@ end
 ---@param reason? string
 function VxPlayer:addAccountMoney(account, amount, reason)
    local caller = vx.caller.createFrameworkCaller({
-      ["ESX"] = function()
+      ["esx"] = function()
          ---@type ExtendedPlayer
          local xPlayer = self.frameworkPlayer
          xPlayer.addAccountMoney(account, amount, reason or "")
       end,
-      ["QB"] = function()
+      ["qb"] = function()
          local player = self.frameworkPlayer
          local moneyType = account == "money" and "cash" or "bank"
          player.Functions.AddMoney(moneyType, amount, reason or "")
@@ -78,12 +78,12 @@ end
 ---@param reason? string
 function VxPlayer:removeAccountMoney(account, amount, reason)
    local caller = vx.caller.createFrameworkCaller({
-      ["ESX"] = function()
+      ["esx"] = function()
          ---@type ExtendedPlayer
          local xPlayer = self.frameworkPlayer
          xPlayer.removeAccountMoney(account, amount, reason or "")
       end,
-      -- ["QB"] = function()
+      -- ["qb"] = function()
       --    local player = self.frameworkPlayer
       --    local moneyType = account == "money" and "cash" or "bank"
       --    player.Functions.AddMoney(moneyType, amount, reason or "")
@@ -98,12 +98,12 @@ end
 ---@return number
 function VxPlayer:getAccountMoney(account)
    local caller = vx.caller.createFrameworkCaller({
-      ["ESX"] = function()
+      ["esx"] = function()
          ---@type ExtendedPlayer
          local xPlayer = self.frameworkPlayer
          return xPlayer.getAccount(account)?.money or 0
       end,
-      -- ["QB"] = function()
+      -- ["qb"] = function()
       --    local player = QBCore.Functions.GetPlayer(source)
       --    return player.PlayerData.job.name
       -- end
@@ -116,12 +116,12 @@ end
 ---@param grade? number
 function VxPlayer:setJob(name, grade)
    local caller = vx.caller.createFrameworkCaller({
-      ["ESX"] = function()
+      ["esx"] = function()
          ---@type ExtendedPlayer
          local xPlayer = self.frameworkPlayer
          xPlayer.setJob(name, tostring(grade) or "0")
       end,
-      ["QB"] = function()
+      ["qb"] = function()
          local player = QBCore.Functions.GetPlayer(source)
          player.Functions.SetJob(name, grade or 0)
       end
@@ -134,12 +134,12 @@ end
 ---@return string
 function VxPlayer:getJob()
    local caller = vx.caller.createFrameworkCaller({
-      ["ESX"] = function()
+      ["esx"] = function()
          ---@type ExtendedPlayer
          local xPlayer = self.frameworkPlayer
          return xPlayer.job.name
       end,
-      ["QB"] = function()
+      ["qb"] = function()
          local player = QBCore.Functions.GetPlayer(source)
          return player.PlayerData.job.name
       end
@@ -152,12 +152,12 @@ end
 ---@return string
 function VxPlayer:getGroup()
    local caller = vx.caller.createFrameworkCaller({
-      ["ESX"] = function()
+      ["esx"] = function()
          ---@type ExtendedPlayer
          local xPlayer = self.frameworkPlayer
          return xPlayer.getGroup()
       end,
-      -- ["QB"] = function()
+      -- ["qb"] = function()
       --    local player = QBCore.Functions.GetPlayer(source)
       --    return player.PlayerData.group
       -- end

@@ -7,8 +7,8 @@
 ---| '"ip"'
 
 ---@alias Framework
----| '"ESX"'
----| '"QB"'
+---| '"esx"'
+---| '"qb"'
 ---| '"auto"'
 
 ---@alias TargetSystem

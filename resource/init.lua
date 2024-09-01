@@ -4,24 +4,27 @@ local currentResourceName = GetCurrentResourceName()
 local frameworkSystem = GetConvar("vx:framework", "auto")
 local inventorySystem = GetConvar("vx:inventory", "auto")
 local targetSystem = GetConvar("vx:target", "auto")
+local notifySystem = GetConvar("vx:notification", "auto")
 
 local frameworkResourceMap = {
-   ESX = "es_extended",
-   QB = "qb-core"
+   ["esx"] = "es_extended",
+   ["qb"] = "qb-core"
 }
 
 local inventoryResourceMap = {
-   es_extended = "es_extended",
-   ox_inventory = "ox_inventory",
-   qb_inventory = "qb-inventory",
-   qs_inventory = "qs_inventory"
+   ["es_extended"] = "es_extended",
+   ["ox_inventory"] = "ox_inventory",
+   ["qb-inventory"] = "qb-inventory",
+   ["qs_inventory"] = "qs_inventory"
 }
 
 local targetResourceMap = {
-   ox_target = "ox_target",
-   qb_target = "qb-target",
-   qtarget = "qtarget"
+   ["ox_target"] = "ox_target",
+   ["qb-target"] = "qb-target",
+   ["qtarget"] = "qtarget"
 }
+
+local notifyMap = { "esx", "qb", "ox", "custom" }
 
 ---@type VxCache
 ---@diagnostic disable-next-line: missing-fields
@@ -59,47 +62,67 @@ vx = setmetatable({
          end
 
          rawset(self, key, fn() or function() end)
-
          return self[key]
       end
    end
 })
 
-function isResourceStarted(resourceName)
+local function doesResourceExist(resourceName)
    local state = GetResourceState(resourceName)
+   return state ~= "missing"
+end
 
+local function isResourceStarted(resourceName)
+   local state = GetResourceState(resourceName)
    return state == "started"
 end
 
-function getLibrary(value, map)
-   if value ~= "auto" then
-      local resourceName = map[value]
-      if not isResourceStarted(resourceName) then
-         error(("Resource '%s' is not started"):format(value))
+---@param map? table<any, any>
+local function logLibrary(type, value, map)
+   local isStarted = map and isResourceStarted(map[value]) or true
+   if context == "server" then
+      print(("Using %s: ^2%s ^1%s^0"):format(type, value, not isStarted and "(Not started)" or ""))
+   end
+end
+
+local function getLibrary(type, value, map)
+   function findLibrary()
+      if value ~= "auto" then
+         local resourceName = map[value]
+         if not doesResourceExist(resourceName) then
+            error(("Resource '%s' does not exist"):format(value))
+         end
+
+         return value
       end
 
-      return value
-   end
+      if map == targetResourceMap and doesResourceExist("ox_target") then
+         return "ox_target"
+      end
 
-   if map == targetResourceMap and isResourceStarted("ox_target") then
-      return "ox_target"
-   end
-
-   for system, resourceName in pairs(map) do
-      if isResourceStarted(resourceName) then
-         return system
+      for system, resourceName in pairs(map) do
+         if doesResourceExist(resourceName) then
+            return system
+         end
       end
    end
 
-   return nil
+   local result = findLibrary()
+   if not result then
+      logLibrary(type, "None")
+      return
+   end
+
+   logLibrary(type, result, map)
+   return result
 end
 
 local function initializeFramework(framework)
    local frameworkResourceName = frameworkResourceMap[framework]
 
-   if framework == "ESX" then
+   if framework == "esx" then
       ESX = exports[frameworkResourceName]:getSharedObject()
-   elseif framework == "QB" then
+   elseif framework == "qb" then
       QBCore = exports[frameworkResourceName]:GetCoreObject()
 
       RegisterNetEvent(("QBCore:%s:UpdateObject"):format(context), function()
@@ -108,15 +131,33 @@ local function initializeFramework(framework)
    end
 end
 
-local framework = getLibrary(frameworkSystem, frameworkResourceMap) or error("Failed to get framework.")
-local inventory = getLibrary(inventorySystem, inventoryResourceMap) or error("Failed to get inventory")
-local target = getLibrary(targetSystem, targetResourceMap) or error("Failed to get target")
+local function isValidNotifySystem(notify)
+   for _, ns in pairs(notifyMap) do
+      if ns == notify then
+         return true
+      end
+   end
+
+   return false
+end
+
+local framework = getLibrary("framework", frameworkSystem, frameworkResourceMap)
+local inventory = getLibrary("inventory", inventorySystem, inventoryResourceMap)
+local target = getLibrary("target", targetSystem, targetResourceMap)
+
+local notify = notifySystem == "auto" and framework or notifySystem
+if not isValidNotifySystem(notify) then
+   error(("Invalid notification system in vx:notifySystem expected 'ox', 'esx', 'qb', 'vx' or 'custom' (received %s)")
+      :format(notify))
+end
+
+logLibrary("notify", notify)
 initializeFramework(framework)
 
-exports("getFramework", function() return framework end)
-exports("getInventory", function() return inventory end)
-exports("getTarget", function() return target end)
+function vx.getFramework() return framework end
 
-vx.print.info("Using framework", framework)
-vx.print.info("Using inventory", inventory)
-vx.print.info("Using target", target)
+function vx.getInventory() return inventory end
+
+function vx.getTarget() return target end
+
+function vx.getNotify() return notify end
