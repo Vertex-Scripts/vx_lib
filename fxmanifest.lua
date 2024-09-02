@@ -3,7 +3,7 @@ game "gta5"
 lua54 "yes"
 
 author "Vertex Scripts"
-version "1.1.1"
+version "1.1.2"
 
 server_scripts {
    "resource/**/server.lua"
