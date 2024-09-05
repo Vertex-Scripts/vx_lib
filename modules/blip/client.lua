@@ -54,7 +54,7 @@ end
 
 ---@param options AreaBlipOptions
 ---@return integer
-function vx.blip.addBlipForArea(options)
+function vx.blip.addForArea(options)
    local blip = AddBlipForArea(options.coords.x, options.coords.y, options.coords.z, options.area.x, options.area.y)
    vx.blip.applyOptions(blip, options)
 
@@ -63,7 +63,7 @@ end
 
 ---@param options RadiusBlipOptions
 ---@return integer
-function vx.blip.addBlipForRadius(options)
+function vx.blip.addForRadius(options)
    local blip = AddBlipForRadius(options.coords.x, options.coords.y, options.coords.z, options.radius)
    vx.blip.applyOptions(blip, options)
 
