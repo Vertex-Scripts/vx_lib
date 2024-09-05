@@ -27,6 +27,7 @@
 ---@alias AccountType
 ---| '"bank"'
 ---| '"money"'
+---| '"black_money"'
 
 ---@alias NotificationSystem
 ---| '"ox"'
