@@ -11,5 +11,9 @@ You can configure the following settings in your `server.cfg`:
 - `vx:logLevel` - The log level to use. `error`, `warn`, `info`, `verbose` or `debug` (default: `info`)
 - `vx:notification` - The notification system to use. `ox`, `esx`, `qb`, or `custom`.
 
+## TODO
+- Add inventory methods to the player class
+- Return abstracted return values for the inventory bridge
+
 ## Contribution
 Any type of contribution is greatly appreciated!
