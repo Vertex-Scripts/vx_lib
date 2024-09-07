@@ -4,8 +4,8 @@ vx.inventory = {}
 -- addItem --
 -------------
 
-local function addItem_ox(source, item, count)
-   exports.ox_inventory:AddItem(source, item, count)
+local function addItem_ox(source, item, count, metadata)
+   exports.ox_inventory:AddItem(source, item, count, metadata)
 end
 
 local function addItem_esx(source, item, count)
@@ -27,10 +27,12 @@ local function addItem_qs(source, item, count)
    return caller(source, item, count)
 end
 
+---@todo Add metadata support for other inventory systems
 ---@param source number
 ---@param item string
 ---@param count? number
-function vx.inventory.addItem(source, item, count)
+---@param metadata? table
+function vx.inventory.addItem(source, item, count, metadata)
    local caller = vx.caller.createInventoryCaller({
       ["ox_inventory"] = addItem_ox,
       ["es_extended"] = addItem_esx,
@@ -38,7 +40,7 @@ function vx.inventory.addItem(source, item, count)
       ["qs-inventory"] = addItem_qs
    })
 
-   return caller(source, item, count or 1)
+   return caller(source, item, count or 1, metadata)
 end
 
 ----------------
