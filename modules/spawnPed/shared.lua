@@ -8,7 +8,8 @@ local isServerSide = IsDuplicityVersion()
 ---@param bScriptHostPed? boolean
 function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
    local function spawnPed()
-      return CreatePed(type, model, coords.x, coords.y, coords.z, heading, isNetwork or false, bScriptHostPed or false)
+      return CreatePed(type, model, coords.x, coords.y, coords.z, heading, isServerSide and true or (isNetwork or false),
+         bScriptHostPed or false)
    end
 
    if isServerSide then
@@ -24,7 +25,7 @@ function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
             Citizen.Wait(50)
          end
 
-         promise:resolve(NetworkGetNetworkIdFromEntity(ped))
+         promise:resolve(ped)
       end)
 
       return Citizen.Await(promise)
