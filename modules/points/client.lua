@@ -16,6 +16,7 @@
 local points = {}
 ---@type Point[]
 local nearbyPoints = {}
+local intervals = {}
 local nearbyCount = 0
 ---@type Point?
 local closestPoint

@@ -1,7 +1,6 @@
 local resourceName = GetCurrentResourceName()
 local context = IsDuplicityVersion() and "server" or "client"
 local export = exports["vx_lib"]
-local intervals = {}
 
 local frameworkResourceMap = {
    ["esx"] = "es_extended",
