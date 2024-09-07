@@ -7,21 +7,32 @@ local targetSystem = GetConvar("vx:target", "auto")
 local notifySystem = GetConvar("vx:notification", "auto")
 
 local frameworkResourceMap = {
-   ["esx"] = "es_extended",
-   ["qb"] = "qb-core"
+   primary = {
+      ["esx"] = "es_extended",
+      ["qb"] = "qb-core"
+   },
+   secondary = {}
 }
 
 local inventoryResourceMap = {
-   ["es_extended"] = "es_extended",
-   ["ox_inventory"] = "ox_inventory",
-   ["qb-inventory"] = "qb-inventory",
-   ["qs_inventory"] = "qs_inventory"
+   primary = {
+      ["ox_inventory"] = "ox_inventory",
+      ["qs_inventory"] = "qs_inventory",
+   },
+   secondary = {
+      ["es_extended"] = "es_extended",
+      ["qb-inventory"] = "qb-inventory",
+   }
 }
 
 local targetResourceMap = {
-   ["ox_target"] = "ox_target",
-   ["qb-target"] = "qb-target",
-   ["qtarget"] = "qtarget"
+   primary = {
+      ["ox_target"] = "ox_target",
+   },
+   secondary = {
+      ["qb-target"] = "qb-target",
+      ["qtarget"] = "qtarget"
+   }
 }
 
 local notifyMap = { "esx", "qb", "ox", "custom" }
@@ -85,10 +96,18 @@ local function logLibrary(type, value, map)
    end
 end
 
-local function getLibrary(type, value, map)
+local function getLibrary(type, value, maps)
+   function validResourcesInMap(map)
+      for system, resourceName in pairs(map) do
+         if doesResourceExist(resourceName) then
+            return system
+         end
+      end
+   end
+
    function findLibrary()
       if value ~= "auto" then
-         local resourceName = map[value]
+         local resourceName = maps.primary[value] or maps.secondary[value]
          if not doesResourceExist(resourceName) then
             error(("Resource '%s' does not exist"):format(value))
          end
@@ -96,14 +115,9 @@ local function getLibrary(type, value, map)
          return value
       end
 
-      if map == targetResourceMap and doesResourceExist("ox_target") then
-         return "ox_target"
-      end
-
-      for system, resourceName in pairs(map) do
-         if doesResourceExist(resourceName) then
-            return system
-         end
+      local autoDetectedResource = validResourcesInMap(maps.primary) or validResourcesInMap(maps.secondary)
+      if autoDetectedResource then
+         return autoDetectedResource
       end
    end
 
@@ -118,8 +132,7 @@ local function getLibrary(type, value, map)
 end
 
 local function initializeFramework(framework)
-   local frameworkResourceName = frameworkResourceMap[framework]
-
+   local frameworkResourceName = frameworkResourceMap.primary[framework] or frameworkResourceMap.secondary[framework]
    if framework == "esx" then
       ESX = exports[frameworkResourceName]:getSharedObject()
    elseif framework == "qb" then
