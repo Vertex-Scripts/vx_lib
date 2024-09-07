@@ -11,7 +11,8 @@ function vx.createVehicle(model, coords, heading, isNetwork, netMissionEntity)
    end
 
    local function createVehicle()
-      return CreateVehicle(model, coords.x, coords.y, coords.z, heading, isNetwork or false, netMissionEntity or false)
+      return CreateVehicle(model, coords.x, coords.y, coords.z, heading, isServerSide and true or (isNetwork or false),
+         netMissionEntity or false)
    end
 
    if isServerSide then
@@ -23,7 +24,7 @@ function vx.createVehicle(model, coords, heading, isNetwork, netMissionEntity)
             Citizen.Wait(50)
          end
 
-         promise:resolve(NetworkGetNetworkIdFromEntity(vehicle))
+         promise:resolve(vehicle)
       end)
 
       return Citizen.Await(promise)
@@ -33,8 +34,8 @@ function vx.createVehicle(model, coords, heading, isNetwork, netMissionEntity)
       return 0
    end
 
-   local ped = createVehicle()
-   return ped
+   local vehicle = createVehicle()
+   return vehicle
 end
 
 return vx.createVehicle
