@@ -89,7 +89,7 @@ end
 -- getItemCount --
 ------------------
 
-local function getItemCount_ox(source, item)
+local function getItemCount_ox(source, item, metadata)
    local result = exports.ox_inventory:Search(source, 'count', item)
    return result
 end
@@ -118,9 +118,11 @@ local function getItemCount_qs(source, item)
    return caller(source, item)
 end
 
+---@todo Add metadata support for other inventory systems
 ---@param source number
 ---@param item string
-function vx.inventory.getItemCount(source, item)
+---@param metadata? table
+function vx.inventory.getItemCount(source, item, metadata)
    local caller = vx.caller.createInventoryCaller({
       ["ox_inventory"] = getItemCount_ox,
       ["es_extended"] = getItemCount_esx,
@@ -128,7 +130,7 @@ function vx.inventory.getItemCount(source, item)
       ["qs-inventory"] = getItemCount_qs,
    })
 
-   return caller(source, item)
+   return caller(source, item, metadata)
 end
 
 -------------
