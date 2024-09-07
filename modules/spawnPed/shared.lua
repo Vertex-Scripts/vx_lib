@@ -32,7 +32,7 @@ function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
    end
 
    if not vx.streaming.requestModel(model) then
-      return 0
+      return nil
    end
 
    local ped = spawnPed()

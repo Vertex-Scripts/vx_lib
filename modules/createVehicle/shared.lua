@@ -31,7 +31,7 @@ function vx.createVehicle(model, coords, heading, isNetwork, netMissionEntity)
    end
 
    if not vx.streaming.requestModel(model) then
-      return 0
+      return nil
    end
 
    local vehicle = createVehicle()
