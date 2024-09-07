@@ -1,5 +1,11 @@
 local isServerSide = IsDuplicityVersion()
 
+local function waitForEntity(entity)
+   while not DoesEntityExist(entity) do
+      Citizen.Wait(50)
+   end
+end
+
 ---@param type number
 ---@param model string|number
 ---@param coords vector3
@@ -12,23 +18,13 @@ function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
          bScriptHostPed or false)
    end
 
+   if type(model) == "string" then
+      model = joaat(model)
+   end
+
    if isServerSide then
-      if type(model) == "string" then
-         model = joaat(model)
-      end
-
       local ped = spawnPed()
-      local promise = promise.new()
-
-      CreateThread(function()
-         while not DoesEntityExist(ped) do
-            Citizen.Wait(50)
-         end
-
-         promise:resolve(ped)
-      end)
-
-      return Citizen.Await(promise)
+      return waitForEntity(ped)
    end
 
    if not vx.streaming.requestModel(model) then
