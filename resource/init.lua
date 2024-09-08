@@ -57,14 +57,12 @@ vx = setmetatable({
       local dir = ('modules/%s'):format(key)
       local chunk = LoadResourceFile(self.name, ('%s/%s.lua'):format(dir, self.context))
       local shared = LoadResourceFile(self.name, ('%s/shared.lua'):format(dir))
-
       if shared then
          chunk = (chunk and ('%s\n%s'):format(shared, chunk)) or shared
       end
 
       if chunk then
          local fn, err = load(chunk, ('@@vx_lib/%s/%s.lua'):format(key, self.context))
-
          if not fn or err then
             return error(('\n^1Error importing module (%s): %s^0'):format(dir, err), 3)
          end
@@ -75,14 +73,19 @@ vx = setmetatable({
    end
 })
 
+---@param resourceName string
+---@param expectedState "missing" | "started" | "stopped" | "starting" | "stopping"
+local function isResourceState(resourceName, expectedState)
+   local state = GetResourceState(resourceName) == state
+   return state == expectedState
+end
+
 local function doesResourceExist(resourceName)
-   local state = GetResourceState(resourceName)
-   return state ~= "missing"
+   return isResourceState(resourceName, "missing")
 end
 
 local function isResourceStarted(resourceName)
-   local state = GetResourceState(resourceName)
-   return state == "started"
+   return isResourceState(resourceName, "started")
 end
 
 ---@param map? table<any, any>
