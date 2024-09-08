@@ -1,23 +1,17 @@
 ---@param model number | string
+---@param timeout? number
 ---@return number?
-function vx.requestModel(model)
-   model = tonumber(model) or joaat(model)
-
-   ---@cast model -string
+function vx.requestModel(model, timeout)
+   if type(model) ~= "number" then model = joaat(model) end
    if HasModelLoaded(model) then
       return model
    end
 
-   if not IsModelValid(model) then
+   if not IsModelValid(model) and not IsModelInCdimage(model) then
       return error(("attempted to load invalid model '%s'"):format(model))
    end
 
-   RequestModel(model)
-   while not HasModelLoaded(model) do
-      Citizen.Wait(0)
-   end
-
-   return model
+   return vx.streamingRequest(RequestModel, HasModelLoaded, "model", model, timeout)
 end
 
 return vx.requestModel

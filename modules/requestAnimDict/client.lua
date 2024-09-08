@@ -1,16 +1,16 @@
 ---@param dict string
+---@param timeout number?
 ---@return string
-function vx.requestAnimDict(dict)
+function vx.requestAnimDict(dict, timeout)
    if HasAnimDictLoaded(animDict) then
       return dict
    end
 
-   RequestAnimDict(animDict)
-   while not HasAnimDictLoaded(animDict) do
-      Citizen.Wait(0)
+   if not DoesAnimDictExist(animDict) then
+      error(("attempted to load invalid animDict '%s'"):format(animDict))
    end
 
-   return dict
+   return vx.streamingRequest(RequestAnimDict, HasAnimDictLoaded, "animDict", animDict, timeout)
 end
 
 return vx.requestAnimDict

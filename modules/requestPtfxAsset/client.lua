@@ -5,12 +5,7 @@ function vx.requestPtfxAsset(asset)
       return asset
    end
 
-   RequestNamedPtfxAsset(assetName)
-   while not HasNamedPtfxAssetLoaded(assetName) do
-      Citizen.Wait(0)
-   end
-
-   return asset
+   return vx.streamingRequest(RequestNamedPtfxAsset, HasNamedPtfxAssetLoaded, "ptfxAsset", asset, timeout)
 end
 
 return vx.requestPtfxAsset

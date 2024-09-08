@@ -1,16 +1,12 @@
 ---@param set string
+---@param timeout number?
 ---@return string
-function vx.requestAnimSet(set)
+function vx.requestAnimSet(set, timeout)
    if HasAnimSetLoaded(animSet) then
       return set
    end
 
-   RequestAnimSet(animSet)
-   while not HasAnimSetLoaded(animSet) do
-      Citizen.Wait(0)
-   end
-
-   return set
+   return vx.streamingRequest(RequestAnimSet, HasAnimSetLoaded, "animSet", set, timeout)
 end
 
 return vx.requestAnimSet
