@@ -2,7 +2,7 @@ local notifySystem = GetConvar("vx:notification", "auto")
 local notifyMap = { "esx", "qb", "ox", "custom" }
 local notify = notifySystem == "auto" and vx.getFramework() or notifySystem
 
-local function isValidNotifySystem()
+local function isValidNotify()
    for _, ns in pairs(notifyMap) do
       if ns == notify then
          return true
@@ -12,8 +12,8 @@ local function isValidNotifySystem()
    return false
 end
 
-if not isValidNotifySystem() then
-   error(("Invalid notification system in vx:notifySystem expected 'ox', 'esx', 'qb', 'vx' or 'custom' (received %s)")
+if not isValidNotify() then
+   error(("Invalid notification system in vx:notification expected 'ox', 'esx', 'qb' or 'custom' (received %s)")
       :format(notify))
 end
 
@@ -43,5 +43,3 @@ function vx.notify(options)
       end,
    })()
 end
-
-return vx.notify

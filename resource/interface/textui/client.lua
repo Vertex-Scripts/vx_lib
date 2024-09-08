@@ -1,50 +1,51 @@
-local textUiSystem = GetConvar("vx:textui", "auto")
-local isOpen, oldText = false, ""
+local textUiSystem = GetConvar("vx:textUi", "auto")
+local textUiMap = { "esx", "qb", "ox", "custom" }
 
-function vx.showTextUI(text, options)
-   if textUiSystem == "ox" then
-      if not isOpen then
-         exports.ox_lib:showTextUI(text, options)
-         isOpen = true 
-         oldText = text
-      end
-   elseif textUiSystem == "esx" then
-      local type = options and options.type or "info"
+local function detectTextUi()
+   if textUiSystem ~= "auto" then return textUiSystem end
+   if GetResourceState("ox_lib") ~= "missing" then return "ox" end
+   if GetResourceState("es_extended") ~= "missing" then return "esx" end
+   if GetResourceState("qb-core") ~= "missing" then return "qb" end
 
-      if not isOpen then
-         TriggerEvent("ESX:TextUI", text, type)
-         isOpen = true
-         oldText = text
-      end
-   elseif textUiSystem == "custom" then
-      error("TODO")
-   elseif textUiSystem == "auto" then
-      error("TODO")
-   else
-      error(("invalid textui system in vx:textui expected 'ox' or 'custom' (received %s)"):format(textUiSystem))
-   end
+   return "custom"
 end
 
-function vx.isTextUIOpen()
-   return isOpen, oldText
+local textUi = detectTextUi()
+
+local function isValidTextUi()
+   for _, ns in pairs(textUiMap) do
+      if ns == textUi then
+         return true
+      end
+   end
+
+   return false
 end
 
-function vx.hideTextUI()
-   if textUiSystem == "ox" then
-      if isOpen then
-         exports.ox_lib:hideTextUI()
-         isOpen = false
+if not isValidTextUi() then
+   error(("Invalid textUi system in vx:textUi expected 'ox', 'esx', 'qb', 'vx' or 'custom' (received %s)")
+      :format(textUi))
+end
+
+---@todo Implement for others
+function vx.showTextUi(text)
+   vx.caller.create(textUi, {
+      ["ox"] = function()
+         lib.showTextUI(text)
       end
-   elseif textUiSystem == "esx" then
-      if isOpen then
-         TriggerEvent("ESX:HideUI")
-         isOpen = false
-      end
-   elseif textUiSystem == "custom" then
-      error("TODO")
-   elseif textUiSystem == "auto" then
-      error("TODO")
-   else
-      error(("invalid textui system in vx:textui expected 'ox' or 'custom' (received %s)"):format(textUiSystem))
-   end
+      -- ["esx"] = function()
+      --    ESX.ShowNotification(options.message, options.type, options.duration)
+      -- end,
+      -- ["qb"] = function()
+      --    QBCore.Functions.Notify(options.message, options.type, options.duration)
+      -- end,
+      -- ["ox"] = function()
+      --    TriggerEvent("ox_lib:notify", {
+      --       title = options.title,
+      --       description = options.message,
+      --       type = options.type,
+      --       duration = options.duration
+      --    })
+      -- end,
+   })()
 end
