@@ -14,6 +14,7 @@ client_scripts {
 }
 
 shared_scripts {
+   "loader.lua",
    "resource/init.lua",
    "resource/**/shared.lua"
 }
@@ -24,5 +25,6 @@ files {
 
    "bridge/**/client.lua",
 
+   "loader.lua",
    "init.lua",
 }

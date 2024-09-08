@@ -11,42 +11,19 @@ local framework = export:getFramework()
 local inventory = export:getInventory()
 local target = export:getTarget()
 
-local function loadResourceFile(root, module)
-   local dir = ("%s/%s"):format(root, module)
-   local chunk = LoadResourceFile("vx_lib", ("%s/%s.lua"):format(dir, context))
-   local shared = LoadResourceFile("vx_lib", ("%s/shared.lua"):format(dir))
-
-   return root, chunk, shared
+local moduleLoaderFile = LoadResourceFile("vx_lib", "loader.lua")
+local loadModuleLoader, err = load(moduleLoaderFile)
+if not loadModuleLoader or err then
+   error(("Failed to load module loader: %s"):format(err))
 end
 
-local function loadModule(self, module)
-   local dir, chunk, shared = loadResourceFile("modules", module)
-   if not chunk and not shared then
-      dir, chunk, shared = loadResourceFile("bridge", module)
-   end
-
-   if shared then
-      chunk = (chunk and ("%s\n%s"):format(shared, chunk)) or shared
-   end
-
-   if chunk then
-      local fn, err = load(chunk, ("@@vx_lib/%s/%s/%s.lua"):format(dir, module, context))
-      if not fn or err then
-         return error(("Failed to load module %s: %s"):format(module, err))
-      end
-
-      local result = fn()
-      self[module] = result
-
-      return self[module]
-   end
-end
+loadModuleLoader()
 
 local function call(self, index, ...)
    local module = rawget(self, index)
    if not module then
       self[index] = noop
-      module = loadModule(self, index)
+      module = vx_loadModule(self, index)
 
       if not module then
          local function method(...)
@@ -95,7 +72,7 @@ vx.cache = setmetatable({
 })
 
 _ENV.vx = vx
-require = vx.require
+_ENV.require = vx.require
 
 local frameworkResourceName = frameworkResourceMap[framework]
 if framework == "esx" then
