@@ -1,4 +1,5 @@
 local isServerSide = IsDuplicityVersion()
+local getType = type
 
 local function waitForEntity(entity)
    while not DoesEntityExist(entity) do
@@ -18,7 +19,7 @@ function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
          bScriptHostPed or false)
    end
 
-   if type(model) == "string" then
+   if getType(model) == "string" then
       model = joaat(model)
    end
 
@@ -27,7 +28,7 @@ function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
       return waitForEntity(ped)
    end
 
-   if not vx.streaming.requestModel(model) then
+   if not vx.requestModel(model) then
       return nil
    end
 
