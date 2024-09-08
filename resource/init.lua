@@ -76,12 +76,12 @@ vx = setmetatable({
 ---@param resourceName string
 ---@param expectedState "missing" | "started" | "stopped" | "starting" | "stopping"
 local function isResourceState(resourceName, expectedState)
-   local state = GetResourceState(resourceName) == state
+   local state = GetResourceState(resourceName)
    return state == expectedState
 end
 
 local function doesResourceExist(resourceName)
-   return isResourceState(resourceName, "missing")
+   return not isResourceState(resourceName, "missing")
 end
 
 local function isResourceStarted(resourceName)

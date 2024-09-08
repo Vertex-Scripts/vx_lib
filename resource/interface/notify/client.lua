@@ -1,6 +1,16 @@
 local notifySystem = GetConvar("vx:notification", "auto")
 local notifyMap = { "esx", "qb", "ox", "custom" }
-local notify = notifySystem == "auto" and vx.getFramework() or notifySystem
+
+local function detectNotify()
+   if notifySystem ~= "auto" then return notifySystem end
+   if GetResourceState("ox_lib") ~= "missing" then return "ox" end
+   if GetResourceState("es_extended") ~= "missing" then return "esx" end
+   if GetResourceState("qb-core") ~= "missing" then return "qb" end
+
+   return "custom"
+end
+
+local notify = detectNotify()
 
 local function isValidNotify()
    for _, ns in pairs(notifyMap) do
