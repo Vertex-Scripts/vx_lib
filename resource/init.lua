@@ -147,6 +147,19 @@ local target = getLibrary("target", targetSystem, targetResourceMap)
 
 initializeFramework(framework)
 
+if doesResourceExist("ox_lib") then
+   local oxInit = LoadResourceFile("ox_lib", "init.lua")
+   local loadOx, err = load(oxInit)
+   if not loadOx or err then
+      vx.print.info(("Failed to load ox_lib (%s)"):format(err))
+   else
+      loadOx()
+      if context == "server" then
+         vx.print.info("Successfully loaded ox_lib")
+      end
+   end
+end
+
 function vx.getFramework() return framework end
 
 function vx.getInventory() return inventory end
