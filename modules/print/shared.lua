@@ -58,7 +58,8 @@ vx.print = {
    error = function(...) log(1, ...) end,
    warn = function(...) log(2, ...) end,
    info = function(...) log(3, ...) end,
-   debug = function(...) log(4, ...) end,
+   verbose = function(...) log(4, ...) end,
+   debug = function(...) log(5, ...) end,
 }
 
 return vx.print
