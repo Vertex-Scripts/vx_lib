@@ -44,7 +44,7 @@ function vx.notify(options)
          QBCore.Functions.Notify(options.message, options.type, options.duration)
       end,
       ["ox"] = function()
-         TriggerEvent("ox_lib:notify", {
+         lib.notify({
             title = options.title,
             description = options.message,
             type = options.type,
