@@ -26,7 +26,7 @@ function vx.createVehicle(model, coords, heading, isNetwork, netMissionEntity)
       return waitForEntity(vehicle)
    end
 
-   if not vx.streaming.requestModel(model) then
+   if not vx.requestModel(model) then
       return nil
    end
 
