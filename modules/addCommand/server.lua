@@ -7,6 +7,7 @@
 
 ---@class CommandProperties
 ---@field help string?
+---@field name? string
 ---@field params CommandParams[]?
 ---@field restricted boolean | string | string[]?
 
