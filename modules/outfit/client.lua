@@ -28,7 +28,7 @@ function vx.outfit.save(ped)
 end
 
 ---@param variations Variation[]
----@---@param ped number?
+---@param ped number?
 function vx.outfit.set(variations, ped)
    ped = ped or PlayerPedId()
    for i = 1, numVariations do
