@@ -7,9 +7,12 @@ function vx.isControlInteractedWith(func, key, padIndex)
    padIndex = padIndex or 0
    vx.typeCheck("key", key, { "string", "number" })
 
-   local keyCode = type(key) == "string" and vx.keybinds[key] or key
-   ---@cast keyCode number
+   local keyCode = key
+   if type(keyCode) == "string" then
+      keyCode = vx.keybinds[keyCode]
+   end
 
+   ---@cast keyCode number
    if not keyCode then
       error(("Invalid key '%s'"):format(key), 2)
    end
