@@ -4,7 +4,6 @@ local currentResourceName = GetCurrentResourceName()
 local frameworkSystem = GetConvar("vx:framework", "auto")
 local inventorySystem = GetConvar("vx:inventory", "auto")
 local targetSystem = GetConvar("vx:target", "auto")
-local notifySystem = GetConvar("vx:notification", "auto")
 
 local frameworkResourceMap = {
    primary = {
@@ -34,8 +33,6 @@ local targetResourceMap = {
       ["qtarget"] = "qtarget"
    }
 }
-
-local notifyMap = { "esx", "qb", "ox", "custom" }
 
 ---@type VxCache
 ---@diagnostic disable-next-line: missing-fields
@@ -144,27 +141,10 @@ local function initializeFramework(framework)
    end
 end
 
-local function isValidNotifySystem(notify)
-   for _, ns in pairs(notifyMap) do
-      if ns == notify then
-         return true
-      end
-   end
-
-   return false
-end
-
 local framework = getLibrary("framework", frameworkSystem, frameworkResourceMap)
 local inventory = getLibrary("inventory", inventorySystem, inventoryResourceMap)
 local target = getLibrary("target", targetSystem, targetResourceMap)
 
-local notify = notifySystem == "auto" and framework or notifySystem
-if not isValidNotifySystem(notify) then
-   error(("Invalid notification system in vx:notifySystem expected 'ox', 'esx', 'qb', 'vx' or 'custom' (received %s)")
-      :format(notify))
-end
-
-logLibrary("notify", notify)
 initializeFramework(framework)
 
 function vx.getFramework() return framework end
@@ -172,5 +152,3 @@ function vx.getFramework() return framework end
 function vx.getInventory() return inventory end
 
 function vx.getTarget() return target end
-
-function vx.getNotify() return notify end
