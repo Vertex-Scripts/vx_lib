@@ -6,6 +6,7 @@ function vx.requestTextureDict(dict, timeout)
       return dict
    end
 
+   vx.typeCheck("dict", dict, "string")
    return vx.streamingRequest(RequestStreamedTextureDict, HasStreamedTextureDictLoaded, "textureDict", dict, timeout)
 end
 

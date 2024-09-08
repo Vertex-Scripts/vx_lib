@@ -10,6 +10,7 @@ function vx.requestAnimDict(dict, timeout)
       error(("attempted to load invalid animDict '%s'"):format(animDict))
    end
 
+   vx.typeCheck("animDict", animDict, "string")
    return vx.streamingRequest(RequestAnimDict, HasAnimDictLoaded, "animDict", animDict, timeout)
 end
 

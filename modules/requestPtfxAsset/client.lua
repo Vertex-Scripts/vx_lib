@@ -5,6 +5,7 @@ function vx.requestPtfxAsset(asset)
       return asset
    end
 
+   vx.typeCheck("asset", asset, "string")
    return vx.streamingRequest(RequestNamedPtfxAsset, HasNamedPtfxAssetLoaded, "ptfxAsset", asset, timeout)
 end
 

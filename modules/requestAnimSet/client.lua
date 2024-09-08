@@ -1,12 +1,13 @@
----@param set string
+---@param animSet string
 ---@param timeout number?
 ---@return string
-function vx.requestAnimSet(set, timeout)
+function vx.requestAnimSet(animSet, timeout)
    if HasAnimSetLoaded(animSet) then
       return set
    end
 
-   return vx.streamingRequest(RequestAnimSet, HasAnimSetLoaded, "animSet", set, timeout)
+   vx.typeCheck("animSet", animSet, "string")
+   return vx.streamingRequest(RequestAnimSet, HasAnimSetLoaded, "animSet", animSet, timeout)
 end
 
 return vx.requestAnimSet
