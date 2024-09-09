@@ -11,7 +11,6 @@ local function detectTextUi()
 end
 
 local textUi = detectTextUi()
-
 local function isValidTextUi()
    for _, ns in pairs(textUiMap) do
       if ns == textUi then
@@ -27,25 +26,35 @@ if not isValidTextUi() then
       :format(textUi))
 end
 
----@todo Implement for others
-function vx.showTextUi(text)
+---@todo Implement for qb
+---@param text string
+---@param type? "success" | "error" | "info"
+function vx.showTextUi(text, type)
+   type = type or "info"
+
    vx.caller.create(textUi, {
       ["ox"] = function()
          lib.showTextUI(text)
-      end
-      -- ["esx"] = function()
-      --    ESX.ShowNotification(options.message, options.type, options.duration)
-      -- end,
+      end,
+      ["esx"] = function()
+         ESX.TextUI(text, type)
+      end,
       -- ["qb"] = function()
-      --    QBCore.Functions.Notify(options.message, options.type, options.duration)
+
       -- end,
-      -- ["ox"] = function()
-      --    TriggerEvent("ox_lib:notify", {
-      --       title = options.title,
-      --       description = options.message,
-      --       type = options.type,
-      --       duration = options.duration
-      --    })
+   })()
+end
+
+function vx.hideTextUi()
+   vx.caller.create(textUi, {
+      ["ox"] = function()
+         lib.hideTextUI()
+      end,
+      ["esx"] = function()
+         ESX.HideUI()
+      end,
+      -- ["qb"] = function()
+
       -- end,
    })()
 end
