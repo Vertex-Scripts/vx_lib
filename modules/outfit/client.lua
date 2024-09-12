@@ -7,8 +7,9 @@ vx.outfit = {}
 
 local numVariations = 12
 
-function vx.outfit.save()
-   local ped = PlayerPedId()
+---@param ped number?
+function vx.outfit.save(ped)
+   ped = ped or PlayerPedId()
    local variations = {}
 
    for i = 1, numVariations do
@@ -27,8 +28,9 @@ function vx.outfit.save()
 end
 
 ---@param variations Variation[]
-function vx.outfit.set(variations)
-   local ped = PlayerPedId()
+---@param ped number?
+function vx.outfit.set(variations, ped)
+   ped = ped or PlayerPedId()
    for i = 1, numVariations do
       local variation = variations[i]
       if variation then

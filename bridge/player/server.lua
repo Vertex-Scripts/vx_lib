@@ -52,7 +52,7 @@ function VxPlayer:getIdentifier(keepPrefix, type)
    return identifier
 end
 
----@param account AccountType
+---@param account AccountType | string
 ---@param amount number
 ---@param reason? string
 function VxPlayer:addAccountMoney(account, amount, reason)

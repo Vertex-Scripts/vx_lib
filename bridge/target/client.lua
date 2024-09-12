@@ -199,6 +199,19 @@ function vx.target.addLocalEntity(entities, options)
    return targetOptions
 end
 
+---@param entities number|number[]
+---@param options EntityTargetOptions
+function vx.target.removeLocalEntity(entities, options)
+   local targetOptions = convertOptions(options)
+   local caller = vx.caller.createTargetCaller({
+      ["ox_target"] = function() exports.ox_target:removeLocalEntity(entities, options.name) end,
+      -- ["qb-target"] = function () end,
+   })
+
+   caller()
+   return targetOptions
+end
+
 ---@param models string|string[]
 ---@param options TargetOptions
 function vx.target.addModel(models, options)

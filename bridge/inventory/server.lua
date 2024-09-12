@@ -4,8 +4,8 @@ vx.inventory = {}
 -- addItem --
 -------------
 
-local function addItem_ox(source, item, count)
-   exports.ox_inventory:AddItem(source, item, count)
+local function addItem_ox(source, item, count, metadata)
+   exports.ox_inventory:AddItem(source, item, count, metadata)
 end
 
 local function addItem_esx(source, item, count)
@@ -27,10 +27,12 @@ local function addItem_qs(source, item, count)
    return caller(source, item, count)
 end
 
+---@todo Add metadata support for other inventory systems
 ---@param source number
 ---@param item string
 ---@param count? number
-function vx.inventory.addItem(source, item, count)
+---@param metadata? table
+function vx.inventory.addItem(source, item, count, metadata)
    local caller = vx.caller.createInventoryCaller({
       ["ox_inventory"] = addItem_ox,
       ["es_extended"] = addItem_esx,
@@ -38,15 +40,15 @@ function vx.inventory.addItem(source, item, count)
       ["qs-inventory"] = addItem_qs
    })
 
-   return caller(source, item, count or 1)
+   return caller(source, item, count or 1, metadata)
 end
 
 ----------------
 -- removeItem --
 ----------------
 
-local function removeItem_ox(source, item, count)
-   exports.ox_inventory:RemoveItem(source, item, count)
+local function removeItem_ox(source, item, count, metadata)
+   exports.ox_inventory:RemoveItem(source, item, count, metadata)
 end
 
 local function removeItem_qb(source, item, count)
@@ -69,10 +71,12 @@ local function removeItem_qs(source, item, count)
    return caller(source, item, count)
 end
 
+---@todo Add metadata support for other inventory systems
 ---@param source number
 ---@param item string
 ---@param count? number
-function vx.inventory.removeItem(source, item, count)
+---@param metadata? table
+function vx.inventory.removeItem(source, item, count, metadata)
    local caller = vx.caller.createInventoryCaller({
       ["ox_inventory"] = removeItem_ox,
       ["es_extended"] = removeItem_esx,
@@ -80,14 +84,14 @@ function vx.inventory.removeItem(source, item, count)
       ["qs-inventory"] = removeItem_qs,
    })
 
-   return caller(source, item, count or 1)
+   return caller(source, item, count or 1, metadata)
 end
 
 ------------------
 -- getItemCount --
 ------------------
 
-local function getItemCount_ox(source, item)
+local function getItemCount_ox(source, item, metadata)
    local result = exports.ox_inventory:Search(source, 'count', item)
    return result
 end
@@ -116,9 +120,11 @@ local function getItemCount_qs(source, item)
    return caller(source, item)
 end
 
+---@todo Add metadata support for other inventory systems
 ---@param source number
 ---@param item string
-function vx.inventory.getItemCount(source, item)
+---@param metadata? table
+function vx.inventory.getItemCount(source, item, metadata)
    local caller = vx.caller.createInventoryCaller({
       ["ox_inventory"] = getItemCount_ox,
       ["es_extended"] = getItemCount_esx,
@@ -126,7 +132,7 @@ function vx.inventory.getItemCount(source, item)
       ["qs-inventory"] = getItemCount_qs,
    })
 
-   return caller(source, item)
+   return caller(source, item, metadata)
 end
 
 -------------
