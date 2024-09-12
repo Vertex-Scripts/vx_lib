@@ -12,7 +12,7 @@ function vx.streamingRequest(request, hasLoaded, assetType, asset, timeout, ...)
    end
 
    request(asset, ...)
-   lib.print.verbose(("Loading %s '%s' - remember to release it when done."):format(assetType, asset))
+   vx.print.verbose(("Loading %s '%s' - remember to release it when done."):format(assetType, asset))
 
    return vx.waitFor(function()
          if hasLoaded(asset) then
