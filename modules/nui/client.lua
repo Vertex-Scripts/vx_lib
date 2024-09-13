@@ -50,18 +50,18 @@ function vx.nui.createStore(name, defaultValue)
 end
 
 function vx.nui.onInitialized(func)
-   nui.registerCallback("initialized", function(_, cb)
+   vx.registerNuiCallback("initialized", function(_, cb)
       func()
       cb()
    end)
 end
 
-nui.registerCallback("getStoreValue", function(name, cb)
+vx.registerNuiCallback("getStoreValue", function(name, cb)
    local store = registeredStores[name]
    cb(store?.value)
 end)
 
-nui.registerCallback("setStoreValue", function(data, cb)
+vx.registerNuiCallback("setStoreValue", function(data, cb)
    local store = registeredStores[data.name]
    store:set(data.value)
 
