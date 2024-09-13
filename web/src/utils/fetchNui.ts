@@ -1,9 +1,9 @@
 import { getParentResourceName } from "./cef";
 
-export function fetchNui<T>(event: string, data?: T) {
+export async function fetchNui<T>(event: string, data?: T) {
   const resourceName = getParentResourceName();
   try {
-    fetch(`https://${resourceName}/${event}`, {
+    await fetch(`https://${resourceName}/${event}`, {
       method: "post",
       headers: {
         "Content-Type": "application/json; charset=UTF-8",

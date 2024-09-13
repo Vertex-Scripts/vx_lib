@@ -5,6 +5,8 @@ lua54 "yes"
 author "Vertex Scripts"
 version "1.2.1"
 
+ui_page "web/dist/index.html"
+
 server_scripts {
    "resource/**/server.lua",
    "resource/**/server/*.lua"
@@ -22,6 +24,9 @@ shared_scripts {
 }
 
 files {
+   "web/dist/index.html",
+   "web/dist/**/*",
+
    "modules/**/client.lua",
    "modules/**/shared.lua",
 
