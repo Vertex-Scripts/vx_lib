@@ -35,6 +35,7 @@ end
 ---@field type? "info" | "success" | "error"
 
 ---@param options NotificationOptions
+---@diagnostic disable-next-line: duplicate-set-field
 function vx.notify(options)
    vx.caller.create(notify, {
       ["esx"] = function()
@@ -53,3 +54,5 @@ function vx.notify(options)
       end,
    })()
 end
+
+RegisterNetEvent("vx_lib:notify", vx.notify)
