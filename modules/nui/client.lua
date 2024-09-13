@@ -1,7 +1,7 @@
 -- TODO: Needs testing
 
 vx.nui = {}
-vx.registerCallback = RegisterNUICallback
+vx.registerNuiCallback = RegisterNUICallback
 
 local registeredStores = {}
 
