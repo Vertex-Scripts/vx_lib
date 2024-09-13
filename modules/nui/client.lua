@@ -5,11 +5,9 @@ vx.registerNuiCallback = RegisterNUICallback
 
 local registeredStores = {}
 
+---@deprecated
 function vx.nui.sendAction(action, data)
-   SendNUIMessage({
-      action = action,
-      data = data
-   })
+   vx.sendNuiAction(action, data)
 end
 
 ---@generic T
