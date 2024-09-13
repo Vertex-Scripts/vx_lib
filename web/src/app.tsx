@@ -1,9 +1,9 @@
-import { Button } from "./components/ui/button";
+import DebugBackgroundImage from "./components/debugBackgroundImage";
 
 export default function App() {
   return (
-   <div>
-      <Button>Test</Button>
-   </div>
-  )
+    <>
+      <DebugBackgroundImage />
+    </>
+  );
 }
