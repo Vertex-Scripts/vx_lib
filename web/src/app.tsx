@@ -1,7 +1,9 @@
+import { Button } from "./components/ui/button";
+
 export default function App() {
   return (
    <div>
-      <button>Test</button>
+      <Button>Test</Button>
    </div>
   )
 }
