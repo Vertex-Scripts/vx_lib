@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { IoClose } from "react-icons/io5";
 import { useKeyListener } from "~/hooks/useKeyListener";
 import { useNuiEvent } from "~/hooks/useNuiEvent";
 import { ContextMenuProps } from "~/types/context";
@@ -14,6 +15,7 @@ debugEvent<ContextMenuProps>(
     action: "openContextMenu",
     data: {
       title: "Garage: Blokkenpark",
+      canClose: true,
       options: [
         {
           title: "Aventador",
@@ -26,10 +28,14 @@ debugEvent<ContextMenuProps>(
         {
           title: "Dodge",
         },
+        {
+          title: "Spark",
+          disabled: true,
+        },
       ],
     },
   },
-  1000,
+  100,
 );
 
 export default function ContextMenu() {
@@ -39,6 +45,9 @@ export default function ContextMenu() {
   });
 
   function closeContext() {
+    console.log("close", contextMenu.canClose);
+    if (contextMenu.canClose === false) return;
+
     setVisible(false);
     fetchNui("closeContextMenu");
   }
@@ -54,6 +63,7 @@ export default function ContextMenu() {
     setVisible(false);
   });
 
+  console.log(contextMenu.canClose);
   return (
     <>
       <motion.div
@@ -64,9 +74,22 @@ export default function ContextMenu() {
         // initial={{ opacity: 0 }}
         // animate={{ opacity: 1 }}
       >
-        <header className="bg-background py-2 text-center rounded-lg">
-          <h1 className="text-lg font-medium">{contextMenu.title}</h1>
-        </header>
+        <div className="flex gap-2">
+          <header className="bg-background py-2 text-center rounded-lg w-full">
+            <h1 className="text-lg font-medium">{contextMenu.title}</h1>
+          </header>
+
+          {contextMenu.canClose !== false && (
+            <div
+              className={
+                "bg-background rounded-lg px-4 font-medium cursor-pointer hover:bg-muted transition-colors flex items-center justify-center"
+              }
+              onClick={closeContext}
+            >
+              <IoClose className="w-6 h-6" />
+            </div>
+          )}
+        </div>
 
         <div className="flex flex-col gap-1 pt-4">
           {contextMenu.options?.map((option, i) => (

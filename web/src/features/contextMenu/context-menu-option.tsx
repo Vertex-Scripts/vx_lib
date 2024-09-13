@@ -1,6 +1,7 @@
 import { ContextOptions } from "~/types/context";
 import { isBrowser } from "~/utils/cef";
 import { fetchNui } from "~/utils/fetchNui";
+import { cn } from "~/utils/tw";
 
 export default function ContextMenuOption(props: {
   option: ContextOptions;
@@ -8,6 +9,8 @@ export default function ContextMenuOption(props: {
   hideContextMenu: () => void;
 }) {
   function onClick() {
+    if (props.option.disabled) return;
+
     if (!isBrowser()) {
       fetchNui("clickContextMenuOption", props.id);
       return;
@@ -18,7 +21,12 @@ export default function ContextMenuOption(props: {
 
   return (
     <div
-      className="p-3 bg-background rounded-lg px-5 font-medium cursor-pointer hover:bg-muted transition-colors"
+      className={cn(
+        "p-3 bg-background rounded-lg px-5 font-medium cursor-pointer hover:bg-muted transition-colors",
+        props.option.disabled
+          ? "bg-muted cursor-default text-foreground/50"
+          : "",
+      )}
       onClick={onClick}
     >
       <h1>{props.option.title}</h1>

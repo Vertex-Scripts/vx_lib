@@ -4,6 +4,7 @@ local openContextMenuId = nil
 ---@class VxContextMenu
 ---@field id string
 ---@field title? string
+---@field canClose? boolean
 ---@field onExit? fun()
 ---@field options? VxContextMenuOption[]
 
@@ -29,7 +30,8 @@ function vx.openContextMenu(id)
    vx.setNuiFocus()
    vx.sendNuiAction("openContextMenu", {
       title = menu.title,
-      options = menu.options
+      options = menu.options,
+      canClose = menu.canClose
    })
 end
 
