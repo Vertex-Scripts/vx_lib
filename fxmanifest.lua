@@ -6,11 +6,13 @@ author "Vertex Scripts"
 version "1.2.1"
 
 server_scripts {
-   "resource/**/server.lua"
+   "resource/**/server.lua",
+   "resource/**/server/*.lua"
 }
 
 client_scripts {
-   "resource/**/client.lua"
+   "resource/**/client.lua",
+   "resource/**/client/*.lua"
 }
 
 shared_scripts {
