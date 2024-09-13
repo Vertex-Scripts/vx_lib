@@ -53,3 +53,5 @@ function vx.notify(options)
       end,
    })()
 end
+
+RegisterNetEvent("vx_lib:notify", vx.notify)
