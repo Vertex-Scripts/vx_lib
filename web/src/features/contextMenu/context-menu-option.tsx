@@ -1,12 +1,19 @@
 import { ContextOptions } from "~/types/context";
+import { isBrowser } from "~/utils/cef";
 import { fetchNui } from "~/utils/fetchNui";
 
 export default function ContextMenuOption(props: {
   option: ContextOptions;
   id: number;
+  hideContextMenu: () => void;
 }) {
   function onClick() {
-    fetchNui("clickContextMenuOption", props.id);
+    if (!isBrowser()) {
+      fetchNui("clickContextMenuOption", props.id);
+      return;
+    }
+
+    props.hideContextMenu();
   }
 
   return (
