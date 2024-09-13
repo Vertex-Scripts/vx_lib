@@ -35,6 +35,7 @@ end
 ---@field type? "info" | "success" | "error"
 
 ---@param options NotificationOptions
+---@diagnostic disable-next-line: duplicate-set-field
 function vx.notify(options)
    vx.caller.create(notify, {
       ["esx"] = function()
