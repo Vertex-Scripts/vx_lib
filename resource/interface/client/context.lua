@@ -39,6 +39,7 @@ RegisterNUICallback("clickContextMenuOption", function(id, cb)
    cb(true)
    id += 1
 
+   ---@type VxContextMenu
    local menu = registeredMenus[openContextMenuId]
    local option = menu.options[id]
 
@@ -51,7 +52,7 @@ RegisterNUICallback("clickContextMenuOption", function(id, cb)
    end
 
    if option.onSelect then
-      option.onSelect()
+      option.onSelect(option.args)
    end
 end)
 
