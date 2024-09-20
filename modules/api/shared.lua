@@ -21,12 +21,18 @@ local function callApi(self, key)
 end
 
 function vx.api.createApi()
-   return setmetatable({}, {
+   return setmetatable({
+      context = currentContext
+   }, {
       __newindex = function(self, funcName, func)
          rawset(self, funcName, func)
 
          local callbackName = createCallbackName(currentContext, funcName)
          vx.callback.register(callbackName, function(source, ...)
+            if self.context == "client" then
+               return func(nil, source, ...)
+            end
+
             local arguments = { ... }
             if #arguments <= 0 then
                return func(source)
