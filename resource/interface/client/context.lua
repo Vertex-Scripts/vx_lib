@@ -11,6 +11,7 @@ local openContextMenuId = nil
 ---@class VxContextMenuOption
 ---@field title? string
 ---@field description? string
+---@field disabled? boolean
 ---@field args? any
 ---@field onSelect? fun(args: any)
 
