@@ -128,6 +128,11 @@ local function initializeFramework(framework)
    end
 end
 
+if not LoadResourceFile(vx.name, "web/dist/index.html") then
+   error(
+      "Failed to load UI, build vx_lib or download the latest release. (https://github.com/Vertex-Scripts/vx_lib)")
+end
+
 local framework = getLibrary("framework", frameworkSystem, frameworkResourceMap)
 local inventory = getLibrary("inventory", inventorySystem, inventoryResourceMap)
 local target = getLibrary("target", targetSystem, targetResourceMap)
