@@ -1,15 +1,22 @@
 vx.api = {}
 
-local context = IsDuplicityVersion() and "server" or "client"
+local currentContext = IsDuplicityVersion() and "server" or "client"
 
-local function createCallbackName(funcName)
+local function createCallbackName(context, funcName)
    return ("%s_%s_%s"):format(vx.cache.resource, context, funcName)
 end
 
-local function callApi(_, key)
-   local callbackName = createCallbackName(key)
+local function callApi(self, key)
+   local callbackName = createCallbackName(self.context, key)
    return function(...)
-      return vx.callback.await(callbackName, false, ...)
+      local arguments = { ... }
+      local isClient = self.context == "client"
+      local playerId = arguments[1]
+      if isClient then
+         table.remove(arguments, 1)
+      end
+
+      return vx.callback.await(callbackName, isClient and false or playerId, table.unpack(arguments))
    end
 end
 
@@ -17,17 +24,22 @@ end
 function vx.api.createApi()
    return setmetatable({}, {
       __newindex = function(self, funcName, func)
-         local callbackName = createCallbackName(funcName)
-         vx.callback.register(callbackName, func)
-
          rawset(self, funcName, func)
+
+         local callbackName = createCallbackName(currentContext, funcName)
+         vx.callback.register(callbackName, func)
       end
    })
 end
 
-function vx.api.createCaller()
-   return setmetatable({}, {
+---@param context? "server" | "client"
+function vx.api.createCaller(context)
+   return setmetatable({
+      context = context or (currentContext == "server" and "client" or "server")
+   }, {
       __call = callApi,
       __index = callApi
    })
 end
+
+return vx.api
