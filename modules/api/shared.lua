@@ -27,6 +27,11 @@ function vx.api.createApi()
 
          local callbackName = createCallbackName(currentContext, funcName)
          vx.callback.register(callbackName, function(source, ...)
+            local arguments = { ... }
+            if #arguments <= 0 then
+               return func(source)
+            end
+
             return func(..., source)
          end)
       end
