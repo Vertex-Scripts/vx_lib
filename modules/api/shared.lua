@@ -6,30 +6,32 @@ local function createCallbackName(context, funcName)
    return ("%s_%s_%s"):format(vx.cache.resource, context, funcName)
 end
 
-local function callApi(self, key)
-   local callbackName = createCallbackName(self.context, key)
+local function reverseContext(context)
+   return vx.ternary(context == "client", "server", "client")
+end
+
+local function callApi(_, key)
+   local callbackName = createCallbackName(reverseContext(currentContext), key)
    return function(...)
       local arguments = { ... }
-      local isClient = self.context == "client"
+      local isClient = currentContext == "client"
       local playerId = arguments[1]
-      if isClient then
+      if not isClient then
          table.remove(arguments, 1)
       end
 
-      return vx.callback.await(callbackName, isClient and false or playerId, table.unpack(arguments))
+      return vx.callback.await(callbackName, vx.ternary(isClient, false, playerId), table.unpack(arguments))
    end
 end
 
 function vx.api.createApi()
-   return setmetatable({
-      context = currentContext
-   }, {
+   return setmetatable({}, {
       __newindex = function(self, funcName, func)
          rawset(self, funcName, func)
 
          local callbackName = createCallbackName(currentContext, funcName)
          vx.callback.register(callbackName, function(source, ...)
-            if self.context == "client" then
+            if currentContext == "client" then
                return func(nil, source, ...)
             end
 
@@ -44,11 +46,8 @@ function vx.api.createApi()
    })
 end
 
----@param context? "server" | "client"
-function vx.api.createCaller(context)
-   return setmetatable({
-      context = context or (currentContext == "server" and "client" or "server")
-   }, {
+function vx.api.createCaller()
+   return setmetatable({}, {
       __call = callApi,
       __index = callApi
    })
