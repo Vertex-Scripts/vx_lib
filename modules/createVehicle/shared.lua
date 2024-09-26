@@ -1,11 +1,5 @@
 local isServerSide = IsDuplicityVersion()
 
-local function waitForEntity(entity)
-   while not DoesEntityExist(entity) do
-      Citizen.Wait(50)
-   end
-end
-
 ---@param model string|number
 ---@param coords vector3
 ---@param heading number
@@ -23,6 +17,12 @@ function vx.createVehicle(model, coords, heading, isNetwork, netMissionEntity)
 
    if isServerSide then
       local vehicle = createVehicle()
+      vx.waitFor(function()
+         if DoesEntityExist(vehicle) then
+            return true
+         end
+      end, "Failed to spawn vehicle")
+
       return waitForEntity(vehicle)
    end
 

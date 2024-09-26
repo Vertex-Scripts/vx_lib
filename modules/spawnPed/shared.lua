@@ -1,12 +1,6 @@
 local isServerSide = IsDuplicityVersion()
 local getType = type
 
-local function waitForEntity(entity)
-   while not DoesEntityExist(entity) do
-      Citizen.Wait(50)
-   end
-end
-
 ---@param type number
 ---@param model string|number
 ---@param coords vector3
@@ -25,6 +19,12 @@ function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
 
    if isServerSide then
       local ped = spawnPed()
+      vx.waitFor(function()
+         if DoesEntityExist(ped) then
+            return true
+         end
+      end, "Failed to spawn ped")
+
       return waitForEntity(ped)
    end
 
