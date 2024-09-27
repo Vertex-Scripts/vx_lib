@@ -14,13 +14,10 @@ local function callApi(_, key)
    local callbackName = createCallbackName(reverseContext(currentContext), key)
    return function(...)
       local arguments = { ... }
-      local isClient = currentContext == "client"
+      local fromClient = currentContext == "client"
       local playerId = arguments[1]
-      if not isClient then
-         table.remove(arguments, 1)
-      end
 
-      return vx.callback.await(callbackName, vx.ternary(isClient, false, playerId), table.unpack(arguments))
+      return vx.callback.await(callbackName, vx.ternary(fromClient, delay, playerId), table.unpack(arguments))
    end
 end
 
