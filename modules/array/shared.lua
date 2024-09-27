@@ -9,6 +9,13 @@ function vx.array:constructor(...)
    end
 end
 
+---@private
+function vx.array:__newindex(index, value)
+   vx.typeCheck("index", index, "number", ("Cannot insert non-number index '%s' into an array."):format(index))
+
+   rawset(self, index, value)
+end
+
 ---@param ... any
 function vx.array:push(...)
    local elements = { ... }
