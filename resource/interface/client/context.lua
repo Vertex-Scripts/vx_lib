@@ -32,7 +32,7 @@ function vx.openContextMenu(id)
    openContextMenuId = id
 
    vx.setNuiFocus()
-   vx.sendNuiAction("openContextMenu", {
+   vx.nui.sendAction("openContextMenu", {
       title = menu.title,
       options = menu.options,
       canClose = menu.canClose
@@ -48,7 +48,7 @@ RegisterNUICallback("clickContextMenuOption", function(id, cb)
    local option = menu.options[id]
 
    openContextMenuId = nil
-   vx.sendNuiAction("hideContextMenu")
+   vx.nui.sendAction("hideContextMenu")
    vx.resetNuiFocus()
 
    if not option.onSelect then
