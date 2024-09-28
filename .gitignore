@@ -1,2 +1,4 @@
 
 web/tsconfig.app.tsbuildinfo
+.secrets
+.env
