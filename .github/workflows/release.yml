@@ -59,7 +59,7 @@ jobs:
         run: |
             git config --global user.name 'thoo0224'
             git config --global user.email 'thomasplatschorre@gmail.com'
-            git push origin HEAD:nexth
+            git push origin HEAD:next
       
       - name: Update tag ref
         uses: EndBug/latest-tag@latest
