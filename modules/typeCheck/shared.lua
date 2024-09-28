@@ -1,16 +1,22 @@
+---@param name string
 ---@param value any
 ---@param expectedTypes type|type[]
-function vx.typeCheck(name, value, expectedTypes)
+---@param message? string
+function vx.typeCheck(name, value, expectedTypes, message)
    if type(expectedTypes) == "table" then
       for _, expectedType in ipairs(expectedTypes) do
          if type(value) == expectedType then return end
       end
 
-      error(("expected %s to have type '%s' (received %s)"):format(name, table.concat(expectedTypes, ", "), type(value)),
-         2)
+      message = message or
+          ("expected %s to have type '%s' (received %s)"):format(name, table.concat(expectedTypes, ", "), type(value))
+
+      error(message, 2)
    else
       if type(value) ~= expectedTypes then
-         error(("expected %s to have type '%s' (received %s)"):format(name, expectedTypes, type(value)), 2)
+         message = message or
+             ("expected %s to have type '%s' (received %s)"):format(name, expectedTypes, type(value))
+         error(message, 2)
       end
    end
 end

@@ -1,11 +1,10 @@
-local isServerSide = IsDuplicityVersion()
-
 ---@param model string|number
 ---@param coords vector3
 ---@param heading number
 ---@param isNetwork? boolean
 ---@param netMissionEntity? boolean
 function vx.createVehicle(model, coords, heading, isNetwork, netMissionEntity)
+   local isServerSide = vx.context == "server"
    local function createVehicle()
       return CreateVehicle(model, coords.x, coords.y, coords.z, heading, isServerSide and true or (isNetwork or false),
          netMissionEntity or false)
@@ -23,7 +22,7 @@ function vx.createVehicle(model, coords, heading, isNetwork, netMissionEntity)
          end
       end, "Failed to spawn vehicle")
 
-      return waitForEntity(vehicle)
+      return vehicle
    end
 
    if not vx.requestModel(model) then
