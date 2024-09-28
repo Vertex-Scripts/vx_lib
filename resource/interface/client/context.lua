@@ -17,7 +17,7 @@ local openContextMenuId = nil
 
 ---@param menu VxContextMenu | VxContextMenu[]
 function vx.registerContextMenu(menu)
-   local menuId = menus.id
+   local menuId = menu.id
    registeredMenus[menu.id] = menu
 
    return menuId
