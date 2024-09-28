@@ -6,9 +6,9 @@ local getType = type
 ---@param heading number
 ---@param isNetwork? boolean
 ---@param bScriptHostPed? boolean
-function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
+function vx.createPed(type, model, coords, heading, isNetwork, bScriptHostPed)
    local isServerSide = vx.context == "server"
-   local function spawnPed()
+   local function createPed()
       return CreatePed(type, model, coords.x, coords.y, coords.z, heading, isServerSide and true or (isNetwork or false),
          bScriptHostPed or false)
    end
@@ -18,7 +18,7 @@ function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
    end
 
    if isServerSide then
-      local ped = spawnPed()
+      local ped = createPed()
       vx.waitFor(function()
          if DoesEntityExist(ped) then
             return true
@@ -32,8 +32,8 @@ function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
       return nil
    end
 
-   local ped = spawnPed()
+   local ped = createPed()
    return ped
 end
 
-return vx.spawnPed
+return vx.createPed
