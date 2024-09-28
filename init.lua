@@ -43,6 +43,7 @@ end
 
 local vx = setmetatable({
    name = "vx_lib",
+   context = context,
    systems = {
       framework = framework,
       inventory = inventory,
