@@ -61,6 +61,7 @@ function vx.outfit.create(outfit)
 end
 
 ---@param ped number
+---@return table<number, Variations>
 ---`Client`
 function vx.outfit.getComponentsFromPed(ped)
    if vx.context == "server" then
