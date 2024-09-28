@@ -54,6 +54,12 @@ jobs:
           message: "chore: bump manifest version to ${{ env.RELEASE_VERSION }}"
           author_name: Manifest Bump
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Push changes to the next branch
+        run: |
+            git config --global user.name 'thoo0224'
+            git config --global user.email 'thomasplatschorre@gmail.com'
+            git push origin HEAD:nexth
       
       - name: Update tag ref
         uses: EndBug/latest-tag@latest
