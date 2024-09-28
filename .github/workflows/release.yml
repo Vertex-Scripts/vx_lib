@@ -2,7 +2,9 @@ name: Create Release
 on:
   push:
     tags:
-      - '*'
+      - 'v*.*.*'
+   #  branches:
+   #    - main
 
 jobs:
   release:
@@ -27,6 +29,9 @@ jobs:
           node-version: 18.x
           cache: "pnpm"
           cache-dependency-path: "web/pnpm-lock.yaml"
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       
       - name: Install dependencies
         run: pnpm install
@@ -35,6 +40,25 @@ jobs:
       - name: Build
         run: pnpm build
         working-directory: web
+      
+      - name: Bump manifest version
+        run: node .github/actions/bump-manifest-version.js
+        env:
+          TGT_RELEASE_VERSION: ${{ github.ref_name }}
+      
+      - name: Push manifest changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "fxmanifest.lua"
+          push: true
+          message: "chore: bump manifest version to ${{ env.RELEASE_VERSION }}"
+          author_name: Manifest Bump
+          author_email: 41898282+github-actions[bot]@users.noreply.github.com
+      
+      - name: Update tag ref
+        uses: EndBug/latest-tag@latest
+        with:
+          tag-name: ${{ github.ref_name }}
         
       - name: Bundle
         run: |
