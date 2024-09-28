@@ -4,7 +4,8 @@
 ---@param isNetwork? boolean
 ---@param bScriptHostPed? boolean
 ---@param doorflag? boolean
-function vx.createObject(model, coords, heading, isNetwork, bScriptHostPed, doorflag)
+---@param waitForEntity? boolean Waits for the entity to spawn, defaults to true
+function vx.createObject(model, coords, heading, isNetwork, bScriptHostPed, doorflag, waitForEntity)
    isNetwork = isNetwork or false
    doorflag = doorflag or false
    heading = heading or 0.0
@@ -14,7 +15,7 @@ function vx.createObject(model, coords, heading, isNetwork, bScriptHostPed, door
          vx.ternary(vx.context == "server", true, isNetwork), bScriptHostPed or false, doorflag)
    end
 
-   local object = vx.createEntity(createObject, model)
+   local object = vx.createEntity(createObject, model, waitForEntity)
    return object
 end
 
