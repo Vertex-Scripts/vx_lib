@@ -3,8 +3,8 @@ on:
   push:
     tags:
       - 'v*.*.*'
-   #  branches:
-   #    - main
+    branches:
+      - main
 
 jobs:
   release:
@@ -55,11 +55,11 @@ jobs:
           author_name: Manifest Bump
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
 
-      - name: Push changes to the next branch
+      - name: Push changes
         run: |
             git config --global user.name 'thoo0224'
             git config --global user.email 'thomasplatschorre@gmail.com'
-            git push origin HEAD:next
+            git push origin HEAD:main
       
       - name: Update tag ref
         uses: EndBug/latest-tag@latest
