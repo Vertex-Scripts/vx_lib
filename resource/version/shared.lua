@@ -43,11 +43,3 @@ function vx.checkDependency(resource, requiredVersion, printMessage)
 
    return false
 end
-
----@param resource string
----@param requiredVersion string
----@param printMessage? boolean
----@deprecated
-function vx.requireMinimumVersion(resource, requiredVersion, printMessage)
-   return vx.checkDependency(resource, requiredVersion, printMessage)
-end
