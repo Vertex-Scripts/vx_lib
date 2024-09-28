@@ -1,4 +1,3 @@
-local isServerSide = IsDuplicityVersion()
 local getType = type
 
 ---@param type number
@@ -8,6 +7,7 @@ local getType = type
 ---@param isNetwork? boolean
 ---@param bScriptHostPed? boolean
 function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
+   local isServerSide = vx.context == "server"
    local function spawnPed()
       return CreatePed(type, model, coords.x, coords.y, coords.z, heading, isServerSide and true or (isNetwork or false),
          bScriptHostPed or false)
@@ -25,7 +25,7 @@ function vx.spawnPed(type, model, coords, heading, isNetwork, bScriptHostPed)
          end
       end, "Failed to spawn ped")
 
-      return waitForEntity(ped)
+      return ped
    end
 
    if not vx.requestModel(model) then
