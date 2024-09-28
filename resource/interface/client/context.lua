@@ -15,9 +15,12 @@ local openContextMenuId = nil
 ---@field args? any
 ---@field onSelect? fun(args: any)
 
----@param menus VxContextMenu | VxContextMenu[]
-function vx.registerContextMenu(menus)
-   registeredMenus[menus.id] = menus
+---@param menu VxContextMenu | VxContextMenu[]
+function vx.registerContextMenu(menu)
+   local menuId = menus.id
+   registeredMenus[menu.id] = menu
+
+   return menuId
 end
 
 function vx.openContextMenu(id)
