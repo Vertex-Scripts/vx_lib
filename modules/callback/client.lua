@@ -71,7 +71,7 @@ vx.callback = setmetatable({}, {
 ---Sends an event to the server and halts the current thread until a response is returned.
 ---@diagnostic disable-next-line: duplicate-set-field
 function vx.callback.await(event, delay, ...)
-   return triggerServerCallback(nil, event, delay, false, ...)
+   return triggerServerCallback(nil, event, delay or false, false, ...)
 end
 
 local function callbackResponse(success, result, ...)
