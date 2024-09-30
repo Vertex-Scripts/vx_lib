@@ -8,6 +8,7 @@ VxPlayer.__index = VxPlayer
 ---@param source number|string
 ---@param keepPrefix? boolean
 ---@param forcedType? string
+---`Server`
 function vx.player.getIdentifier(source, keepPrefix, forcedType)
    local identifierType = forcedType or primaryIdentifier or "license"
    local identifier = GetPlayerIdentifierByType(tostring(source), identifierType)
@@ -19,10 +20,12 @@ function vx.player.getIdentifier(source, keepPrefix, forcedType)
 end
 
 ---@deprecated
+---`Server`
 function vx.player.getIdentifierFromSource(source, keepPrefix, forcedType)
    return vx.player.getIdentifier(source, keepPrefix, forcedType)
 end
 
+---`Server`
 function VxPlayer:new(source)
    local player = setmetatable({}, self)
    local getFrameworkPlayer = vx.caller.createFrameworkCaller({
@@ -42,6 +45,7 @@ end
 
 ---@param keepPrefix? boolean
 ---@param type? IdentifierType
+---`Server`
 function VxPlayer:getIdentifier(keepPrefix, type)
    local identifierType = type or primaryIdentifier or "license"
    local identifier = GetPlayerIdentifierByType(tostring(self.source), identifierType)
@@ -55,6 +59,7 @@ end
 ---@param account AccountType | string
 ---@param amount number
 ---@param reason? string
+---`Server`
 function VxPlayer:addAccountMoney(account, amount, reason)
    local caller = vx.caller.createFrameworkCaller({
       ["esx"] = function()
@@ -76,6 +81,7 @@ end
 ---@param account AccountType
 ---@param amount number
 ---@param reason? string
+---`Server`
 function VxPlayer:removeAccountMoney(account, amount, reason)
    local caller = vx.caller.createFrameworkCaller({
       ["esx"] = function()
@@ -96,6 +102,7 @@ end
 -- TODO: Implement for QB
 ---@param account AccountType
 ---@return number
+---`Server`
 function VxPlayer:getAccountMoney(account)
    local caller = vx.caller.createFrameworkCaller({
       ["esx"] = function()
@@ -114,6 +121,7 @@ end
 
 ---@param name string
 ---@param grade? number
+---`Server`
 function VxPlayer:setJob(name, grade)
    local caller = vx.caller.createFrameworkCaller({
       ["esx"] = function()
@@ -132,6 +140,7 @@ end
 
 -- TODO: Test if it works for QB
 ---@return string
+---`Server`
 function VxPlayer:getJob()
    local caller = vx.caller.createFrameworkCaller({
       ["esx"] = function()
@@ -150,6 +159,7 @@ end
 
 -- TODO: Implement for QB
 ---@return string
+---`Server`
 function VxPlayer:getGroup()
    local caller = vx.caller.createFrameworkCaller({
       ["esx"] = function()
@@ -166,6 +176,7 @@ function VxPlayer:getGroup()
    return caller()
 end
 
+---`Server`
 function vx.player.getFromId(source)
    local player = VxPlayer:new(source)
    return player
