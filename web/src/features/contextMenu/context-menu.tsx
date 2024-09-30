@@ -45,7 +45,6 @@ export default function ContextMenu() {
   });
 
   function closeContext() {
-    console.log("close", contextMenu.canClose);
     if (contextMenu.canClose === false) return;
 
     setVisible(false);
@@ -63,7 +62,6 @@ export default function ContextMenu() {
     setVisible(false);
   });
 
-  console.log(contextMenu.canClose);
   return (
     <>
       <motion.div
@@ -71,8 +69,8 @@ export default function ContextMenu() {
           "absolute top-28 right-24 w-[320px] h-[600px] transition-all duration-100",
           visible ? "opacity-100" : "opacity-0 -z-10",
         )}
-        // initial={{ opacity: 0 }}
-        // animate={{ opacity: 1 }}
+      // initial={{ opacity: 0 }}
+      // animate={{ opacity: 1 }}
       >
         <div className="flex gap-2">
           <header className="bg-background py-2 text-center rounded-lg w-full">
