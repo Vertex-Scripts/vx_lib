@@ -2,11 +2,6 @@ local resourceName = GetCurrentResourceName()
 local context = IsDuplicityVersion() and "server" or "client"
 local export = exports["vx_lib"]
 
-local frameworkResourceMap = {
-   ["es_extended"] = "es_extended",
-   ["qb-core"] = "qb-core"
-}
-
 local framework = export:getFramework()
 local inventory = export:getInventory()
 local target = export:getTarget()
@@ -79,13 +74,12 @@ vx.cache = setmetatable({
 _ENV.vx = vx
 _ENV.require = vx.require
 
-local frameworkResourceName = frameworkResourceMap[framework]
 if framework == "es_extended" then
-   _ENV.ESX = exports[frameworkResourceName]:getSharedObject()
+   _ENV.ESX = exports[framework]:getSharedObject()
 elseif framework == "qb-core" then
-   _ENV.QBCore = exports[frameworkResourceName]:GetCoreObject()
+   _ENV.QBCore = exports[framework]:GetCoreObject()
 
    RegisterNetEvent(("QBCore:%s:UpdateObject"):format(context), function()
-      _ENV.QBCore = exports[frameworkResourceName]:GetCoreObject()
+      _ENV.QBCore = exports[framework]:GetCoreObject()
    end)
 end
