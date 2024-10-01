@@ -3,13 +3,17 @@ local context = IsDuplicityVersion() and "server" or "client"
 local export = exports["vx_lib"]
 
 local frameworkResourceMap = {
-   ["esx"] = "es_extended",
-   ["qb"] = "qb-core"
+   ["es_extended"] = "es_extended",
+   ["qb-core"] = "qb-core"
 }
 
 local framework = export:getFramework()
 local inventory = export:getInventory()
 local target = export:getTarget()
+
+---@cast framework Framework
+---@cast inventory InventorySystem
+---@cast target TargetSystem
 
 local moduleLoaderFile = LoadResourceFile("vx_lib", "loader.lua")
 local loadModuleLoader, err = load(moduleLoaderFile)
@@ -76,9 +80,9 @@ _ENV.vx = vx
 _ENV.require = vx.require
 
 local frameworkResourceName = frameworkResourceMap[framework]
-if framework == "esx" then
+if framework == "es_extended" then
    _ENV.ESX = exports[frameworkResourceName]:getSharedObject()
-elseif framework == "qb" then
+elseif framework == "qb-core" then
    _ENV.QBCore = exports[frameworkResourceName]:GetCoreObject()
 
    RegisterNetEvent(("QBCore:%s:UpdateObject"):format(context), function()

@@ -1,7 +1,7 @@
 -- vx.currentPlayer = nil
 
 -- vx.caller.createFrameworkCaller({
---    ["ESX"] = function()
+--    ["es_extended"] = function()
 --       AddEventHandler("esx:playerLoaded", function(player)
 --          vx.currentPlayer = player
 --       end)

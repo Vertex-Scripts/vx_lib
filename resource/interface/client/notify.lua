@@ -1,29 +1,18 @@
-local notifySystem = GetConvar("vx:notification", "auto")
-local notifyMap = { "esx", "qb", "ox", "custom" }
+local notifyConvar = GetConvar("vx:notification", "auto")
+local notifyResources = vx.array:new("es_extended", "qb-core", "ox_lib", "custom")
 
 local function detectNotify()
-   if notifySystem ~= "auto" then return notifySystem end
-   if GetResourceState("ox_lib") ~= "missing" then return "ox" end
-   if GetResourceState("es_extended") ~= "missing" then return "esx" end
-   if GetResourceState("qb-core") ~= "missing" then return "qb" end
+   if notifyConvar ~= "auto" then return notifyConvar end
+   if GetResourceState("ox_lib") ~= "missing" then return "ox_lib" end
+   if GetResourceState("es_extended") ~= "missing" then return "es_extended" end
+   if GetResourceState("qb-core") ~= "missing" then return "qb-core" end
 
    return "custom"
 end
 
 local notify = detectNotify()
-
-local function isValidNotify()
-   for _, ns in pairs(notifyMap) do
-      if ns == notify then
-         return true
-      end
-   end
-
-   return false
-end
-
-if not isValidNotify() then
-   error(("Invalid notification system in vx:notification expected 'ox', 'esx', 'qb' or 'custom' (received %s)")
+if not notifyResources:contains(notify) then
+   error(("Invalid notification system in vx:notification expected 'es_extended', 'qb-core', 'ox_lib' or 'auto' (received %s)")
       :format(notify))
 end
 
@@ -38,13 +27,13 @@ end
 ---@diagnostic disable-next-line: duplicate-set-field
 function vx.notify(options)
    vx.caller.create(notify, {
-      ["esx"] = function()
+      ["es_extended"] = function()
          ESX.ShowNotification(options.message, options.type, options.duration)
       end,
-      ["qb"] = function()
+      ["qb-core"] = function()
          QBCore.Functions.Notify(options.message, options.type, options.duration)
       end,
-      ["ox"] = function()
+      ["ox_lib"] = function()
          lib.notify({
             title = options.title,
             description = options.message,

@@ -68,7 +68,7 @@ end
 local function createOptions_qb(options)
    local item = nil
    if type(options.items) == "table" then
-      vx.logger.warn("QBCore does not support multiple items in a target option, only the first item will be used.")
+      vx.print.warn("QBCore does not support multiple items in a target option, only the first item will be used.")
       item = options.items[1]
    else
       item = options.items

@@ -61,6 +61,16 @@ function vx.array:findIndex(testFunc)
    end
 end
 
+function vx.array:contains(value)
+   for i = 1, #self do
+      if self[i] == value then
+         return true
+      end
+   end
+
+   return false
+end
+
 function vx.array:pop()
    return table.remove(self)
 end

@@ -7,13 +7,13 @@
 ---| '"ip"'
 
 ---@alias Framework
----| '"esx"'
----| '"qb"'
+---| '"es_extended"'
+---| '"qb-core"'
 ---| '"auto"'
 
 ---@alias TargetSystem
 ---| '"ox_target"'
----| '"qb_target"'
+---| '"qb-target"'
 ---| '"qtarget"'
 ---| '"auto"'
 
@@ -30,9 +30,9 @@
 ---| '"black_money"'
 
 ---@alias NotificationSystem
----| '"ox"'
----| '"esx"'
----| '"qb"'
+---| '"ox_lib"'
+---| '"es_extended"'
+---| '"qb-core"'
 ---| '"custom"'
 
 ---@alias TextUISystem

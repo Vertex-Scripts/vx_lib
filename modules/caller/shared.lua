@@ -9,6 +9,7 @@ function vx.caller.create(system, functions)
    return func, system
 end
 
+---@param functions { ["es_extended" | "qb-core"]: function }
 function vx.caller.createFrameworkCaller(functions)
    local framework = vx.systems.framework
    return vx.caller.create(framework, functions)
