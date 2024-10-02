@@ -53,11 +53,14 @@ jobs:
           author_name: Manifest Bump
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
 
-      - name: Push changes
+      - name: Pull changes
         run: |
             git config --global user.name 'thoo0224'
             git config --global user.email 'thomasplatschorre@gmail.com'
-            git push origin HEAD:main
+            git pull origin main
+
+      - name: Commit changes
+        run: git push origin main
       
       - name: Update tag ref
         uses: EndBug/latest-tag@latest
