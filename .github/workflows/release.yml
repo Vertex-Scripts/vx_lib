@@ -3,8 +3,6 @@ on:
   push:
     tags:
       - 'v*.*.*'
-    branches:
-      - main
 
 jobs:
   release:
@@ -80,5 +78,4 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ env.RELEASE_VERSION }}
-          prerelease: true
           files: vx_lib.zip
