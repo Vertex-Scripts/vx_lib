@@ -1,37 +1,25 @@
 local context = IsDuplicityVersion() and "server" or "client"
 local currentResourceName = GetCurrentResourceName()
 
-local frameworkSystem = GetConvar("vx:framework", "auto")
-local inventorySystem = GetConvar("vx:inventory", "auto")
-local targetSystem = GetConvar("vx:target", "auto")
+local frameworkConvar = GetConvar("vx:framework", "auto")
+local inventoryConvar = GetConvar("vx:inventory", "auto")
+local targetConvar = GetConvar("vx:target", "auto")
 
-local frameworkResourceMap = {
-   primary = {
-      ["esx"] = "es_extended",
-      ["qb"] = "qb-core"
-   },
-   secondary = {}
+local frameworkResources = {
+   "es_extended"
 }
 
-local inventoryResourceMap = {
-   primary = {
-      ["ox_inventory"] = "ox_inventory",
-      ["qs_inventory"] = "qs_inventory",
-   },
-   secondary = {
-      ["es_extended"] = "es_extended",
-      ["qb-inventory"] = "qb-inventory",
-   }
+local inventoryResources = {
+   "ox_inventory",
+   "qs_inventory",
+   "es_extended",
+   "qb-inventory"
 }
 
-local targetResourceMap = {
-   primary = {
-      ["ox_target"] = "ox_target",
-   },
-   secondary = {
-      ["qb-target"] = "qb-target",
-      ["qtarget"] = "qtarget"
-   }
+local targetResources = {
+   "ox_target",
+   "qb-target",
+   "qtarget",
 }
 
 ---@type VxCache
@@ -57,88 +45,53 @@ vx = setmetatable({
    __newindex = proxyExports,
 })
 
----@param resourceName string
----@param expectedState "missing" | "started" | "stopped" | "starting" | "stopping"
-local function isResourceState(resourceName, expectedState)
-   local state = GetResourceState(resourceName)
-   return state == expectedState
-end
-
 local function doesResourceExist(resourceName)
-   return not isResourceState(resourceName, "missing")
+   return GetResourceState(resourceName) ~= "missing"
 end
 
-local function isResourceStarted(resourceName)
-   return isResourceState(resourceName, "started")
-end
-
----@param map? table<any, any>
-local function logLibrary(type, value, map)
-   local isStarted = map and isResourceStarted(map[value]) or true
-   if context == "server" then
-      vx.print.info(("Using %s: ^2%s ^1%s^0"):format(type, value, not isStarted and "(Not started)" or ""))
-   end
-end
-
-local function getLibrary(type, value, maps)
-   function validResourcesInMap(map)
-      for system, resourceName in pairs(map) do
-         if doesResourceExist(resourceName) then
-            return system
+local function getLibrary(type, convar, map)
+   local function findLibrary()
+      for _, resource in pairs(map) do
+         if doesResourceExist(resource) then
+            return resource
          end
       end
    end
 
-   function findLibrary()
-      if value ~= "auto" then
-         local resourceName = maps.primary[value] or maps.secondary[value]
-         if not doesResourceExist(resourceName) then
-            error(("Resource '%s' does not exist"):format(value))
-         end
+   local result = vx.ternary(convar ~= "auto", convar, findLibrary())
+   local isStarted = GetResourceState(result) == "started"
+   vx.print.info(("Using %s: ^2%s ^1%s^0"):format(type, result, not isStarted and "(Not started)" or ""))
 
-         return value
-      end
-
-      local autoDetectedResource = validResourcesInMap(maps.primary) or validResourcesInMap(maps.secondary)
-      if autoDetectedResource then
-         return autoDetectedResource
-      end
-   end
-
-   local result = findLibrary()
-   if not result then
-      logLibrary(type, "None")
-      return
-   end
-
-   logLibrary(type, result, map)
    return result
 end
 
 local function initializeFramework(framework)
-   local frameworkResourceName = frameworkResourceMap.primary[framework] or frameworkResourceMap.secondary[framework]
-   if framework == "esx" then
-      ESX = exports[frameworkResourceName]:getSharedObject()
-   elseif framework == "qb" then
-      QBCore = exports[frameworkResourceName]:GetCoreObject()
+   if framework == "es_extended" then
+      ESX = exports[framework]:getSharedObject()
+   elseif framework == "qb-core" then
+      QBCore = exports[framework]:GetCoreObject()
 
       RegisterNetEvent(("QBCore:%s:UpdateObject"):format(context), function()
-         QBCore = exports[frameworkResourceName]:GetCoreObject()
+         QBCore = exports[framework]:GetCoreObject()
       end)
    end
 end
 
-local framework = getLibrary("framework", frameworkSystem, frameworkResourceMap)
-local inventory = getLibrary("inventory", inventorySystem, inventoryResourceMap)
-local target = getLibrary("target", targetSystem, targetResourceMap)
+if not LoadResourceFile(vx.name, "web/dist/index.html") then
+   error(
+      "Failed to load UI, build vx_lib or download the latest release. (https://github.com/Vertex-Scripts/vx_lib)")
+end
 
+local framework = getLibrary("framework", frameworkConvar, frameworkResources)
+local inventory = getLibrary("inventory", inventoryConvar, inventoryResources)
+local target = getLibrary("target", targetConvar, targetResources)
 initializeFramework(framework)
 
 if doesResourceExist("ox_lib") then
    local oxInit = LoadResourceFile("ox_lib", "init.lua")
    local loadOx, err = load(oxInit)
    if not loadOx or err then
-      vx.print.info(("Failed to load ox_lib (%s)"):format(err))
+      vx.print.error(("Failed to load ox_lib (%s)"):format(err))
    else
       loadOx()
       if context == "server" then

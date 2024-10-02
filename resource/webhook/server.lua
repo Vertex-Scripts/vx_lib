@@ -14,9 +14,7 @@
 ---@param url string
 ---@param params WebhookParams
 function vx.sendWebhook(url, params)
-   if not url then
-      error("invalid webhook url (received 'nil')")
-   end
+   vx.typeCheck("url", url, "string")
 
    if not params.content and not params.embeds then
       error("invalid webhook params (expected 'content' or 'embeds' to be set)")

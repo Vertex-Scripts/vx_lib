@@ -1,19 +1,20 @@
-# VX Lib
-Modules and bridges for frameworks, inventories and targets.
+# vx_lib
+FiveM library for reusable modules and bridge for various frameworks.
 
-## Configuration
-You can configure the following settings in your `server.cfg`:
+[![Discord](https://img.shields.io/badge/Discord-Join%20Us-7289DA?logo=discord&logoColor=white&style=flat-square)](https://discord.gg/vertexscripts)
+![GitHub All Releases](https://img.shields.io/github/downloads/Vertex-Scripts/vx_lib/total?label=Downloads&logo=github&style=flat-square)
+![GitHub Contributors](https://img.shields.io/github/contributors/Vertex-Scripts/vx_lib?label=Contributors&logo=github&style=flat-square)
+![GitHub Latest Release](https://img.shields.io/github/v/release/Vertex-Scripts/vx_lib?label=Latest%20Release&logo=github&style=flat-square)
 
-- `vx:framework` - The framework to use. `esx`, `qb`, or `auto`. (default: `auto`)
-- `vx:inventory` - The inventory to use. `ox_inventory`, `qb_inventory`, `es_extended`, `qs_inventory` or `auto` (default: `auto`)
-- `vx:target` - The target to use. `ox_target`, `qb_target`, `qtarget` or `auto` (default: `auto`)
-- `vx:primaryIdentifier` - The primary identifier to use. `license`, `steam`, `fivem` or `auto` (default: `license`)
-- `vx:logLevel` - The log level to use. `error`, `warn`, `info`, `verbose` or `debug` (default: `info`)
-- `vx:notification` - The notification system to use. `ox`, `esx`, `qb`, or `custom`.
+## 📚 Documentation
+[https://docs.vertexscripts.com/](https://docs.vertexscripts.com/vx_lib/configuration)
 
-## TODO
-- Add inventory methods to the player class
-- Return abstracted return values for the inventory bridge
-
-## Contribution
+## 🫱 Contribution
 Any type of contribution is greatly appreciated!
+
+## Lua Language Server
+
+- Install [Lua Language Server](https://marketplace.visualstudio.com/items?itemName=sumneko.lua) to ease development with annotations, type checking, diagnostics, and more.
+- Install [cfxlua-vscode](https://marketplace.visualstudio.com/items?itemName=overextended.cfxlua-vscode) to add natives and cfxlua runtime declarations to LLS.
+- You can load vx_lib into your global development environment by modifying workspace/user settings "Lua.workspace.library" with the resource path.
+  - e.g. "c:/fxserver/resources/vx_lib"

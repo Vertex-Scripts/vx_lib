@@ -1,6 +1,7 @@
 ---@param asset string
+---@param timeout? number
 ---@return string?
-function vx.requestPtfxAsset(asset)
+function vx.requestPtfxAsset(asset, timeout)
    if HasNamedPtfxAssetLoaded(assetName) then
       return asset
    end
