@@ -3,7 +3,7 @@ game "gta5"
 lua54 "yes"
 
 author "Vertex Scripts"
-version '1.2.5'
+version '2.0.2'
 
 ui_page "web/dist/index.html"
 
