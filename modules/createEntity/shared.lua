@@ -3,9 +3,7 @@
 ---@param model string|number
 ---@param waitForEntity? boolean Waits for the entity to spawn, defaults to true
 function vx.createEntity(createEntity, model, waitForEntity)
-   print(waitForEntity)
    waitForEntity = vx.ternary(waitForEntity == nil, true, false)
-   print(waitForEntity)
 
    if type(model) == "string" then
       model = joaat(model)
@@ -25,7 +23,7 @@ function vx.createEntity(createEntity, model, waitForEntity)
    end
 
    if not vx.requestModel(model) then
-      return nil
+      return 0
    end
 
    local entity = createEntity()
