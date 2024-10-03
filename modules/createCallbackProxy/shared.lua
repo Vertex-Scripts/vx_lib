@@ -12,7 +12,7 @@ local function createProxiedCallback(self, name, func)
    local callback = createCallbackName(vx.context, name)
    vx.callback.register(callback, function(source, ...)
       if vx.context == "client" then
-         return func(nil, source, ...)
+         return func(source, ...)
       end
 
       local arguments = { ... }
