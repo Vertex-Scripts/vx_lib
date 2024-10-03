@@ -3,8 +3,6 @@ on:
   push:
     tags:
       - 'v*.*.*'
-    branches:
-      - main
 
 jobs:
   release:
@@ -17,7 +15,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-            fetch-depth: 0
+           fetch-depth: 0
+           ref: main
       
       - uses: pnpm/action-setup@v4
         with:
@@ -55,11 +54,14 @@ jobs:
           author_name: Manifest Bump
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
 
-      - name: Push changes
+      - name: Pull changes
         run: |
             git config --global user.name 'thoo0224'
             git config --global user.email 'thomasplatschorre@gmail.com'
-            git push origin HEAD:main
+            git pull origin main
+
+      - name: Commit changes
+        run: git push origin main
       
       - name: Update tag ref
         uses: EndBug/latest-tag@latest
@@ -80,5 +82,5 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ env.RELEASE_VERSION }}
-          prerelease: true
+          prerelease: false
           files: vx_lib.zip
