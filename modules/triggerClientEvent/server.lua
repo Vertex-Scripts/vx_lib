@@ -1,3 +1,5 @@
+---@param eventName string
+---@param targets number|number[]
 function vx.triggerClientEvent(eventName, targets, ...)
    local payload = msgpack.pack_args(...)
    local payloadLen = #payload
