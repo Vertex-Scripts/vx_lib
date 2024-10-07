@@ -49,4 +49,13 @@ function vx.io.removeFile(filename)
    os.remove(filename)
 end
 
+function vx.io.fileExists(filename)
+   local file = io.open(filename, "r")
+   if file then
+      file:close()
+   end
+
+   return file ~= nil
+end
+
 return vx.io
