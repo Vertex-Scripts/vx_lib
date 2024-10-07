@@ -1,5 +1,5 @@
 --- Used internally
----@param createEntity fun(): any
+---@param createEntity fun(): number
 ---@param model string|number
 ---@param waitForEntity? boolean Waits for the entity to spawn, defaults to true
 function vx.createEntity(createEntity, model, waitForEntity)
