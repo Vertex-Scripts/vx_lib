@@ -29,7 +29,7 @@ local function createProxiedCallback(self, name, value)
 end
 
 local function callProxiedCallback(self, key)
-   local callback = createCallbackName(self.name or "root", key)
+   local callback = createCallbackName(self.__name or "root", key)
    return function(...)
       local arguments = { ... }
       local fromClient = vx.context == "client"
