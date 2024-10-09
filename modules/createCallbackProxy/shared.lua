@@ -14,8 +14,6 @@ local function createProxiedCallback(self, name, value)
    end
 
    local callback = createCallbackName(name, self.__name or "root")
-   vx.print.info(name, callback, value)
-
    vx.callback.register(callback, function(source, ...)
       if vx.context == "client" then
          return value(source, ...)
