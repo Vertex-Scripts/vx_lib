@@ -105,6 +105,3 @@ function vx.getFramework() return framework end
 function vx.getInventory() return inventory end
 
 function vx.getTarget() return target end
-
-local path = vx.path:new("E:\\fivem\\server\\docker-compose - Copy.yml"):toString()
-vx.io.removeFile(path)
