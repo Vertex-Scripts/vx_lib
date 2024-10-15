@@ -1,35 +1,31 @@
+local function createCallbackName(context, funcName)
+   return ("%s_%s_%s"):format(vx.cache.resource, context, funcName)
+end
+
 local function reverseContext(context)
    return vx.ternary(context == "client", "server", "client")
 end
 
-function createCallbackName(name, scope)
-   return ("%s:%s:%s:%s"):format(vx.cache.resource, reverseContext(vx.context), scope, name)
-end
+local function createProxiedCallback(self, name, func)
+   rawset(self, name, func)
 
-local function createProxiedCallback(self, name, value)
-   rawset(self, name, value)
-
-   if type(value) ~= "function" then
-      return
-   end
-
-   local callback = createCallbackName(name, self.__name or "root")
+   local callback = createCallbackName(vx.context, name)
    vx.callback.register(callback, function(source, ...)
       if vx.context == "client" then
-         return value(source, ...)
+         return func(source, ...)
       end
 
       local arguments = { ... }
       if #arguments <= 0 then
-         return value(source)
+         return func(source)
       end
 
-      return value(..., source)
+      return func(..., source)
    end)
 end
 
-local function callProxiedCallback(self, key)
-   local callback = createCallbackName(self.__name or "root", key)
+local function callProxiedCallback(_, key)
+   local callback = createCallbackName(reverseContext(vx.context), key)
    return function(...)
       local arguments = { ... }
       local fromClient = vx.context == "client"
@@ -40,22 +36,12 @@ local function callProxiedCallback(self, key)
    end
 end
 
-local function createDynamicProxy(name)
-   return setmetatable({ __name = name }, {
+function vx.createCallbackProxy()
+   return setmetatable({}, {
       __newindex = createProxiedCallback,
       __call = callProxiedCallback,
-      __index = function(self, key)
-         local newName = ("%s:%s"):format(self.__name or "root", key)
-         rawset(self, key, createDynamicProxy(newName))
-
-         return rawget(self, key)
-      end
+      __index = callProxiedCallback
    })
-end
-
----@param name? string
-function vx.createCallbackProxy(name)
-   return createDynamicProxy(name or "root")
 end
 
 return vx.createCallbackProxy
