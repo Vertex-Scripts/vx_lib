@@ -4,3 +4,5 @@
 function vx.registerNetEvent(eventName, cb)
    return RegisterNetEvent(eventName, cb)
 end
+
+return vx.registerNetEvent
