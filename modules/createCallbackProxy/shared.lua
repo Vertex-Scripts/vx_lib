@@ -35,7 +35,6 @@ local function callProxiedCallback(_, key)
       local fromClient = vx.context == "client"
       local playerId = arguments[1]
       local delay = false
-      vx.print.info("call", table.unpack(arguments))
 
       return vx.callback.await(callback, vx.ternary(fromClient, delay, playerId), table.unpack(arguments))
    end
