@@ -14,7 +14,7 @@ VxPlayer.__index = VxPlayer
 function vx.player.getIdentifier(source, keepPrefix, forcedType)
    local identifierType = forcedType or primaryIdentifier or "license"
    local identifier = GetPlayerIdentifierByType(tostring(source), identifierType)
-   if not keepPrefix then
+   if identifier and not keepPrefix then
       identifier = identifier:gsub(identifierType .. ":", "")
    end
 

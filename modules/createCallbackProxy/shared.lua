@@ -10,17 +10,21 @@ local function createProxiedCallback(self, name, func)
    rawset(self, name, func)
 
    local callback = createCallbackName(vx.context, name)
-   vx.callback.register(callback, function(source, ...)
+   vx.callback.register(callback, function(...)
+      local arguments = { ... }
+      local source = arguments[1]
+
       if vx.context == "client" then
-         return func(nil, source, ...)
+         return func(source, ...)
       end
 
-      local arguments = { ... }
       if #arguments <= 0 then
          return func(source)
       end
 
-      return func(..., source)
+      table.remove(arguments, 1)
+      table.insert(arguments, source)
+      return func(table.unpack(arguments))
    end)
 end
 
@@ -31,6 +35,7 @@ local function callProxiedCallback(_, key)
       local fromClient = vx.context == "client"
       local playerId = arguments[1]
       local delay = false
+      vx.print.info("call", table.unpack(arguments))
 
       return vx.callback.await(callback, vx.ternary(fromClient, delay, playerId), table.unpack(arguments))
    end
