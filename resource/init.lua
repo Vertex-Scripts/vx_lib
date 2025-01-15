@@ -11,7 +11,7 @@ local frameworkResources = {
 
 local inventoryResources = {
    "ox_inventory",
-   "qs_inventory",
+   "qs-inventory",
    "es_extended",
    "qb-inventory"
 }
