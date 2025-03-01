@@ -6,7 +6,8 @@ local inventoryConvar = GetConvar("vx:inventory", "auto")
 local targetConvar = GetConvar("vx:target", "auto")
 
 local frameworkResources = {
-   "es_extended"
+   "es_extended",
+   "qb-core"
 }
 
 local inventoryResources = {
@@ -59,6 +60,10 @@ local function getLibrary(type, convar, map)
    end
 
    local result = vx.ternary(convar ~= "auto", convar, findLibrary())
+   if not result then
+      return vx.print.warn(string.format("Failed to find %s library", type))
+   end
+
    local isStarted = GetResourceState(result) == "started"
    vx.print.info(("Using %s: ^2%s ^1%s^0"):format(type, result, not isStarted and "(Not started)" or ""))
 
