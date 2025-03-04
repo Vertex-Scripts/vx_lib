@@ -122,5 +122,3 @@ function vx.getTarget() return target end
 function vx.getServerConfig() return ServerConfig end
 
 function vx.getSharedConfig() return SharedConfig end
-
-print(vx.formatting.formatCurrency(134534534534534534))

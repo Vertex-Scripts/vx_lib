@@ -1,15 +1,6 @@
 ---@class VxLogger : VxClass
 VxLogger = vx.class("VxLogger")
 
-local function formatNumber(n)
-   local formatted = tostring(n):reverse():gsub("(%d%d%d)", "%1."):reverse()
-   return formatted:gsub("^%.", ""):gsub("%.$", "")
-end
-
-local function formatCurrency(num)
-   return string.format("€%s", formatNumber(num))
-end
-
 local function createFieldDescription(icon, key, value)
    return string.format("`%s` %s: `%s`", icon, key, value)
 end
@@ -28,7 +19,7 @@ function VxLogger:addDescriptionField(key, value)
    end
 
    if type(value) == "number" then
-      value = formatNumber(value)
+      value = vx.formatting.formatDecimal(value)
    end
 
    local line = string.format("**%s**: %s", key, value)
@@ -80,9 +71,10 @@ function VxLogger:addPlayer(playerId, options)
       local money = vxPlayer:getAccountMoney("money")
       local blackMoney = vxPlayer:getAccountMoney("black_money")
 
-      fieldDescriptionBuilder:appendLine(createFieldDescription("💰", "Bank", formatCurrency(bank)))
-      fieldDescriptionBuilder:appendLine(createFieldDescription("💵", "Geld", formatCurrency(money)))
-      fieldDescriptionBuilder:appendLine(createFieldDescription("💸", "Zwart Geld", formatCurrency(blackMoney)))
+      fieldDescriptionBuilder:appendLine(createFieldDescription("💰", "Bank", vx.formatting.formatCurrency(bank)))
+      fieldDescriptionBuilder:appendLine(createFieldDescription("💵", "Geld", vx.formatting.formatCurrency(money)))
+      fieldDescriptionBuilder:appendLine(createFieldDescription("💸", "Zwart Geld",
+         vx.formatting.formatCurrency(blackMoney)))
    end
 
    if options?.additionalFields then
@@ -101,7 +93,6 @@ function VxLogger:addPlayer(playerId, options)
 end
 
 function VxLogger:send()
-   vx.print.info(vx.serverConfig)
    local response = vx.sendHttpRequest(self.url, {
       method = "POST",
       body = json.encode({
