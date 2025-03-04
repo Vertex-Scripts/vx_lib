@@ -121,11 +121,7 @@ function VxLogger:send()
       headers = { ['Content-Type'] = 'application/json' }
    })
 
-   vx.print.info(response)
-end
-
----@param name string
----@param url string
-function vx.createLogger(name, url)
-   return VxLogger:new(name, url)
+   if response.status ~= 204 then
+      vx.print.error(string.format("Failed to send %s logs to Discord: %s", self.name, response.errorText))
+   end
 end
