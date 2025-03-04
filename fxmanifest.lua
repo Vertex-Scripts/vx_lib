@@ -8,6 +8,7 @@ version '2.0.3'
 ui_page "web/dist/index.html"
 
 server_scripts {
+   "config.server.lua",
    "resource/**/server.lua",
    "resource/**/server/*.lua"
 }
@@ -19,9 +20,9 @@ client_scripts {
 
 shared_scripts {
    "loader.lua",
+   "config.shared.lua",
    "resource/init.lua",
    "resource/**/shared.lua",
-   "config.server.lua"
 }
 
 files {

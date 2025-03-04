@@ -40,7 +40,9 @@ end
 vx = setmetatable({
    name = "vx_lib",
    context = context,
-   cache = cache
+   cache = cache,
+   serverConfig = ServerConfig,
+   sharedConfig = SharedConfig
 }, {
    __index = vx_loadModule,
    __newindex = proxyExports,
@@ -95,7 +97,7 @@ initializeFramework(framework)
 vx.systems = {
    framework = framework,
    inventory = inventory,
-   target = target,
+   target = target
 }
 
 if doesResourceExist("ox_lib") then
@@ -118,3 +120,7 @@ function vx.getInventory() return inventory end
 function vx.getTarget() return target end
 
 function vx.getServerConfig() return ServerConfig end
+
+function vx.getSharedConfig() return SharedConfig end
+
+print(vx.formatting.formatCurrency(134534534534534534))
