@@ -4,16 +4,23 @@
 ---@field avatar_url? string
 ---@field embeds? WebhookEmbed[]
 
+---@class WebhookEmbedField
+---@field name string
+---@field value string
+---@field inline boolean
+
 ---@class WebhookEmbed
 ---@field title? string
 ---@field description? string
 ---@field timestamp? number|osdate
 ---@field color? number
----@field fields? { name: string, value: string, inline: boolean }[]
+---@field fields? WebhookEmbedField[]
 
+---@deprecated vx.sendWebhook is deprecated, please use vx.createLogger of manually with vx.sendHttpRequest
 ---@param url string
 ---@param params WebhookParams
 function vx.sendWebhook(url, params)
+   vx.print.warn("vx.sendWebhook is deprecated, please use vx.createLogger of manually with vx.sendHttpRequest")
    vx.typeCheck("url", url, "string")
 
    if not params.content and not params.embeds then

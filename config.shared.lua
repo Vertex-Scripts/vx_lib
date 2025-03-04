@@ -1,0 +1,2 @@
+SharedConfig = {}
+SharedConfig.currencySymbol = "€"

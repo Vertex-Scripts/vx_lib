@@ -6,12 +6,13 @@ local inventoryConvar = GetConvar("vx:inventory", "auto")
 local targetConvar = GetConvar("vx:target", "auto")
 
 local frameworkResources = {
-   "es_extended"
+   "es_extended",
+   "qb-core"
 }
 
 local inventoryResources = {
    "ox_inventory",
-   "qs_inventory",
+   "qs-inventory",
    "es_extended",
    "qb-inventory"
 }
@@ -39,7 +40,9 @@ end
 vx = setmetatable({
    name = "vx_lib",
    context = context,
-   cache = cache
+   cache = cache,
+   serverConfig = ServerConfig,
+   sharedConfig = SharedConfig
 }, {
    __index = vx_loadModule,
    __newindex = proxyExports,
@@ -59,6 +62,10 @@ local function getLibrary(type, convar, map)
    end
 
    local result = vx.ternary(convar ~= "auto", convar, findLibrary())
+   if not result then
+      return vx.print.warn(string.format("Failed to find %s library", type))
+   end
+
    local isStarted = GetResourceState(result) == "started"
    vx.print.info(("Using %s: ^2%s ^1%s^0"):format(type, result, not isStarted and "(Not started)" or ""))
 
@@ -87,6 +94,12 @@ local inventory = getLibrary("inventory", inventoryConvar, inventoryResources)
 local target = getLibrary("target", targetConvar, targetResources)
 initializeFramework(framework)
 
+vx.systems = {
+   framework = framework,
+   inventory = inventory,
+   target = target
+}
+
 if doesResourceExist("ox_lib") then
    local oxInit = LoadResourceFile("ox_lib", "init.lua")
    local loadOx, err = load(oxInit)
@@ -105,3 +118,7 @@ function vx.getFramework() return framework end
 function vx.getInventory() return inventory end
 
 function vx.getTarget() return target end
+
+function vx.getServerConfig() return ServerConfig end
+
+function vx.getSharedConfig() return SharedConfig end

@@ -48,6 +48,8 @@ local vx = setmetatable({
       inventory = inventory,
       target = target,
    },
+   serverConfig = context == "server" and export:getServerConfig() or {},
+   sharedConfig = export:getSharedConfig()
 }, {
    __index = call,
    __call = call
