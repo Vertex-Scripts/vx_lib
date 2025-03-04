@@ -21,7 +21,7 @@ shared_scripts {
    "loader.lua",
    "resource/init.lua",
    "resource/**/shared.lua",
-   "config.lua"
+   "config.server.lua"
 }
 
 files {

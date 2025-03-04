@@ -38,7 +38,7 @@ end
 ---@param options? { includeAccounts?: boolean; displayName?: string; additionalFields?: { icon: string, key: string, value: any }[] }
 function VxLogger:addPlayer(playerId, options)
    options = options or {}
-   options.includeAccounts = options.includeAccounts or Config.logger.defaults.includeAccounts
+   options.includeAccounts = options.includeAccounts or vx.serverConfig.logger.defaults.includeAccounts
 
    local fieldDescriptionBuilder = vx.createStringBuilder()
    local playerName = playerId > 0 and GetPlayerName(playerId) or "Console"
@@ -100,20 +100,21 @@ function VxLogger:addPlayer(playerId, options)
 end
 
 function VxLogger:send()
+   vx.print.info(vx.serverConfig)
    local response = vx.sendHttpRequest(self.url, {
       method = "POST",
       body = json.encode({
-         username = Config.logger.username,
-         avatar_url = Config.logger.avatarUrl,
+         username = vx.serverConfig.logger.username,
+         avatar_url = vx.serverConfig.logger.avatarUrl,
          embeds = {
             {
                title = string.format("%s Logs", self.name),
                description = self.descriptionBuilder:toString(),
                fields = self.fields,
-               color = Config.logger.color,
+               color = vx.serverConfig.logger.color,
                footer = {
                   text = os.date("%X - %d/%m/%Y"),
-                  icon_url = Config.logger.avatarUrl
+                  icon_url = vx.serverConfig.logger.avatarUrl
                }
             }
          }
@@ -125,3 +126,11 @@ function VxLogger:send()
       vx.print.error(string.format("Failed to send %s logs to Discord: %s", self.name, response.errorText))
    end
 end
+
+---@param name string
+---@param url string
+function vx.createLogger(name, url)
+   return VxLogger:new(name, url)
+end
+
+return vx.createLogger

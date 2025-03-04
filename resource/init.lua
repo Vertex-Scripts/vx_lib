@@ -116,3 +116,5 @@ function vx.getFramework() return framework end
 function vx.getInventory() return inventory end
 
 function vx.getTarget() return target end
+
+function vx.getServerConfig() return ServerConfig end
