@@ -6,6 +6,14 @@ local function formatNumber(n)
    return formatted:gsub("^%.", ""):gsub("%.$", "")
 end
 
+local function formatCurrency(num)
+   return string.format("€%s", formatNumber(num))
+end
+
+local function createFieldDescription(icon, key, value)
+   return string.format("`%s` %s: `%s`", icon, key, value)
+end
+
 function VxLogger:constructor(name, url)
    self.descriptionBuilder = vx.createStringBuilder()
    self.url = url
@@ -27,14 +35,27 @@ function VxLogger:addDescriptionField(key, value)
    self.descriptionBuilder:appendLine(line)
 end
 
----@param options? { includeAccounts?: boolean; displayName?: string; }
+---@param options? { includeAccounts?: boolean; displayName?: string; additionalFields?: { icon: string, key: string, value: any }[] }
 function VxLogger:addPlayer(playerId, options)
-   local fieldDescription = ""
+   options = options or {}
+   options.includeAccounts = options.includeAccounts or Config.logger.defaults.includeAccounts
 
-   local playerName = GetPlayerName(playerId)
+   local fieldDescriptionBuilder = vx.createStringBuilder()
+   local playerName = playerId > 0 and GetPlayerName(playerId) or "Console"
    local displayName = string.format("Speler: %s", playerName)
    if options and options.displayName then
       displayName = string.format(options.displayName, playerName)
+   end
+
+   if playerId <= 0 then
+      local field = {
+         name = displayName,
+         value = "*Console*",
+         inline = false
+      }
+
+      table.insert(self.fields, field)
+      return
    end
 
    local license = vx.player.getIdentifier(playerId, false, "license")
@@ -42,11 +63,15 @@ function VxLogger:addPlayer(playerId, options)
    local discord = vx.player.getIdentifier(playerId, false, "discord")
    local steam = vx.player.getIdentifier(playerId, false, "steam")
 
-   fieldDescription = string.format("%s`🔢` Server ID: `%s`\n", fieldDescription, playerId)
-   if license then fieldDescription = string.format("%s`💿` License: `%s`\n", fieldDescription, license) end
-   if license2 then fieldDescription = string.format("%s`📀` License2: `%s`\n", fieldDescription, license2) end
-   if discord then fieldDescription = string.format("%s`💬` Discord: `%s`\n", fieldDescription, discord) end
-   if steam then fieldDescription = string.format("%s`🎮` Steam: `%s`\n", fieldDescription, steam) end
+   fieldDescriptionBuilder:appendLine(createFieldDescription("🔢", "Server ID", playerId))
+   if license then fieldDescriptionBuilder:appendLine(createFieldDescription("💿", "License", license)) end
+   if license2 then fieldDescriptionBuilder:appendLine(createFieldDescription("📀", "License2", license2)) end
+   if discord then
+      fieldDescriptionBuilder:appendLine(createFieldDescription("💬", "Discord", discord) ..
+         (" (<@%s>)"):format(discord))
+   end
+
+   if steam then fieldDescriptionBuilder:appendLine(createFieldDescription("🎮", "Steam", steam)) end
 
    if options?.includeAccounts then
       local vxPlayer = vx.player.getFromId(playerId)
@@ -54,14 +79,20 @@ function VxLogger:addPlayer(playerId, options)
       local money = vxPlayer:getAccountMoney("money")
       local blackMoney = vxPlayer:getAccountMoney("black_money")
 
-      fieldDescription = string.format("%s`💰` Bank: `%s`\n", fieldDescription, bank)
-      fieldDescription = string.format("%s`💵` Geld: `%s`\n", fieldDescription, money)
-      fieldDescription = string.format("%s`💸` Zwart Geld: `%s`\n", fieldDescription, blackMoney)
+      fieldDescriptionBuilder:appendLine(createFieldDescription("💰", "Bank", formatCurrency(bank)))
+      fieldDescriptionBuilder:appendLine(createFieldDescription("💵", "Geld", formatCurrency(money)))
+      fieldDescriptionBuilder:appendLine(createFieldDescription("💸", "Zwart Geld", formatCurrency(blackMoney)))
+   end
+
+   if options?.additionalFields then
+      for _, field in ipairs(options.additionalFields) do
+         fieldDescriptionBuilder:appendLine(createFieldDescription(field.icon, field.key, field.value))
+      end
    end
 
    local field = {
       name = displayName,
-      value = fieldDescription,
+      value = fieldDescriptionBuilder:toString(),
       inline = false
    }
 
@@ -79,7 +110,7 @@ function VxLogger:send()
                title = string.format("%s Logs", self.name),
                description = self.descriptionBuilder:toString(),
                fields = self.fields,
-               color = 0x1b4de3,
+               color = Config.logger.color,
                footer = {
                   text = os.date("%X - %d/%m/%Y"),
                   icon_url = Config.logger.avatarUrl
