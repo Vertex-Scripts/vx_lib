@@ -92,6 +92,12 @@ local inventory = getLibrary("inventory", inventoryConvar, inventoryResources)
 local target = getLibrary("target", targetConvar, targetResources)
 initializeFramework(framework)
 
+vx.systems = {
+   framework = framework,
+   inventory = inventory,
+   target = target,
+}
+
 if doesResourceExist("ox_lib") then
    local oxInit = LoadResourceFile("ox_lib", "init.lua")
    local loadOx, err = load(oxInit)
