@@ -112,10 +112,10 @@ function VxPlayer:getAccountMoney(account)
          local xPlayer = self.frameworkPlayer
          return xPlayer.getAccount(account)?.money or 0
       end,
-      -- ["qb-core"] = function()
-      --    local player = QBCore.Functions.GetPlayer(source)
-      --    return player.PlayerData.job.name
-      -- end
+      ["qb-core"] = function()
+         local qbPlayer = self.frameworkPlayer
+         return qbPlayer.Functions.GetMoney(account)
+      end
    })
 
    return caller()
