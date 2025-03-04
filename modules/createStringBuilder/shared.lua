@@ -1,27 +1,31 @@
 ---@class VxStringBuilder : VxClass
-vx.stringBuilder = vx.class("VxStringBuilder")
+VxStringBuilder = vx.class("VxStringBuilder")
 
-function vx.stringBuilder:constructor()
+function VxStringBuilder:constructor()
    self.buffer = {}
 end
 
-function vx.stringBuilder:append(str)
+function VxStringBuilder:append(str)
    table.insert(self.buffer, str)
    return self
 end
 
-function vx.stringBuilder:appendFormat(str, ...)
+function VxStringBuilder:appendFormat(str, ...)
    table.insert(self.buffer, string.format(str, ...))
    return self
 end
 
-function vx.stringBuilder:appendLine(str)
+function VxStringBuilder:appendLine(str)
    table.insert(self.buffer, str .. "\n")
    return self
 end
 
-function vx.stringBuilder:toString()
+function VxStringBuilder:toString()
    return table.concat(self.buffer)
 end
 
-return vx.stringBuilder
+function vx.createStringBuilder()
+   return VxStringBuilder:new()
+end
+
+return vx.createStringBuilder

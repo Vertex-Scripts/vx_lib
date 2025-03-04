@@ -4,12 +4,17 @@
 ---@field avatar_url? string
 ---@field embeds? WebhookEmbed[]
 
+---@class WebhookEmbedField
+---@field name string
+---@field value string
+---@field inline boolean
+
 ---@class WebhookEmbed
 ---@field title? string
 ---@field description? string
 ---@field timestamp? number|osdate
 ---@field color? number
----@field fields? { name: string, value: string, inline: boolean }[]
+---@field fields? WebhookEmbedField[]
 
 ---@param url string
 ---@param params WebhookParams
