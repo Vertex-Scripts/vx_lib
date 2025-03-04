@@ -38,7 +38,8 @@ end
 ---@param options? { includeAccounts?: boolean; displayName?: string; additionalFields?: { icon: string, key: string, value: any }[] }
 function VxLogger:addPlayer(playerId, options)
    options = options or {}
-   options.includeAccounts = options.includeAccounts or vx.serverConfig.logger.defaults.includeAccounts
+   options.includeAccounts = options.includeAccounts == nil and vx.serverConfig.logger.defaults.includeAccounts or
+       options.includeAccounts
 
    local fieldDescriptionBuilder = vx.createStringBuilder()
    local playerName = playerId > 0 and GetPlayerName(playerId) or "Console"
