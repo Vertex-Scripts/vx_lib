@@ -16,9 +16,11 @@
 ---@field color? number
 ---@field fields? WebhookEmbedField[]
 
+---@deprecated vx.sendWebhook is deprecated, please use vx.createLogger of manually with vx.sendHttpRequest
 ---@param url string
 ---@param params WebhookParams
 function vx.sendWebhook(url, params)
+   vx.print.warn("vx.sendWebhook is deprecated, please use vx.createLogger of manually with vx.sendHttpRequest")
    vx.typeCheck("url", url, "string")
 
    if not params.content and not params.embeds then
