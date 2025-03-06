@@ -72,7 +72,7 @@ jobs:
         run: |
           mkdir -p ./temp/vx_lib/
           mkdir -p ./temp/vx_lib/web/
-          cp ./{LICENSE,README.md,fxmanifest.lua,init.lua,loader.lua,types.lua} ./temp/vx_lib/
+          cp ./{LICENSE,README.md,fxmanifest.lua,init.lua,loader.lua,types.lua,config.shared.lua,config.server.lua} ./temp/vx_lib/
           cp -r ./{bridge,modules,resource} ./temp/vx_lib/
           cp -r ./web/dist ./temp/vx_lib/web/
           cd ./temp && zip -r ../vx_lib.zip ./vx_lib
