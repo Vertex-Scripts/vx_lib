@@ -1,10 +1,12 @@
 vx.player = {}
 
+local primaryIdentifier = GetConvar("vx:primaryIdentifier", "license")
+
 ---@class VxPlayer : VxClass
 VxPlayer = vx.class("VxPlayer")
 
 local function transformAccountType(type)
-   if QB and type == "money" then
+   if QBCore and type == "money" then
       return "cash"
    end
 
@@ -17,6 +19,7 @@ end
 
 local function getJob(self, type)
    type = type or "job"
+
    if ESX then
       return {
          name = self.fp.job.name,
@@ -24,7 +27,7 @@ local function getJob(self, type)
          grade = self.fp.job.grade,
          gradeLabel = self.fp.job.grade_label
       }
-   elseif QB then
+   elseif QBCore then
       return {
          name = self.fp.PlayerData[type].name,
          label = self.fp.PlayerData[type].label,
@@ -42,10 +45,14 @@ function VxPlayer:constructor(source)
    self.fp = frameworkPlayer
 end
 
+function VxPlayer:getIdentifier()
+   return vx.player.getIdentifier(self.source)
+end
+
 function VxPlayer:getFirstName()
    if ESX then
       return string.match(self.fp.getName(), "%S+")
-   elseif QB then
+   elseif QBCore then
       return self.fp.PlayerData.charinfo.firstname
    end
 end
@@ -53,7 +60,7 @@ end
 function VxPlayer:getLastName()
    if ESX then
       return string.match(self.fp.getName(), "%s(.+)")
-   elseif QB then
+   elseif QBCore then
       return self.fp.PlayerData.charinfo.lastname
    end
 end
@@ -61,7 +68,7 @@ end
 function VxPlayer:getFullName()
    if ESX then
       return self.fp.getName()
-   elseif QB then
+   elseif QBCore then
       return string.format("%s %s", self:getFirstName(), self:getLastName())
    end
 end
@@ -71,7 +78,7 @@ function VxPlayer:getJob()
 end
 
 function VxPlayer:getGroup()
-   return ESX and self.fp.getGroup() or QB and QBCore.Functions.GetPermission(self.source)
+   return ESX and self.fp.getGroup() or QBCore and QBCore.Functions.GetPermission(self.source)
 end
 
 ---@param amount number
@@ -81,7 +88,7 @@ function VxPlayer:giveMoney(amount, type)
 
    if ESX then
       self.fp.addAccountMoney(type, amount)
-   elseif QB then
+   elseif QBCore then
       self.fp.Functions.AddMoney(type, amount)
    end
 end
@@ -93,7 +100,7 @@ function VxPlayer:removeMoney(amount, type)
 
    if ESX then
       self.fp.removeAccountMoney(type, amount)
-   elseif QB then
+   elseif QBCore then
       self.fp.Functions.RemoveMoney(type, amount)
    end
 end
@@ -101,7 +108,7 @@ end
 ---@param type AccountType|string
 function VxPlayer:getMoney(type)
    type = transformAccountType(type)
-   return ESX and self.fp.getAccount(type).money or QB
+   return ESX and self.fp.getAccount(type).money or QBCore
        and self.fp.Functions.GetMoney(type)
 end
 
@@ -112,6 +119,23 @@ end
 ---@param source number
 function vx.player.getFromId(source)
    return VxPlayer:new(source)
+end
+
+---@param source number|string
+---@param keepPrefix? boolean
+---@param forcedType? string
+function vx.player.getIdentifier(source, keepPrefix, forcedType)
+   if ESX then
+      local identifierType = forcedType or primaryIdentifier or "license"
+      local identifier = GetPlayerIdentifierByType(tostring(source), identifierType)
+      if identifier and not keepPrefix then
+         identifier = identifier:gsub(identifierType .. ":", "")
+      end
+
+      return identifier
+   elseif QBCore then
+      return QBCore.Functions.GetPlayer(source).PlayerData.citizenid -- TODO: Test
+   end
 end
 
 return vx.player
