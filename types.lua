@@ -11,22 +11,10 @@
 ---| '"qb-core"'
 ---| '"auto"'
 
----@alias TargetSystem
----| '"ox_target"'
----| '"qb-target"'
----| '"qtarget"'
----| '"auto"'
-
----@alias InventorySystem
----| '"ox_inventory"'
----| '"qb_inventory"'
----| '"es_extended"'
----| '"qs-inventory"'
----| '"auto"'
-
 ---@alias AccountType
 ---| '"bank"'
 ---| '"money"'
+---| '"cash"'
 ---| '"black_money"'
 
 ---@alias NotificationSystem

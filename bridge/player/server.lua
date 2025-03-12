@@ -1,213 +1,117 @@
--- TODO: Convert to vx.class
-
-local primaryIdentifier = GetConvar("vx:primaryIdentifier", "license")
-
 vx.player = {}
 
-VxPlayer = {}
-VxPlayer.__index = VxPlayer
+---@class VxPlayer : VxClass
+VxPlayer = vx.class("VxPlayer")
 
----@param source number|string
----@param keepPrefix? boolean
----@param forcedType? string
----`Server`
-function vx.player.getIdentifier(source, keepPrefix, forcedType)
-   local identifierType = forcedType or primaryIdentifier or "license"
-   local identifier = GetPlayerIdentifierByType(tostring(source), identifierType)
-   if identifier and not keepPrefix then
-      identifier = identifier:gsub(identifierType .. ":", "")
+local function transformAccountType(type)
+   if QB and type == "money" then
+      return "cash"
    end
 
-   return identifier
-end
-
----@deprecated
----`Server`
-function vx.player.getIdentifierFromSource(source, keepPrefix, forcedType)
-   return vx.player.getIdentifier(source, keepPrefix, forcedType)
-end
-
----`Server`
-function VxPlayer:new(source)
-   local player = setmetatable({}, self)
-   local getFrameworkPlayer = vx.caller.createFrameworkCaller({
-      ["es_extended"] = function()
-         return ESX.GetPlayerFromId(source)
-      end,
-      ["qb-core"] = function()
-         return QBCore.Functions.GetPlayer(source)
-      end
-   })
-
-   player.frameworkPlayer = getFrameworkPlayer()
-   player.source = source
-
-   return player
-end
-
----@param keepPrefix? boolean
----@param type? IdentifierType
----`Server`
-function VxPlayer:getIdentifier(keepPrefix, type)
-   local identifierType = type or primaryIdentifier or "license"
-   local identifier = GetPlayerIdentifierByType(tostring(self.source), identifierType)
-   if not keepPrefix then
-      identifier = identifier:gsub(identifierType .. ":", "")
+   if ESX and type == "cash" then
+      return "money"
    end
 
-   return identifier
+   return type
 end
 
----@param account AccountType | string
----@param amount number
----@param reason? string
----`Server`
-function VxPlayer:addAccountMoney(account, amount, reason)
-   local caller = vx.caller.createFrameworkCaller({
-      ["es_extended"] = function()
-         ---@type ExtendedPlayer
-         local xPlayer = self.frameworkPlayer
-         xPlayer.addAccountMoney(account, amount, reason or "")
-      end,
-      ["qb-core"] = function()
-         local player = self.frameworkPlayer
-         local moneyType = account == "money" and "cash" or "bank"
-         player.Functions.AddMoney(moneyType, amount, reason or "")
-      end
-   })
-
-   caller()
+local function getJob(self, type)
+   type = type or "job"
+   if ESX then
+      return {
+         name = self.fp.job.name,
+         label = self.fp.job.label,
+         grade = self.fp.job.grade,
+         gradeLabel = self.fp.job.grade_label
+      }
+   elseif QB then
+      return {
+         name = self.fp.PlayerData[type].name,
+         label = self.fp.PlayerData[type].label,
+         grade = self.fp.PlayerData[type].grade.level,
+         gradeLabel = self.fp.PlayerData[type].grade.name
+      }
+   end
 end
 
--- TODO: Implement for QB
----@param account AccountType
----@param amount number
----@param reason? string
----`Server`
-function VxPlayer:removeAccountMoney(account, amount, reason)
-   local caller = vx.caller.createFrameworkCaller({
-      ["es_extended"] = function()
-         ---@type ExtendedPlayer
-         local xPlayer = self.frameworkPlayer
-         xPlayer.removeAccountMoney(account, amount, reason or "")
-      end,
-      -- ["qb-core"] = function()
-      --    local player = self.frameworkPlayer
-      --    local moneyType = account == "money" and "cash" or "bank"
-      --    player.Functions.AddMoney(moneyType, amount, reason or "")
-      -- end
-   })
+function VxPlayer:constructor(source)
+   local frameworkPlayer = ESX and ESX.GetPlayerFromId(source) or QBCore and QBCore.Functions.GetPlayer(source)
+   ---@cast frameworkPlayer table
 
-   caller()
+   self.source = source
+   self.fp = frameworkPlayer
 end
 
--- TODO: Implement for QB
----@param account AccountType
----@return number
----`Server`
-function VxPlayer:getAccountMoney(account)
-   local caller = vx.caller.createFrameworkCaller({
-      ["es_extended"] = function()
-         ---@type ExtendedPlayer
-         local xPlayer = self.frameworkPlayer
-         return xPlayer.getAccount(account)?.money or 0
-      end,
-      ["qb-core"] = function()
-         local qbPlayer = self.frameworkPlayer
-         return qbPlayer.Functions.GetMoney(account)
-      end
-   })
-
-   return caller()
+function VxPlayer:getFirstName()
+   if ESX then
+      return string.match(self.fp.getName(), "%S+")
+   elseif QB then
+      return self.fp.PlayerData.charinfo.firstname
+   end
 end
 
----@param name string
----@param grade? number
----`Server`
-function VxPlayer:setJob(name, grade)
-   local caller = vx.caller.createFrameworkCaller({
-      ["es_extended"] = function()
-         ---@type ExtendedPlayer
-         local xPlayer = self.frameworkPlayer
-         xPlayer.setJob(name, tostring(grade) or "0")
-      end,
-      ["qb-core"] = function()
-         local player = QBCore.Functions.GetPlayer(source)
-         player.Functions.SetJob(name, grade or 0)
-      end
-   })
-
-   caller()
+function VxPlayer:getLastName()
+   if ESX then
+      return string.match(self.fp.getName(), "%s(.+)")
+   elseif QB then
+      return self.fp.PlayerData.charinfo.lastname
+   end
 end
 
--- TODO: Test if it works for QB
----@return string
----`Server`
+function VxPlayer:getFullName()
+   if ESX then
+      return self.fp.getName()
+   elseif QB then
+      return string.format("%s %s", self:getFirstName(), self:getLastName())
+   end
+end
+
 function VxPlayer:getJob()
-   local caller = vx.caller.createFrameworkCaller({
-      ["es_extended"] = function()
-         ---@type ExtendedPlayer
-         local xPlayer = self.frameworkPlayer
-         return xPlayer.job.name
-      end,
-      ["qb-core"] = function()
-         local player = QBCore.Functions.GetPlayer(source)
-         return player.PlayerData.job.name
-      end
-   })
-
-   return caller()
+   return getJob(self)
 end
 
--- TODO: Implement for QB
----@return string
----`Server`
 function VxPlayer:getGroup()
-   local caller = vx.caller.createFrameworkCaller({
-      ["es_extended"] = function()
-         ---@type ExtendedPlayer
-         local xPlayer = self.frameworkPlayer
-         return xPlayer.getGroup()
-      end,
-      -- ["qb-core"] = function()
-      --    local player = QBCore.Functions.GetPlayer(source)
-      --    return player.PlayerData.group
-      -- end
-   })
-
-   return caller()
+   return ESX and self.fp.getGroup() or QB and QBCore.Functions.GetPermission(self.source)
 end
 
------------------------
--- Inventory Methods --
------------------------
+---@param amount number
+---@param type AccountType|string
+function VxPlayer:giveMoney(amount, type)
+   type = transformAccountType(type)
 
----@param item string
----@param count? number
----@param metadata? table
----`Server`
-function vx.player:addItem(item, count, metadata)
-   return vx.inventory.addItem(self.source, item, count, metadata)
+   if ESX then
+      self.fp.addAccountMoney(type, amount)
+   elseif QB then
+      self.fp.Functions.AddMoney(type, amount)
+   end
 end
 
----@param item string
----@param count? number
----@param metadata? table
----`Server`
-function vx.player:removeItem(item, count, metadata)
-   return vx.inventory.removeItem(self.source, item, count, metadata)
+---@param amount number
+---@param type AccountType|string
+function VxPlayer:removeMoney(amount, type)
+   type = transformAccountType(type)
+
+   if ESX then
+      self.fp.removeAccountMoney(type, amount)
+   elseif QB then
+      self.fp.Functions.RemoveMoney(type, amount)
+   end
 end
 
----@param item string
----@param metadata? table
-function vx.player:getItemCount(item, metadata)
-   return vx.inventory.getItemCount(self.source, item, metadata)
+---@param type AccountType|string
+function VxPlayer:getMoney(type)
+   type = transformAccountType(type)
+   return ESX and self.fp.getAccount(type).money or QB
+       and self.fp.Functions.GetMoney(type)
 end
 
----`Server`
+function VxPlayer:getGang()
+   return getJob(self, "gang")
+end
+
+---@param source number
 function vx.player.getFromId(source)
-   local player = VxPlayer:new(source)
-   return player
+   return VxPlayer:new(source)
 end
 
 return vx.player

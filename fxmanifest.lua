@@ -21,6 +21,7 @@ client_scripts {
 shared_scripts {
    "loader.lua",
    "config.shared.lua",
+   "resource/autodetect.lua",
    "resource/init.lua",
    "resource/**/shared.lua",
 }
