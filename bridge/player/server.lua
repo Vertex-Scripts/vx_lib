@@ -151,17 +151,27 @@ end
 ---@param keepPrefix? boolean
 ---@param forcedType? string
 function vx.player.getIdentifier(source, keepPrefix, forcedType)
-   if ESX then
-      local identifierType = forcedType or primaryIdentifier or "license"
-      local identifier = GetPlayerIdentifierByType(tostring(source), identifierType)
-      if identifier and not keepPrefix then
-         identifier = identifier:gsub(identifierType .. ":", "")
-      end
-
-      return identifier
-   elseif QBCore then
-      return QBCore.Functions.GetPlayer(source).PlayerData.citizenid -- TODO: Test
+   local identifierType = forcedType or primaryIdentifier or "license"
+   local identifier = GetPlayerIdentifierByType(tostring(source), identifierType)
+   if identifier and not keepPrefix then
+      identifier = identifier:gsub(identifierType .. ":", "")
    end
+
+   return identifier
+end
+
+---@param identifier string
+---@param type? IdentifierType Defaults to license
+function vx.player.getPlayerIdFromIdentifier(identifier, type)
+   local players = GetPlayers()
+   for _, playerId in pairs(players) do
+      local targetIdentifier = vx.player.getIdentifier(playerId, false, type)
+      if targetIdentifier == identifier then
+         return playerId
+      end
+   end
+
+   return
 end
 
 return vx.player
