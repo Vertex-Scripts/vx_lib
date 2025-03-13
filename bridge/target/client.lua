@@ -84,7 +84,7 @@ local function addTarget(oxExport, qbExport, options, ...)
    end
 
    if oxTarget then
-      arguments:push(oxTarget)
+      arguments:push(transformedOptions)
    elseif qbTarget then
       arguments:push(createQbTargetParams(transformedOptions))
    end
@@ -154,13 +154,16 @@ end
 ---@param models string|string[]
 ---@param options TargetOptions
 function vx.target.addGlobalModel(models, options)
-   return addTarget("addGlobalModel", "AddTargetModel", options, models)
+   return addTarget("addModel", "AddTargetModel", options, models)
 end
 
+-- TODO: Test with qb
 ---@param models string|string[]
 ---@param identifiers string|string[]
-function vx.target.removeGlobalModel(identifiers)
-   return removeTarget("removeGlobalModel", "RemoveTargetModel", identifiers, options)
+function vx.target.removeGlobalModel(models, identifiers)
+   return removeTarget("removeModel", "RemoveTargetModel",
+      oxTarget and models or identifiers,
+      oxTarget and identifiers or models)
 end
 
 return vx.target
