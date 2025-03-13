@@ -6,8 +6,9 @@ local resources = {
       "qb-core"
    },
    ["inventory"] = {
-      "ox_inventory",
-      "qb-inventory"
+      -- "ox_inventory",
+      -- "qb-inventory",
+      "es_extended"
    },
    ["target"] = {
       "ox_target",
@@ -68,3 +69,21 @@ function vx_autoDetect.getTarget()
    return target
 end
 
+---@return Inventory
+function vx_autoDetect.getInventory()
+   ---@cast inventory Inventory
+   return inventory
+end
+
+function vx_autoDetect.loadFramework()
+   local context = IsDuplicityVersion() and "server" or "client"
+   if framework == "es_extended" then
+      _ENV.ESX = exports[framework]:getSharedObject()
+      print("ESXX")
+   elseif framework == "qb-core" then
+      _ENV.QBCore = exports[framework]:GetCoreObject()
+      RegisterNetEvent(("QBCore:%s:UpdateObject"):format(context), function()
+         _ENV.QBCore = exports[framework]:GetCoreObject()
+      end)
+   end
+end

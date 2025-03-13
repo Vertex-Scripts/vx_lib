@@ -30,7 +30,9 @@ vx = setmetatable({
    __newindex = proxyExports,
 })
 
-vx.framework = vx_autoDetect.getFramework()
+vx.frameworkResource = vx_autoDetect.getFramework()
+vx.targetResource = vx_autoDetect.getTarget()
+vx.inventoryResource = vx_autoDetect.getInventory()
 
 if GetResourceState("ox_lib") ~= "missing" then
    local oxInit = LoadResourceFile("ox_lib", "init.lua")
@@ -45,8 +47,14 @@ if GetResourceState("ox_lib") ~= "missing" then
    end
 end
 
-function vx.getFramework() return vx.framework end
+function vx.getFramework() return vx.frameworkResource end
+
+function vx.getTarget() return vx.targetResource end
 
 function vx.getServerConfig() return ServerConfig end
 
 function vx.getSharedConfig() return SharedConfig end
+
+function vx.getInventory() return vx_autoDetect.getInventory() end
+
+vx_autoDetect.loadFramework()

@@ -65,12 +65,4 @@ vx.cache = setmetatable({
 _ENV.vx = vx
 _ENV.require = vx.require
 
-if vx.framework == "es_extended" then
-   _ENV.ESX = exports[vx.framework]:getSharedObject()
-elseif vx.framework == "qb-core" then
-   _ENV.QBCore = exports[vx.framework]:GetCoreObject()
-
-   RegisterNetEvent(("QBCore:%s:UpdateObject"):format(context), function()
-      _ENV.QBCore = exports[vx.framework]:GetCoreObject()
-   end)
-end
+vx_autoDetect.loadFramework()
