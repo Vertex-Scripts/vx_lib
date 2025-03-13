@@ -16,7 +16,7 @@ function vx.notify(options)
          duration = options.duration
       })
    elseif vx.notifyResource == "es_extended" then
-      ESX.ShowNotification(options.message, options.type, options.duration)
+      ESX.ShowNotification(options.message, options.type, options.duration) -- TODO: Test with ESX
    elseif vx.notifyResource == "qb-core" then
       QBCore.Functions.Notify(options.message, options.type, options.duration)
    end

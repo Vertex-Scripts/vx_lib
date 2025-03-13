@@ -19,6 +19,12 @@ local resources = {
       "ox_lib",
       "es_extended",
       "qb-core"
+   },
+   ["textui"] = {
+      "ox_lib",
+      "es_extended",
+      "qb-core",
+      "auto"
    }
 }
 
@@ -26,14 +32,15 @@ local convars = {
    ["framework"] = GetConvar("vx:framework", "auto"),
    ["inventory"] = GetConvar("vx:inventory", "auto"),
    ["target"] = GetConvar("vx:target", "auto"),
-   ["notify"] = GetConvar("vx:notify", "auto")
+   ["notify"] = GetConvar("vx:notify", "auto"),
+   ["textui"] = GetConvar("vx:textui", "auto")
 }
 
 local function isResourceStarted(name)
    return GetResourceState(name) == "started"
 end
 
----@param type "framework"|"inventory"|"target"|"notify"
+---@param type "framework"|"inventory"|"target"|"notify"|"textui"
 local function getResource(type)
    local convar = convars[type]
    if convar ~= "auto" then
@@ -59,28 +66,37 @@ local framework = getResource("framework")
 local inventory = getResource("inventory")
 local target = getResource("target")
 local notify = getResource("notify")
+local textui = getResource("textui")
 
 print(("^2[INFO] ^7Detected framework: %s"):format(framework))
 print(("^2[INFO] ^7Detected inventory: %s"):format(inventory))
 print(("^2[INFO] ^7Detected target: %s"):format(target))
 print(("^2[INFO] ^7Detected notify: %s"):format(notify))
+print(("^2[INFO] ^7Detected textui: %s"):format(textui))
 
----@return Framework
 function vx_autoDetect.getFramework()
    ---@cast framework Framework
    return framework
 end
 
----@return Target
 function vx_autoDetect.getTarget()
    ---@cast target Target
    return target
 end
 
----@return Inventory
 function vx_autoDetect.getInventory()
    ---@cast inventory Inventory
    return inventory
+end
+
+function vx_autoDetect.getNotify()
+   ---@cast notify Notify
+   return notify
+end
+
+function vx_autoDetect.getTextUi()
+   ---@cast textui TextUISystem
+   return textui
 end
 
 function vx_autoDetect.loadFramework()
@@ -93,9 +109,4 @@ function vx_autoDetect.loadFramework()
          _ENV.QBCore = exports[framework]:GetCoreObject()
       end)
    end
-end
-
-function vx_autoDetect.getNotify()
-   ---@cast notify Notify
-   return notify
 end
