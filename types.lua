@@ -16,6 +16,12 @@
 ---| '"qb-target"'
 ---| '"auto"'
 
+---@alias Inventory
+---| '"ox_inventory"'
+---| '"es_extended"'
+---| '"qb-inventory"'
+---| '"auto"'
+
 ---@alias AccountType
 ---| '"bank"'
 ---| '"money"'
