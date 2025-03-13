@@ -5,6 +5,19 @@ local oxInventory = vx.inventoryResource == "ox_inventory" and exports.ox_invent
 local qbInventory = vx.inventoryResource == "qb-inventory" and exports["qb-inventory"]
 local esxInventory = vx.inventoryResource == "es_extended"
 
+---@param stashId string|number
+---@param owner? boolean|string
+---@param weight? number
+---@param slots? number
+function vx.inventory.openStash(stashId, owner, weight, slots)
+   if oxInventory then
+      ---@diagnostic disable-next-line: assign-type-mismatch
+      oxInventory:openInventory("stash", { id = stashId, owner = owner })
+   elseif qbInventory then
+      vx.triggerServerEvent("vx_lib_internal:openStash", stashId, owner, weight, slots)
+   end
+end
+
 ---@param item string
 function vx.inventory.getItemCount(item)
    if oxInventory then
