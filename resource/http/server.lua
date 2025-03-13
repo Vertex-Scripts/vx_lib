@@ -18,8 +18,6 @@
 function vx.sendHttpRequest(url, options)
    local promise = promise.new()
    local method = options?.method or "GET"
-   local body = options?.body or nil
-   local headers = options?.headers or nil
 
    PerformHttpRequest(url, function(statusCode, data, responseHeaders, statusText)
       ---@type VxHttpResponse
@@ -32,7 +30,7 @@ function vx.sendHttpRequest(url, options)
       }
 
       promise:resolve(response)
-   end, method, body, headers)
+   end, method, options?.body, options?.headers)
 
    return Citizen.Await(promise)
 end
