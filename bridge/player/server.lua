@@ -112,6 +112,32 @@ function VxPlayer:getMoney(type)
        and self.fp.Functions.GetMoney(type)
 end
 
+---@param source number
+---@param item string
+---@param count? number
+function VxPlayer:addItem(source, item, count)
+   vx.inventory.addItem(source, item, count)
+end
+
+---@param source number
+---@param item string
+---@param count? number
+function VxPlayer:removeItem(source, item, count)
+   vx.inventory.removeItem(source, item, count)
+end
+
+---@param source number
+---@param item string
+function VxPlayer:getItemCount(source, item)
+   return vx.inventory.getItemCount(source, item)
+end
+
+---@param source number
+---@param item string
+function VxPlayer:hasItem(source, item, count)
+   return vx.inventory.hasItem(source, item, count)
+end
+
 function VxPlayer:getGang()
    return getJob(self, "gang")
 end
