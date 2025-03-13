@@ -33,6 +33,7 @@ vx = setmetatable({
 vx.frameworkResource = vx_autoDetect.getFramework()
 vx.targetResource = vx_autoDetect.getTarget()
 vx.inventoryResource = vx_autoDetect.getInventory()
+vx.notifyResource = vx_autoDetect.getNotify()
 
 if GetResourceState("ox_lib") ~= "missing" then
    local oxInit = LoadResourceFile("ox_lib", "init.lua")

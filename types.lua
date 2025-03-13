@@ -16,6 +16,12 @@
 ---| '"qb-target"'
 ---| '"auto"'
 
+---@alias Notify
+---| '"ox_lib"'
+---| '"es_extended"'
+---| '"qb-core"'
+---| '"auto"'
+
 ---@alias Inventory
 ---| '"ox_inventory"'
 ---| '"es_extended"'

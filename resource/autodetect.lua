@@ -14,20 +14,26 @@ local resources = {
       "ox_target",
       "qb-target",
       "qtarget",
+   },
+   ["notify"] = {
+      "ox_lib",
+      "es_extended",
+      "qb-core"
    }
 }
 
 local convars = {
    ["framework"] = GetConvar("vx:framework", "auto"),
    ["inventory"] = GetConvar("vx:inventory", "auto"),
-   ["target"] = GetConvar("vx:target", "auto")
+   ["target"] = GetConvar("vx:target", "auto"),
+   ["notify"] = GetConvar("vx:notify", "auto")
 }
 
 local function isResourceStarted(name)
    return GetResourceState(name) == "started"
 end
 
----@param type "framework"|"inventory"|"target"
+---@param type "framework"|"inventory"|"target"|"notify"
 local function getResource(type)
    local convar = convars[type]
    if convar ~= "auto" then
@@ -52,10 +58,12 @@ end
 local framework = getResource("framework")
 local inventory = getResource("inventory")
 local target = getResource("target")
+local notify = getResource("notify")
 
 print(("^2[INFO] ^7Detected framework: %s"):format(framework))
 print(("^2[INFO] ^7Detected inventory: %s"):format(inventory))
 print(("^2[INFO] ^7Detected target: %s"):format(target))
+print(("^2[INFO] ^7Detected notify: %s"):format(notify))
 
 ---@return Framework
 function vx_autoDetect.getFramework()
@@ -85,4 +93,9 @@ function vx_autoDetect.loadFramework()
          _ENV.QBCore = exports[framework]:GetCoreObject()
       end)
    end
+end
+
+function vx_autoDetect.getNotify()
+   ---@cast notify Notify
+   return notify
 end
