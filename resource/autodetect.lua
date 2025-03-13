@@ -61,3 +61,10 @@ function vx_autoDetect.getFramework()
    ---@cast framework Framework
    return framework
 end
+
+---@return Target
+function vx_autoDetect.getTarget()
+   ---@cast target Target
+   return target
+end
+

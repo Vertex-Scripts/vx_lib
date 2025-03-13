@@ -37,7 +37,8 @@ local vx = setmetatable({
    context = context,
    serverConfig = context == "server" and export:getServerConfig() or {},
    sharedConfig = export:getSharedConfig(),
-   framework = export:getFramework()
+   framework = export:getFramework(),
+   target = export:getTarget()
 }, {
    __index = call,
    __call = call

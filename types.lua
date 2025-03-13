@@ -11,6 +11,11 @@
 ---| '"qb-core"'
 ---| '"auto"'
 
+---@alias Target
+---| '"ox_target"'
+---| '"qb-target"'
+---| '"auto"'
+
 ---@alias AccountType
 ---| '"bank"'
 ---| '"money"'
