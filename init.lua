@@ -37,8 +37,9 @@ local vx = setmetatable({
    context = context,
    serverConfig = context == "server" and export:getServerConfig() or {},
    sharedConfig = export:getSharedConfig(),
-   framework = export:getFramework(),
-   target = export:getTarget()
+   frameworkResource = export:getFramework(),
+   inventoryResource = export:getInventory(),
+   targetResource = export:getTarget(),
 }, {
    __index = call,
    __call = call
@@ -65,4 +66,11 @@ vx.cache = setmetatable({
 _ENV.vx = vx
 _ENV.require = vx.require
 
-vx_autoDetect.loadFramework()
+if vx.framework == "es_extended" then
+   _ENV.ESX = exports[vx.framework]:getSharedObject()
+elseif vx.framework == "qb-core" then
+   _ENV.QBCore = exports[vx.framework]:GetCoreObject()
+   RegisterNetEvent(("QBCore:%s:UpdateObject"):format(context), function()
+      _ENV.QBCore = exports[vx.framework]:GetCoreObject()
+   end)
+end
