@@ -86,12 +86,13 @@ function vx.inventory.hasItem(source, item, count)
 end
 
 -- Internal Stuff
+-- TODO: Move to the resource?
 
 vx.registerNetEvent("vx_lib_internal:openStash", function(stashId)
    local source = source
    local stash = registeredStashes[stashId]
    if not stash then
-      return vx.print.error("Tried to open a stash that is not registered: ", stashId)
+      return
    end
 
    if qbInventory then
