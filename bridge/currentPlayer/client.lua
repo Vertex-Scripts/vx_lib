@@ -20,7 +20,8 @@ end
 
 function vx.currentPlayer.getFirstName()
    if ESX then
-      -- TODO
+      local playerData = ESX.GetPlayerData()
+      return playerData.firstName
    elseif QBCore then
       local playerData = QBCore.Functions.GetPlayerData()
       return playerData.charinfo?.firstname
@@ -29,7 +30,8 @@ end
 
 function vx.currentPlayer.getLastName()
    if ESX then
-      -- TODO
+      local playerData = ESX.GetPlayerData()
+      return playerData.lastName
    elseif QBCore then
       local playerData = QBCore.Functions.GetPlayerData()
       return playerData.charinfo?.lastname
@@ -42,7 +44,14 @@ end
 
 function vx.currentPlayer.getJob()
    if ESX then
-      -- TODO
+      local playerData = ESX.GetPlayerData()
+      return {
+         name = playerData.job.name,
+         label = playerData.job.label,
+         grade = playerData.job.grade,
+         grade_name = playerData.job.grade_name,
+         grade_label = playerData.job.grade_label,
+      }
    elseif QBCore then
       local playerData = QBCore.Functions.GetPlayerData()
       local job = playerData.job
