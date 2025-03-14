@@ -60,5 +60,3 @@ function vx.getSharedConfig() return SharedConfig end
 function vx.getInventory() return vx_autoDetect.getInventory() end
 
 vx_autoDetect.loadFramework()
-
-local playerId = vx.player.getPlayerIdFromIdentifier("e04b7c866275e616fb9d2223b22cdec1979f7585")

@@ -171,7 +171,7 @@ function vx.player.getPlayerIdFromIdentifier(identifier, type)
       end
    end
 
-   return
+   return nil
 end
 
 return vx.player
