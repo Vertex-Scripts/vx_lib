@@ -157,7 +157,6 @@ function vx.target.addGlobalModel(models, options)
    return addTarget("addModel", "AddTargetModel", options, models)
 end
 
--- TODO: Test with qb
 ---@param models string|string[]
 ---@param identifiers string|string[]
 function vx.target.removeGlobalModel(models, identifiers)
@@ -165,5 +164,7 @@ function vx.target.removeGlobalModel(models, identifiers)
       oxTarget and models or identifiers,
       oxTarget and identifiers or models)
 end
+
+vx.target.addModel = vx.target.addGlobalModel
 
 return vx.target
