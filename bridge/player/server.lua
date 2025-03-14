@@ -112,6 +112,29 @@ function VxPlayer:getMoney(type)
        and self.fp.Functions.GetMoney(type)
 end
 
+-- Backwards compatibility
+
+function VxPlayer:removeAccountMoney(type, amount, _)
+   vx.print.warn(
+      "Deprecated: Use vxPlayer:removeMoney instead of vxPlayer:removeAccountMoney (will be removed in the future)")
+
+   self:removeMoney(amount, type)
+end
+
+function VxPlayer:addAccountMoney(type, amount, _)
+   vx.print.warn(
+      "Deprecated: Use vxPlayer:addMoney instead of vxPlayer:addAccountMoney (will be removed in the future)")
+
+   self:giveMoney(amount, type)
+end
+
+function VxPlayer:getAccountMoney(type)
+   vx.print.warn(
+      "Deprecated: Use vxPlayer:getMoney instead of vxPlayer:getAccountMoney (will be removed in the future)")
+
+   return self:getMoney(type)
+end
+
 ---@param source number
 ---@param item string
 ---@param count? number
@@ -171,7 +194,7 @@ function vx.player.getPlayerIdFromIdentifier(identifier, type)
       end
    end
 
-   return nil
+   return
 end
 
 return vx.player
