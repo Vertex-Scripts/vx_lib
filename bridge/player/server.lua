@@ -73,6 +73,16 @@ function VxPlayer:getFullName()
    end
 end
 
+---@param job string
+---@param grade number
+function VxPlayer:setJob(job, grade)
+   if ESX then
+      self.fp.setJob(job, grade)           -- TODO: Test
+   elseif QBCore then
+      self.fp.Functions.SetJob(job, grade) -- TODO: Test
+   end
+end
+
 function VxPlayer:getJob()
    return getJob(self)
 end
@@ -163,6 +173,11 @@ end
 
 function VxPlayer:getGang()
    return getJob(self, "gang")
+end
+
+---@param options NotificationOptions
+function VxPlayer:notify(options)
+   vx.notify(self.source, options)
 end
 
 ---@param source number
