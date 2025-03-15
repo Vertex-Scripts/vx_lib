@@ -117,16 +117,14 @@ function vx.target.removeGlobalVehicle(labels)
    return removeTarget("removeGlobalVehicle", "RemoveGlobalVehicle", labels)
 end
 
---- TODO: Test with ox and qb
----@param options EntityTargetOptions
-function vx.target.addGlobalPlayer(options)
-   return addTarget("addGlobalPlayer", "AddGlobalPlayer", options)
+---@param identifiers string|string[]
+function vx.target.addGlobalPlayer(identifiers)
+   return addTarget("addGlobalPlayer", "AddGlobalPlayer", identifiers)
 end
 
--- TODO: Test with ox and qb
----@param options OxTargetEntity | QbTargetOption
-function vx.target.removeGlobalPlayer(options)
-   return removeTarget("removeGlobalPlayer", "RemoveGlobalPlayer", options)
+---@param identifiers string|string[]
+function vx.target.removeGlobalPlayer(identifiers)
+   return removeTarget("removeGlobalPlayer", "RemoveGlobalPlayer", identifiers)
 end
 
 ---@param options EntityTargetOptions|EntityTargetOptions[]
