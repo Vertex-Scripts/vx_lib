@@ -4,7 +4,7 @@ function vx.triggerClientEvent(eventName, targets, ...)
    local payload = msgpack.pack_args(...)
    local payloadLen = #payload
 
-   if type(target) == "table" then
+   if type(targets) == "table" then
       for i = 1, #targets do
          TriggerClientEventInternal(eventName, targets[i] --[[@as string]], payload, payloadLen)
       end
