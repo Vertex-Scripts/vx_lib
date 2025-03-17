@@ -145,30 +145,26 @@ function VxPlayer:getAccountMoney(type)
    return self:getMoney(type)
 end
 
----@param source number
 ---@param item string
 ---@param count? number
-function VxPlayer:addItem(source, item, count)
-   vx.inventory.addItem(source, item, count)
+function VxPlayer:addItem(item, count)
+   vx.inventory.addItem(self.source, item, count)
 end
 
----@param source number
 ---@param item string
 ---@param count? number
-function VxPlayer:removeItem(source, item, count)
-   vx.inventory.removeItem(source, item, count)
+function VxPlayer:removeItem(item, count)
+   vx.inventory.removeItem(self.source, item, count)
 end
 
----@param source number
 ---@param item string
-function VxPlayer:getItemCount(source, item)
-   return vx.inventory.getItemCount(source, item)
+function VxPlayer:getItemCount(item)
+   return vx.inventory.getItemCount(self.source, item)
 end
 
----@param source number
 ---@param item string
-function VxPlayer:hasItem(source, item, count)
-   return vx.inventory.hasItem(source, item, count)
+function VxPlayer:hasItem(item, count)
+   return vx.inventory.hasItem(self.source, item, count)
 end
 
 function VxPlayer:getGang()
