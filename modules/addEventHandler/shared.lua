@@ -1,4 +1,3 @@
----Trigger a coroutine when the event is called.
 ---@param eventName string
 ---@param eventRoutine function
 ---@return { key: number, name : string}
