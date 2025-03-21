@@ -2,14 +2,6 @@ local resourceName = GetCurrentResourceName()
 local context = IsDuplicityVersion() and "server" or "client"
 local export = exports["vx_lib"]
 
-local framework = export:getFramework()
-local inventory = export:getInventory()
-local target = export:getTarget()
-
----@cast framework Framework
----@cast inventory InventorySystem
----@cast target TargetSystem
-
 local moduleLoaderFile = LoadResourceFile("vx_lib", "loader.lua")
 local loadModuleLoader, err = load(moduleLoaderFile)
 if not loadModuleLoader or err then
@@ -43,13 +35,11 @@ end
 local vx = setmetatable({
    name = "vx_lib",
    context = context,
-   systems = {
-      framework = framework,
-      inventory = inventory,
-      target = target,
-   },
    serverConfig = context == "server" and export:getServerConfig() or {},
-   sharedConfig = export:getSharedConfig()
+   sharedConfig = export:getSharedConfig(),
+   frameworkResource = export:getFramework(),
+   inventoryResource = export:getInventory(),
+   targetResource = export:getTarget(),
 }, {
    __index = call,
    __call = call
@@ -76,12 +66,11 @@ vx.cache = setmetatable({
 _ENV.vx = vx
 _ENV.require = vx.require
 
-if framework == "es_extended" then
-   _ENV.ESX = exports[framework]:getSharedObject()
-elseif framework == "qb-core" then
-   _ENV.QBCore = exports[framework]:GetCoreObject()
-
+if vx.frameworkResource == "es_extended" then
+   _ENV.ESX = exports[vx.frameworkResource]:getSharedObject()
+elseif vx.frameworkResource == "qb-core" then
+   _ENV.QBCore = exports[vx.frameworkResource]:GetCoreObject()
    RegisterNetEvent(("QBCore:%s:UpdateObject"):format(context), function()
-      _ENV.QBCore = exports[framework]:GetCoreObject()
+      _ENV.QBCore = exports[vx.frameworkResource]:GetCoreObject()
    end)
 end

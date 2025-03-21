@@ -1,4 +1,12 @@
----@class VxArray : VxClass
+--[[
+    https://github.com/overextended/ox_lib
+
+    This file is licensed under LGPL-3.0 or higher <https://www.gnu.org/licenses/lgpl-3.0.en.html>
+
+    Copyright (c) 2025 Linden <https://github.com/thelindat/fivem>
+]]
+
+---@class VxArray<T> : VxClass, { [number]: T }
 vx.array = vx.class("VxArray")
 
 ---@private
@@ -16,7 +24,9 @@ function vx.array:__newindex(index, value)
    rawset(self, index, value)
 end
 
----@param ... any
+---@generic T
+---@param self VxArray<T>
+---@param ... T
 function vx.array:push(...)
    local elements = { ... }
    local length = #self
@@ -29,14 +39,19 @@ function vx.array:push(...)
    return length
 end
 
----@param func fun(element: unknown, index: number)
+---@generic T
+---@param self VxArray<T>
+---@param func fun(element: T, index: number)
 function vx.array:forEach(func)
    for i = 1, #self do
       func(self[i], i)
    end
 end
 
----@param func fun(element: unknown, index: number): unknown
+---@generic T, R
+---@param self VxArray<T>
+---@param func fun(element: T, index: number): R
+---@return VxArray<R>
 function vx.array:map(func)
    local result = {}
    for i = 1, #self do
@@ -46,19 +61,27 @@ function vx.array:map(func)
    return vx.array:new(table.unpack(result))
 end
 
----@param testFunc fun(element: unknown): boolean
+---@generic T
+---@param self VxArray<T>
+---@param testFunc fun(element: T): boolean
+---@return T
 function vx.array:find(testFunc)
    local index = self:findIndex(testFunc)
    return self[index]
 end
 
----@param testFunc fun(element: unknown): boolean
+---@generic T
+---@param self VxArray<T>
+---@param testFunc fun(element: T): boolean
+---@return number
 function vx.array:findIndex(testFunc)
    for i = 1, #self do
       if testFunc(self[i]) then
          return i
       end
    end
+
+   return -1
 end
 
 function vx.array:contains(value)
@@ -79,7 +102,10 @@ function vx.array:shift()
    return table.remove(self, 1)
 end
 
----@param testFunc fun(element: unknown): boolean
+---@generic T
+---@param self VxArray<T>
+---@param testFunc fun(element: T): boolean
+---@return VxArray<T>
 function vx.array:filter(testFunc)
    local result = {}
    local length = 0
