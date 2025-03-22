@@ -138,19 +138,19 @@ function vx.target.removeGlobalPed(identifiers)
 end
 
 ---@param entities number|number[]
----@param options EntityTargetOptions
+---@param options EntityTargetOptions|EntityTargetOptions[]
 function vx.target.addLocalEntity(entities, options)
    return addTarget("addLocalEntity", "AddTargetEntity", options, entities)
 end
 
 ---@param entities number|number[]
----@param options EntityTargetOptions
+---@param options EntityTargetOptions|EntityTargetOptions[]
 function vx.target.removeLocalEntity(entities, options)
    return removeTarget("removeLocalEntity", "RemoveTargetEntity", entities, options)
 end
 
 ---@param models string|string[]
----@param options TargetOptions
+---@param options TargetOptions|TargetOptions[]
 function vx.target.addGlobalModel(models, options)
    return addTarget("addModel", "AddTargetModel", options, models)
 end
