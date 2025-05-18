@@ -18,10 +18,6 @@ function VxLogger:addDescriptionField(key, value)
       return
    end
 
-   if type(value) == "number" then
-      value = vx.formatting.formatDecimal(value)
-   end
-
    local line = string.format("**%s**: %s", key, value)
    self.descriptionBuilder:appendLine(line)
 end
