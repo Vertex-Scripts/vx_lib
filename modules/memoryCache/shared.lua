@@ -1,4 +1,4 @@
----@class MemoryCache : OxClass
+---@class MemoryCache : VxClass
 vx.memoryCache = vx.class("MemoryCache")
 
 ---@private

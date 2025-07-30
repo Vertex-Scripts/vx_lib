@@ -58,7 +58,12 @@ local function createEventHandler(self, name, func)
    local event = vx.bridge.createEventName(vx.cache.resource, vx.context, name)
    RegisterNetEvent(event, function(...)
       if vx.context == "server" then
-         func(..., source)
+         local args = { ... }
+         if #args > 0 then
+            func(..., source)
+         else
+            func(source)
+         end
       else
          func(nil, ...)
       end
