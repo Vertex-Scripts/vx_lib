@@ -15,11 +15,13 @@ end
 function VxLogger:addDescriptionField(key, value)
    if not key and not value then
       self.descriptionBuilder:appendLine("")
-      return
+      return self
    end
 
    local line = string.format("**%s**: %s", key, value)
    self.descriptionBuilder:appendLine(line)
+
+   return self
 end
 
 ---@param options? { includeAccounts?: boolean; displayName?: string; additionalFields?: { icon: string, key: string, value: any }[] }
@@ -47,7 +49,7 @@ function VxLogger:addPlayer(playerId, options)
       }
 
       table.insert(self.fields, field)
-      return
+      return self
    end
 
    local license = vx.player.getIdentifier(playerId, false, "license")
@@ -64,7 +66,6 @@ function VxLogger:addPlayer(playerId, options)
    end
 
    if steam then fieldDescriptionBuilder:appendLine(createFieldDescription("🎮", "Steam", steam)) end
-
    if options?.includeAccounts then
       local vxPlayer = vx.player.getFromId(playerId)
       local bank = vxPlayer:getAccountMoney("bank")
@@ -90,6 +91,7 @@ function VxLogger:addPlayer(playerId, options)
    }
 
    table.insert(self.fields, field)
+   return self
 end
 
 function VxLogger:send()
