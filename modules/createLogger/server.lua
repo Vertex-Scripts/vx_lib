@@ -26,9 +26,13 @@ end
 
 ---@param options? { includeAccounts?: boolean; displayName?: string; additionalFields?: { icon: string, key: string, value: any }[] }
 function VxLogger:addPlayer(playerId, options)
+<<<<<<< Updated upstream
    if type(playerId) == "string" then
       playerId = tonumber(playerId) or 0
    end
+=======
+   playerId = tonumber(playerId) or 0
+>>>>>>> Stashed changes
 
    options = options or {}
    options.includeAccounts = options.includeAccounts == nil and vx.serverConfig.logger.defaults.includeAccounts or
@@ -68,9 +72,9 @@ function VxLogger:addPlayer(playerId, options)
    if steam then fieldDescriptionBuilder:appendLine(createFieldDescription("🎮", "Steam", steam)) end
    if options?.includeAccounts then
       local vxPlayer = vx.player.getFromId(playerId)
-      local bank = vxPlayer:getAccountMoney("bank")
-      local money = vxPlayer:getAccountMoney("money")
-      local blackMoney = vxPlayer:getAccountMoney("black_money")
+      local bank = vxPlayer:getMoney("bank")
+      local money = vxPlayer:getMoney("money")
+      local blackMoney = vxPlayer:getMoney("black_money")
 
       fieldDescriptionBuilder:appendLine(createFieldDescription("💰", "Bank", vx.formatting.formatCurrency(bank)))
       fieldDescriptionBuilder:appendLine(createFieldDescription("💵", "Geld", vx.formatting.formatCurrency(money)))
