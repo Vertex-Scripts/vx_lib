@@ -1,4 +1,4 @@
----@class MemoryCache : VxClass
+---@class MemoryCache : OxClass
 vx.memoryCache = vx.class("MemoryCache")
 
 ---@private
@@ -18,6 +18,14 @@ function vx.memoryCache:set(key, value, expiration)
    self.cache[key] = value
    if expiration then
       self.ttl[key] = getCurrentMilliseconds() + expiration
+   end
+end
+
+---@param key string
+---@param value any
+function vx.memoryCache:update(key, value)
+   if self.cache[key] then
+      self.cache[key] = value
    end
 end
 
