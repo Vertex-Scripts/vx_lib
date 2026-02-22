@@ -65,4 +65,29 @@ function vx.currentPlayer.getJob()
    end
 end
 
+---@param coords vector3
+---@param options? { heading?: number, fadeOut?: number, fadeIn?: number }
+function vx.currentPlayer.teleport(coords, options)
+   options       = options or {}
+
+   local fadeOut = options.fadeOut or 0
+   local fadeIn  = options.fadeIn or 0
+
+   local ped     = vx.cache.ped
+   if fadeOut > 0 then
+      DoScreenFadeOut(fadeOut)
+      while not IsScreenFadedOut() do
+         Wait(10)
+      end
+   end
+
+   SetEntityCoords(ped, coords.x, coords.y, coords.z, false, false, false, true)
+   if options.heading then SetEntityHeading(ped, options.heading) end
+
+   Citizen.Wait(50)
+   if fadeIn > 0 then
+      DoScreenFadeIn(fadeIn)
+   end
+end
+
 return vx.currentPlayer

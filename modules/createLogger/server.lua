@@ -26,13 +26,9 @@ end
 
 ---@param options? { includeAccounts?: boolean; displayName?: string; additionalFields?: { icon: string, key: string, value: any }[] }
 function VxLogger:addPlayer(playerId, options)
-<<<<<<< Updated upstream
    if type(playerId) == "string" then
       playerId = tonumber(playerId) or 0
    end
-=======
-   playerId = tonumber(playerId) or 0
->>>>>>> Stashed changes
 
    options = options or {}
    options.includeAccounts = options.includeAccounts == nil and vx.serverConfig.logger.defaults.includeAccounts or
