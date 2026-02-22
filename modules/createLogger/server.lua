@@ -68,9 +68,9 @@ function VxLogger:addPlayer(playerId, options)
    if steam then fieldDescriptionBuilder:appendLine(createFieldDescription("🎮", "Steam", steam)) end
    if options?.includeAccounts then
       local vxPlayer = vx.player.getFromId(playerId)
-      local bank = vxPlayer:getMoney("bank")
-      local money = vxPlayer:getMoney("money")
-      local blackMoney = vxPlayer:getMoney("black_money")
+      local bank = vxPlayer:getAccountMoney("bank")
+      local money = vxPlayer:getAccountMoney("money")
+      local blackMoney = vxPlayer:getAccountMoney("black_money")
 
       fieldDescriptionBuilder:appendLine(createFieldDescription("💰", "Bank", vx.formatting.formatCurrency(bank)))
       fieldDescriptionBuilder:appendLine(createFieldDescription("💵", "Geld", vx.formatting.formatCurrency(money)))
