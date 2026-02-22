@@ -10,7 +10,8 @@ end
 
 loadModuleLoader()
 
-local function call(self, index)
+print(("Loaded vx_lib in %s context"):format(context))
+local function call(self, index, ...)
    local module = rawget(self, index)
 
    if not module then
@@ -18,19 +19,24 @@ local function call(self, index)
       module = vx_loadModule(self, index)
 
       if not module then
-         local function makeProxy(prefix)
+         local function makeProxy(path)
             return setmetatable({}, {
                __index = function(_, key)
-                  local name = prefix .. key
-                  return function(...)
-                     return export[name](nil, ...)
-                  end
+                  return makeProxy(path .. key)
+               end,
+
+               __call = function(_, ...)
+                  return export[path](nil, ...)
                end
             })
          end
 
          local proxy = makeProxy(index)
-         self[index] = proxy
+
+         if not ... then
+            self[index] = proxy
+         end
+
          return proxy
       end
    end

@@ -1,5 +1,5 @@
-serverCallbackBridge = vx.bridge.createEventBridge()
-serverEventBridge = vx.bridge.createEventBridge()
+serverCallbackBridge = vx.bridge.createCallbackBridge()
+serverEventBridge = vx.bridge.createCallbackBridge()
 
 clientCallbackBridge = vx.bridge.createEventBridge()
 clientEventBridge = vx.bridge.createEventBridge()

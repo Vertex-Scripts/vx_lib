@@ -11,6 +11,7 @@ local currentResourceName = GetCurrentResourceName()
 local cache = {
    resource = currentResourceName
 }
+
 local function proxyExports(self, key, value)
    rawset(self, key, value)
 
@@ -27,7 +28,6 @@ local function proxyExports(self, key, value)
    if type(value) == "table" then
       setmetatable(value, {
          __newindex = function(t, k, v)
-            print("Exporting", key .. k)
             proxyExports(t, key .. k, v)
          end
       })
