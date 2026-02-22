@@ -9,6 +9,10 @@
 ---@class VxArray<T> : VxClass, { [number]: T }
 vx.array = vx.class("VxArray")
 
+function vx.array.fromTable(tbl)
+   return vx.array:new(table.unpack(tbl))
+end
+
 ---@private
 function vx.array:constructor(...)
    local arr = { ... }
@@ -37,6 +41,13 @@ function vx.array:push(...)
    end
 
    return length
+end
+
+---@generic T
+---@param self VxArray<T>
+---@param t T[]
+function vx.array:pushTable(t)
+   return self:push(table.unpack(t))
 end
 
 ---@generic T
