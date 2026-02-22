@@ -10,7 +10,6 @@ end
 
 loadModuleLoader()
 
-print(("Loaded vx_lib in %s context"):format(context))
 local function call(self, index, ...)
    local module = rawget(self, index)
 
