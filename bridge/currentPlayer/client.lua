@@ -90,4 +90,20 @@ function vx.currentPlayer.teleport(coords, options)
    end
 end
 
+function vx.currentPlayer.heal()
+   vx.currentPlayer.setHealth(200)
+end
+
+---@param health number
+function vx.currentPlayer.setHealth(health)
+   local ped = vx.cache.ped
+   SetEntityHealth(ped, health)
+end
+
+---@param armor number
+function vx.currentPlayer.setArmor(armor)
+   local ped = vx.cache.ped
+   SetPedArmour(ped, armor)
+end
+
 return vx.currentPlayer

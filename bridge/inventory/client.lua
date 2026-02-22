@@ -38,4 +38,29 @@ function vx.inventory.hasItem(item, count)
    return vx.inventory.getItemCount(item) >= (count or 1)
 end
 
+-- TODO: Make for all inventories
+function vx.inventory.getCompatibleWeaponComponents(weapon)
+   local weapons = require "@ox_inventory.data.weapons"
+   local weaponHash = weapon and (type(weapon) == "number" and weapon or joaat(weapon)) or nil
+   if not weaponHash then
+      local success, currentHash = GetCurrentPedWeapon(vx.cache.ped, true)
+      if not success then
+         return {}
+      end
+
+      weaponHash = currentHash
+   end
+
+   local components = {}
+   for name, component in pairs(weapons.Components) do
+      for _, componentName in pairs(component.client?.component or {}) do
+         if DoesWeaponTakeWeaponComponent(weaponHash, componentName) then
+            table.insert(components, name)
+         end
+      end
+   end
+
+   return components
+end
+
 return vx.inventory
