@@ -48,4 +48,19 @@ function vx.memoryCache:remove(key)
    self.ttl[key] = nil
 end
 
+---@param key string
+---@param resolver fun():any
+---@param ttl number
+function vx.memoryCache:getOrSet(key, resolver, ttl)
+   local value = self:get(key)
+   if value then
+      return value
+   end
+
+   value = resolver()
+   self:set(key, value, ttl)
+
+   return value
+end
+
 return vx.memoryCache
