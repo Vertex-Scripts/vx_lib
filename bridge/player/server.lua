@@ -125,22 +125,22 @@ end
 -- Backwards compatibility
 
 function VxPlayer:removeAccountMoney(type, amount, _)
-   vx.print.warn(
-      "Deprecated: Use vxPlayer:removeMoney instead of vxPlayer:removeAccountMoney (will be removed in the future)")
+   --    vx.print.warn(
+   --       "Deprecated: Use vxPlayer:removeMoney instead of vxPlayer:removeAccountMoney (will be removed in the future)")
 
    self:removeMoney(amount, type)
 end
 
 function VxPlayer:addAccountMoney(type, amount, _)
-   vx.print.warn(
-      "Deprecated: Use vxPlayer:addMoney instead of vxPlayer:addAccountMoney (will be removed in the future)")
+   -- vx.print.warn(
+   --    "Deprecated: Use vxPlayer:addMoney instead of vxPlayer:addAccountMoney (will be removed in the future)")
 
    self:giveMoney(amount, type)
 end
 
 function VxPlayer:getAccountMoney(type)
-   vx.print.warn(
-      "Deprecated: Use vxPlayer:getMoney instead of vxPlayer:getAccountMoney (will be removed in the future)")
+   -- vx.print.warn(
+   --    "Deprecated: Use vxPlayer:getMoney instead of vxPlayer:getAccountMoney (will be removed in the future)")
 
    return self:getMoney(type)
 end
