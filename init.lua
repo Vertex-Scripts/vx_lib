@@ -12,20 +12,31 @@ loadModuleLoader()
 
 local function call(self, index, ...)
    local module = rawget(self, index)
+
    if not module then
       self[index] = noop
       module = vx_loadModule(self, index)
 
       if not module then
-         local function method(...)
-            return export[index](nil, ...)
+         local function makeProxy(path)
+            return setmetatable({}, {
+               __index = function(_, key)
+                  return makeProxy(path .. key)
+               end,
+
+               __call = function(_, ...)
+                  return export[path](nil, ...)
+               end
+            })
          end
+
+         local proxy = makeProxy(index)
 
          if not ... then
-            self[index] = method
+            self[index] = proxy
          end
 
-         return method
+         return proxy
       end
    end
 

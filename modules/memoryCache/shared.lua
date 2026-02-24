@@ -1,4 +1,4 @@
----@class MemoryCache : VxClass
+---@class MemoryCache : OxClass
 vx.memoryCache = vx.class("MemoryCache")
 
 ---@private
@@ -21,6 +21,14 @@ function vx.memoryCache:set(key, value, expiration)
    end
 end
 
+---@param key string
+---@param value any
+function vx.memoryCache:update(key, value)
+   if self.cache[key] then
+      self.cache[key] = value
+   end
+end
+
 function vx.memoryCache:get(key)
    local cachedValue = self.cache[key]
    if not cachedValue then
@@ -38,6 +46,21 @@ end
 function vx.memoryCache:remove(key)
    self.cache[key] = nil
    self.ttl[key] = nil
+end
+
+---@param key string
+---@param resolver fun():any
+---@param ttl number
+function vx.memoryCache:getOrSet(key, resolver, ttl)
+   local value = self:get(key)
+   if value then
+      return value
+   end
+
+   value = resolver()
+   self:set(key, value, ttl)
+
+   return value
 end
 
 return vx.memoryCache

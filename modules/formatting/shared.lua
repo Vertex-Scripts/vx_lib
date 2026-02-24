@@ -1,4 +1,3 @@
-vx = vx or {}
 vx.formatting = {}
 
 function vx.formatting.formatDecimal(num)

@@ -15,11 +15,11 @@ local logLevels = {
 }
 
 local levels = {
-   "^1[ERROR]",
-   "^3[WARN]",
-   "^2[INFO]",
-   '^4[VERBOSE]',
-   "^6[DEBUG]",
+   "^7[^1ERROR^7]",
+   "^7[^3WARN^7]",
+   "^7[^2INFO^7]",
+   '^7[^4VERBOSE^7]',
+   "^7[^6DEBUG^7]",
 }
 
 local logLevel = logLevels[GetConvar("vx:logLevel", "info")] or logLevels.info
@@ -43,7 +43,6 @@ local function log(level, ...)
       args[i] = type(arg) == "table" and
           json.encode(arg, { sort_keys = true, indent = true, exception = handleException }) or tostring(arg)
    end
-
    print(("^8%s ^7%s^7"):format(levels[level], table.concat(args, " ")))
 end
 

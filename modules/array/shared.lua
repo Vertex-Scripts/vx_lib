@@ -9,6 +9,10 @@
 ---@class VxArray<T> : VxClass, { [number]: T }
 vx.array = vx.class("VxArray")
 
+function vx.array.fromTable(tbl)
+   return vx.array:new(table.unpack(tbl))
+end
+
 ---@private
 function vx.array:constructor(...)
    local arr = { ... }
@@ -41,6 +45,13 @@ end
 
 ---@generic T
 ---@param self VxArray<T>
+---@param t T[]
+function vx.array:pushTable(t)
+   return self:push(table.unpack(t))
+end
+
+---@generic T
+---@param self VxArray<T>
 ---@param func fun(element: T, index: number)
 function vx.array:forEach(func)
    for i = 1, #self do
@@ -64,10 +75,23 @@ end
 ---@generic T
 ---@param self VxArray<T>
 ---@param testFunc fun(element: T): boolean
----@return T
+---@return T, number
 function vx.array:find(testFunc)
    local index = self:findIndex(testFunc)
-   return self[index]
+   return self[index], index
+end
+
+---@generic T
+---@param self VxArray<T>
+---@param field string
+---@param value any
+---@return T, number
+function vx.array:findByField(field, value)
+   local index = self:findIndex(function(element)
+      return element[field] == value
+   end
+   )
+   return self[index], index
 end
 
 ---@generic T
@@ -84,6 +108,10 @@ function vx.array:findIndex(testFunc)
    return -1
 end
 
+---@generic T
+---@param self VxArray<T>
+---@param value T
+---@return boolean
 function vx.array:contains(value)
    for i = 1, #self do
       if self[i] == value then
@@ -92,6 +120,24 @@ function vx.array:contains(value)
    end
 
    return false
+end
+
+---@generic T
+---@param self VxArray<T>
+---@param value T
+---@return boolean
+function vx.array:containsByField(field, value)
+   for i = 1, #self do
+      if self[i][field] == value then
+         return true
+      end
+   end
+
+   return false
+end
+
+function vx.array:length()
+   return #self
 end
 
 function vx.array:pop()

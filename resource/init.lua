@@ -12,11 +12,25 @@ local cache = {
    resource = currentResourceName
 }
 
-local function proxyExports(self, key, fn)
-   rawset(self, key, fn)
+local function proxyExports(self, key, value)
+   rawset(self, key, value)
 
-   if debug.getinfo(2, 'S').short_src:find('@vx_lib/resource') then
-      exports(key, fn)
+   local info = debug.getinfo(2, 'S')
+   if not info or not info.short_src:find('@vx_lib/resource') then
+      return
+   end
+
+   if type(value) == "function" then
+      exports(key, value)
+      return
+   end
+
+   if type(value) == "table" then
+      setmetatable(value, {
+         __newindex = function(t, k, v)
+            proxyExports(t, key .. k, v)
+         end
+      })
    end
 end
 

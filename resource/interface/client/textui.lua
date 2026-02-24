@@ -18,6 +18,8 @@ function vx.showTextUi(text, type)
 end
 
 function vx.hideTextUi()
+   if currentTextUi == "" then return end
+
    if vx.textuiResource == "ox_lib" then
       lib.hideTextUI()
    elseif vx.textuiResource == "es_extended" then
