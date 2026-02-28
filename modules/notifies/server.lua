@@ -1,18 +1,11 @@
 vx.notifies = {}
 
-local defaultTitles = {
-   ["error"] = "Fout!",
-   ["success"] = "Succes!",
-   ["info"] = "Info",
-   ["warn"] = "Waarschuwing!",
-}
-
 local function sendNotification(source, type, message, options)
    options = options or {}
 
    vx.notify(source, {
       type = type or "info",
-      title = options.title or defaultTitles[type] or "Info",
+      title = options.title or vx.sharedConfig.defaulNotificationTitles[type] or "Info",
       message = message,
       duration = options.duration or 5000,
       icon = options.icon,
