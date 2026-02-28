@@ -13,7 +13,23 @@ function vx.array.fromTable(tbl)
    return vx.array:new(table.unpack(tbl))
 end
 
+---@generic T
+---@param _ `T`
+---@return VxArray<T>
+function vx.array.ofType(_)
+   return vx.array:new()
+end
+
+---@generic T
+---@param ... T
+---@return VxArray<T>
+function vx.array.from(...)
+   return vx.array:new(...)
+end
+
 ---@private
+---@generic T
+---@param ... T
 function vx.array:constructor(...)
    local arr = { ... }
    for i = 1, #arr do
