@@ -99,6 +99,15 @@ end
 
 ---@generic T
 ---@param self VxArray<T>
+---@param separator string
+---@return string
+function vx.array:join(separator)
+   separator = separator or ", "
+   return table.concat(self:map(function(element) return tostring(element) end), separator)
+end
+
+---@generic T
+---@param self VxArray<T>
 ---@param field string
 ---@param value any
 ---@return T, number
