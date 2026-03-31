@@ -228,7 +228,7 @@ export default function PedInteraction() {
                            {data.options!.map((option, index) => (
                               <motion.div
                                  key={index}
-                                 className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] p-3.5 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:bg-primary/[0.15] hover:shadow-[0_4px_20px_rgba(7,89,133,0.15)] active:scale-[0.97]"
+                                 className={cn("flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] p-3.5 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:bg-primary/[0.15] hover:shadow-[0_4px_20px_rgba(7,89,133,0.15)] active:scale-[0.97]", !option.icon && "justify-center")}
                                  initial={{ opacity: 0, y: 8, scale: 0.93 }}
                                  animate={{ opacity: 1, y: 0, scale: 1 }}
                                  transition={{ delay: index * 0.07, duration: 0.3 }}
