@@ -328,6 +328,18 @@ function vx.discordApi.getMember(userId)
    return cache[userId]
 end
 
+---@param userId string
+---@return DiscordMember?
+---@diagnostic disable-next-line: duplicate-set-field
+function vx.discordApi.fetchMember(userId)
+   local member = getGuildMember(userId)
+   if member then
+      cache[userId] = member
+   end
+
+   return member
+end
+
 ---@param playerId number
 ---@return DiscordMember?
 function vx.discordApi.getMemberFromPlayerId(playerId)

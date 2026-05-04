@@ -22,7 +22,7 @@ function vx.createEntity(createEntity, model, waitForEntity)
       return entity
    end
 
-   if not vx.requestModel(model) then
+   if not vx.requestModel(model, 5000) then
       return 0
    end
 

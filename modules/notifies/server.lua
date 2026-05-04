@@ -1,9 +1,9 @@
 vx.notifies = {}
 
-local function sendNotification(type, message, options)
+local function sendNotification(source, type, message, options)
    options = options or {}
 
-   vx.notify({
+   vx.notify(source, {
       type = type or "info",
       title = options.title or vx.sharedConfig.defaulNotificationTitles[type] or "Info",
       message = message,
@@ -15,32 +15,32 @@ end
 ---@param message string
 ---@param options? NotificationOptions
 ---@diagnostic disable-next-line: duplicate-set-field
-function vx.notifies.error(message, options)
-   sendNotification("error", message, options)
+function vx.notifies.error(source, message, options)
+   sendNotification(source, "error", message, options)
    return false
 end
 
 ---@param message string
 ---@param options? NotificationOptions
 ---@diagnostic disable-next-line: duplicate-set-field
-function vx.notifies.success(message, options)
-   sendNotification("success", message, options)
+function vx.notifies.success(source, message, options)
+   sendNotification(source, "success", message, options)
    return false
 end
 
 ---@param message string
 ---@param options? NotificationOptions
 ---@diagnostic disable-next-line: duplicate-set-field
-function vx.notifies.info(message, options)
-   sendNotification("info", message, options)
+function vx.notifies.info(source, message, options)
+   sendNotification(source, "info", message, options)
    return false
 end
 
 ---@param message string
 ---@param options? NotificationOptions
 ---@diagnostic disable-next-line: duplicate-set-field
-function vx.notifies.warn(message, options)
-   sendNotification("warn", message, options)
+function vx.notifies.warn(source, message, options)
+   sendNotification(source, "warn", message, options)
    return false
 end
 
